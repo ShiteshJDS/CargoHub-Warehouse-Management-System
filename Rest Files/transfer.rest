@@ -102,6 +102,27 @@ Content-Type: application/json
 }
 ###
 
+# also has a commit endpoint 
+# function is unclear
+PUT http://localhost:3000/api/v1/transfers/999999/commit
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "id": 999998,
+    "reference": "Test update update",
+    "transfer_from": 10001,
+    "transfer_to": 10002,
+    "transfer_status": " Test Completed",
+    "created_at": "Test 2000-03-11T13:11:14Z",
+    "updated_at": "Test 2000-03-12T16:11:14Z",
+    "items": [
+        {
+            "item_id": "Test P007435",
+            "amount": 23
+        }
+    ]
+}
 ##################### DELETE #####################
 
 # deletes transfer with id
