@@ -1,0 +1,24 @@
+# gets all items
+Get http://localhost:3000/api/v1/items
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+###
+
+# gets item with uid
+Get http://localhost:3000/api/v1/items/P000001
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+###
+
+# gets the inventory of item with id 
+Get http://localhost:3000/api/v1/items/P000001/inventory
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+###
+
+# gets the totals of item with id
+# gets the  "total_expected", "total_ordered", "total_allocated" and "total_available"
+Get http://localhost:3000/api/v1/items/P000001/inventory/totals
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+###

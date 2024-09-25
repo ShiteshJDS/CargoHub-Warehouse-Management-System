@@ -1,0 +1,17 @@
+### gets all clients
+Get http://localhost:3000/api/v1/clients
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+###
+
+### gets client with id
+Get http://localhost:3000/api/v1/clients/1
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+###
+
+### gets order from client with id
+Get http://localhost:3000/api/v1/clients/1/orders
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+###
