@@ -800,11 +800,6 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.end_headers()
 
 
-if __name__ == "__main__":
-    StartWebAPI()
-
-
-
 def StartWebAPI():
     PORT = 3000
     with socketserver.TCPServer(("", PORT), ApiRequestHandler) as httpd:
@@ -813,3 +808,8 @@ def StartWebAPI():
         notification_processor.start()
         print(f"Serving on port {PORT}...")
         httpd.serve_forever()
+
+if __name__ == "__main__":
+    StartWebAPI()
+
+

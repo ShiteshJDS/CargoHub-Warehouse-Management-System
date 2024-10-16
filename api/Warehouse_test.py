@@ -12,7 +12,7 @@ import logging
 # Add the path to the CargoHub directory to sys.path
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from api.models.warehouses import Warehouses
+from models.warehouses import Warehouses
 
 BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
 
