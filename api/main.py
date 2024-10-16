@@ -801,6 +801,11 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    StartWebAPI()
+
+
+
+def StartWebAPI():
     PORT = 3000
     with socketserver.TCPServer(("", PORT), ApiRequestHandler) as httpd:
         auth_provider.init()
