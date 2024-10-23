@@ -1,3 +1,5 @@
+##################### GET #####################
+
 # gets all transfers
 Get http://localhost:3000/api/v1/transfers/1/
 API_KEY : a1b2c3d4e5
@@ -16,4 +18,123 @@ Content-Type: application/json
 Get http://localhost:3000/api/v1/transfers/2/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
+###
+
+##################### POST #####################
+
+# create new transfer
+# created_at and updated_at don't use body
+# new tranfer has id from body
+# can create already existing transfers
+
+
+# Response: HTTP/1.0 201 Created
+# Terminal notification: Scheduled batch transfer 1000
+POST http://localhost:3000/api/v1/transfers/
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "id": 10000000,
+    "reference": "Test",
+    "transfer_from": 10000,
+    "transfer_to": 10001,
+    "transfer_status": " Test Completed",
+    "created_at": "Test 2000-03-11T13:11:14Z",
+    "updated_at": "Test 2000-03-12T16:11:14Z",
+    "items": [
+        {
+            "item_id": "Test P007435",
+            "amount": 23
+        }
+    ]
+}
+###
+##################### PUT #####################
+
+# change the location with id 1 to the given json content
+# id can be changed to one that already exists i.e. there can be multiple locations with the same id
+
+# Response: HTTP/1.0 200 OK
+PUT http://localhost:3000/api/v1/transfers/10000000
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "id": 10000001,
+    "reference": "Test update update",
+    "transfer_from": 10001,
+    "transfer_to": 10002,
+    "transfer_status": " Test Completed",
+    "created_at": "Test 2000-03-11T13:11:14Z",
+    "updated_at": "Test 2000-03-12T16:11:14Z",
+    "items": [
+        {
+            "item_id": "Test P007435",
+            "amount": 23
+        }
+    ]
+}
+
+###
+
+# when updateing a transfer with non existing id
+# Response: HTTP/1.0 200 OK
+# status should be changed 
+PUT http://localhost:3000/api/v1/transfers/999999
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "id": 999998,
+    "reference": "Test update update",
+    "transfer_from": 10001,
+    "transfer_to": 10002,
+    "transfer_status": " Test Completed",
+    "created_at": "Test 2000-03-11T13:11:14Z",
+    "updated_at": "Test 2000-03-12T16:11:14Z",
+    "items": [
+        {
+            "item_id": "Test P007435",
+            "amount": 23
+        }
+    ]
+}
+###
+
+# also has a commit endpoint 
+# function is unclear
+PUT http://localhost:3000/api/v1/transfers/999999/commit
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "id": 999998,
+    "reference": "Test update update",
+    "transfer_from": 10001,
+    "transfer_to": 10002,
+    "transfer_status": " Test Completed",
+    "created_at": "Test 2000-03-11T13:11:14Z",
+    "updated_at": "Test 2000-03-12T16:11:14Z",
+    "items": [
+        {
+            "item_id": "Test P007435",
+            "amount": 23
+        }
+    ]
+}
+##################### DELETE #####################
+
+# deletes transfer with id
+# Response: HTTP/1.0 200 OK
+DELETE http://localhost:3000/api/v1/transfers/10000001
+API_KEY : a1b2c3d4e5
+
+###
+
+# deletes location with id
+# returns OK 200 status when deleting non-existent transfer id
+DELETE http://localhost:3000/api/v1/transfers/1003494393400
+API_KEY : a1b2c3d4e5
+
 ###

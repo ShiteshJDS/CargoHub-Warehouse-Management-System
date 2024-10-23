@@ -1,3 +1,5 @@
+##################### GET #####################
+
 # gets all items
 Get http://localhost:3000/api/v1/items
 API_KEY : a1b2c3d4e5
@@ -21,4 +23,115 @@ Content-Type: application/json
 Get http://localhost:3000/api/v1/items/P000001/inventory/totals
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
+###
+
+##################### POST #####################
+
+# create new item
+# created_at and updated_at don't use body
+# new item has id from body
+# can create already existing item
+
+# Response: HTTP/1.0 201 Created
+POST http://localhost:3000/api/v1/items/
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "uid": "Test_P000001",
+    "code": "Test sjQ23408K",
+    "description": "Test Face-to-face clear-thinking complexity",
+    "short_description": "Test must",
+    "upc_code": "Test 6523540947122",
+    "model_number": "Test 63-OFFTq0T",
+    "commodity_code": "Test oTo304",
+    "item_line": 11,
+    "item_group": 73,
+    "item_type": 14,
+    "unit_purchase_quantity": 47,
+    "unit_order_quantity": 13,
+    "pack_order_quantity": 11,
+    "supplier_id": 34,
+    "supplier_code": "Test SUP423",
+    "supplier_part_number": "Test E-86805-uTM",
+    "created_at": "Test 2015-02-19 16:08:24",
+    "updated_at": "Test 2015-09-26 06:37:56"
+}
+###
+##################### PUT #####################
+
+# change the location with id 1 to the given json content
+# id can be changed to one that already exists i.e. there can be multiple locations with the same id
+# cant find item when uid contains a space
+# Response: HTTP/1.0 200 OK
+PUT http://localhost:3000/api/v1/items/Test_P000001
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "uid": "Test_update_P000001",
+    "code": "Test_update_sjQ23408K",
+    "description": "Test update Face-to-face clear-thinking complexity",
+    "short_description": "Test update must",
+    "upc_code": "Test update 6523540947122",
+    "model_number": "Test update 63-OFFTq0T",
+    "commodity_code": "Test update oTo304",
+    "item_line": 11,
+    "item_group": 73,
+    "item_type": 14,
+    "unit_purchase_quantity": 47,
+    "unit_order_quantity": 13,
+    "pack_order_quantity": 11,
+    "supplier_id": 34,
+    "supplier_code": "Test update SUP423",
+    "supplier_part_number": "Test update E-86805-uTM",
+    "created_at": "Test update 2015-02-19 16:08:24",
+    "updated_at": "Test update 2015-09-26 06:37:56"
+}
+
+###
+
+# when updateing a location with non existing id
+# Response: HTTP/1.0 200 OK
+# status should be changed 
+PUT http://localhost:3000/api/v1/items/999999
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "uid": "Test_2_P000001",
+    "code": "Test sjQ23408K",
+    "description": "Test Face-to-face clear-thinking complexity",
+    "short_description": "Test must",
+    "upc_code": "Test 6523540947122",
+    "model_number": "Test 63-OFFTq0T",
+    "commodity_code": "Test oTo304",
+    "item_line": 11,
+    "item_group": 73,
+    "item_type": 14,
+    "unit_purchase_quantity": 47,
+    "unit_order_quantity": 13,
+    "pack_order_quantity": 11,
+    "supplier_id": 34,
+    "supplier_code": "Test SUP423",
+    "supplier_part_number": "Test E-86805-uTM",
+    "created_at": "Test 2015-02-19 16:08:24",
+    "updated_at": "Test 2015-09-26 06:37:56"
+}
+###
+
+##################### DELETE #####################
+
+# deletes location with id
+# Response: HTTP/1.0 200 OK
+DELETE http://localhost:3000/api/v1/items/Test_update_P000001
+API_KEY : a1b2c3d4e5
+
+###
+
+# deletes location with id
+# returns OK 200 status when deleting non-existent location id
+DELETE http://localhost:3000/api/v1/locations/1003494393400
+API_KEY : a1b2c3d4e5
+
 ###
