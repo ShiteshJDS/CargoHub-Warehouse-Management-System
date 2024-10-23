@@ -1,3 +1,4 @@
+
 import pytest
 import unittest
 import sys
@@ -6,59 +7,35 @@ import pytest
 import requests
 import logging
 
+
 # Add the path to the CargoHub directory to sys.path
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..')))
 
 from models.transfers import Transfers
-
 BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
+
+# Must run in test folder
 
 
 class Test_Transfers():
 
-    transferObject = Transfers("api/Tests/Test_Data/test_")
+    transferObject = Transfers("Test_Data/test_")
 
-    def test_correct_get_endpoint(self):
-
-        headers_full = {
+    headers_full = {
             "API_KEY": "a1b2c3d4e5",
             "Content-Type": "application/json"
         }
-
-        response = requests.get(
-            f"{BASE_URL}/api/v1/transfers/1", headers=headers_full)
-        assert response.status_code == 200
-        assert response.json() == {
-            "id": 1,
-            "reference": "TR00001",
-            "transfer_from": None,
-            "transfer_to": 9229,
-            "transfer_status": "Completed",
-            "created_at": "2000-03-11T13:11:14Z",
-            "updated_at": "2000-03-12T16:11:14Z",
-            "items": [
-                {
-                    "item_id": "P007435",
-                    "amount": 23
-                }
-            ]
-        }
-
-    def test_post_endpoint(self):
-
-        headers_full = {
-            "API_KEY": "a1b2c3d4e5",
-            "Content-Type": "application/json"
-        }
-
-        newTransferJson = {
-            "id": 999999,
+    
+    newTransfer = {
+            "id": 0,
             "reference": "TR119240",
             "transfer_from": None,
             "transfer_to": 9203,
-            "transfer_status": "Completed",
-            "created_at": "1999-11-28T14:01:57Z",
-            "updated_at": "1999-11-29T19:01:57Z",
+            "transfer_status": "-",
+            "created_at": "-",
+            "updated_at": "-",
             "items": [
                 {
                     "item_id": "P001288",
@@ -67,20 +44,50 @@ class Test_Transfers():
             ]
         }
 
+    # Transfer Endpoint Testing (server must be running when testing endpoints)
+
+    def test_post_endpoint(self):
+
         response = requests.post(
-            f"{BASE_URL}/api/v1/transfers/", headers=headers_full, json=newTransferJson)
+            f"{BASE_URL}/api/v1/transfers/", headers=self.headers_full, json=self.newTransfer)
+        new_timestamp = self.transferObject.get_timestamp()
+        self.newTransfer["created_at"] = new_timestamp.split('T')[0]
+        self.newTransfer["updated_at"] = new_timestamp.split('T')[0]
+        self.newTransfer["transfer_status"] = "Scheduled"
         assert response.status_code == 201
 
-        # delete the created transfer
+    def test_get_endpoint(self):
 
-        deleteHeader = {
-            "API_KEY": "a1b2c3d4e5"
-        }
+        response = requests.get(
+            f"{BASE_URL}/api/v1/transfers/{self.newTransfer['id']}", headers=self.headers_full)
+        assert response.status_code == 200
+
+        dict_response = response.json()
+        dict_response["created_at"] = dict_response["created_at"].split('T')[0]
+        dict_response["updated_at"] = dict_response["updated_at"].split('T')[0]
+        assert dict_response == self.newTransfer
+
+    def test_update_endpoint(self):
+        
+        self.newTransfer["reference"] = "TH269240"
+        self.newTransfer["transfer_status"] = "Scheduled"
+        self.newTransfer["items"][0]["amount"] = 10
+
+        response = requests.put(
+            f"{BASE_URL}/api/v1/transfers/{self.newTransfer['id']}", headers=self.headers_full, json=self.newTransfer)
+        self.newTransfer["updated_at"] = self.transferObject.split('T')[0]
+        assert response.status_code == 200
+
+
+
+
+    def test_delete_endpoint(self):
+
         responseDelete = requests.delete(
-            f"{BASE_URL}/api/v1/transfers/{newTransferJson['id']}", headers=deleteHeader)
+            f"{BASE_URL}/api/v1/transfers/{self.newTransfer['id']}", headers=self.headers_full)
         assert responseDelete.status_code == 200
 
-   ###############   Transfer Method Testing   ###############
+    # Transfer Method Testing
 
     def test_get_transfers(self):
 
@@ -131,7 +138,7 @@ class Test_Transfers():
                     }
                 ]
             }
-        ], "test_get_transfers failed"
+        ], "The transfer with ID 2 doesn't match the expected dictionary"
 
     def test_get_transfer_with_id(self):
         transfer2 = self.transferObject.get_transfer(2)
@@ -149,14 +156,14 @@ class Test_Transfers():
                     "amount": 23
                 }
             ]
-        }, "test_get_transfer_with_id failed"
+        }, "The transfer with id 2 doesn't match the dictionary"
 
     def test_get_items_in_transfer(self):
         items_in_transfer2 = self.transferObject.get_items_in_transfer(2)
         assert items_in_transfer2[0] == {
             "item_id": "P007435",
             "amount": 23
-        }, "test_get_items_in_transfer failed"
+        }, "The items inside the transfer with id 2 don't match the dictionary"
 
     def test_add_transfer(self):
         new_transfer = {
@@ -177,22 +184,12 @@ class Test_Transfers():
 
         self.transferObject.add_transfer(new_transfer)
         new_timestamp = self.transferObject.get_timestamp()
+        new_transfer["created_at"] = new_timestamp
+        new_transfer["updated_at"] = new_timestamp
+        new_transfer["transfer_status"] = "Scheduled"
 
-        assert self.transferObject.get_transfer(99) == {
-            "id": 99,
-            "reference": "TR119216",
-            "transfer_from": None,
-            "transfer_to": 769,
-            "transfer_status": "Scheduled",
-            "created_at": f"{new_timestamp}",
-            "updated_at": f"{new_timestamp}",
-            "items": [
-                {
-                    "item_id": "P002698",
-                    "amount": 35
-                }
-            ]
-        }, "test_add_transfer failed"
+        assert self.transferObject.get_transfer(99) == new_transfer, \
+            "The json doesn't match the created new_transfer dictionary , or get_transfer doesn't function properly"
 
     def test_update_transfer(self):
         updated_transfer = {
@@ -213,26 +210,14 @@ class Test_Transfers():
 
         self.transferObject.update_transfer(99, updated_transfer)
         new_timestamp = self.transferObject.get_timestamp()
+        updated_transfer["updated_at"] = new_timestamp
 
-        assert self.transferObject.get_transfer(99) == {
-            "id": 99,
-            "reference": "TR119217",  # <- Changed
-            "transfer_from": None,
-            "transfer_to": 780,  # <- Changed
-            "transfer_status": "Completed",
-            "created_at": "2001-01-03T15:24:53Z",
-            "updated_at": f"{new_timestamp}",
-            "items": [
-                {
-                    "item_id": "P002698",
-                    "amount": 40  # <- Changed
-                }
-            ]
-        }, "test_update_transfer failed"
+        assert self.transferObject.get_transfer(99) == updated_transfer, \
+            "The JSON response doesn't match the updated_transfer dictionary, or get_transfer doesn't function properly."
 
     def test_remove_transfer(self):
 
         self.transferObject.remove_transfer(99)
 
-        assert self.transferObject.get_transfer(
-            99) == None, "test_remove_transfer failed"
+        assert self.transferObject.get_transfer(99) == None, \
+            "Transfer with ID 99 still exists in the database, or get_transfer doesn't function properly."
