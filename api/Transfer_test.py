@@ -80,7 +80,7 @@ class Test_Transfers():
             f"{BASE_URL}/api/v1/transfers/{newTransferJson['id']}", headers=deleteHeader)
         assert responseDelete.status_code == 200
 
-   ###############   Function Testing   ###############
+   ###############   Transfer Method Testing   ###############
 
     def test_get_transfers(self):
 
