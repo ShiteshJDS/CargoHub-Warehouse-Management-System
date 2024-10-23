@@ -155,3 +155,33 @@ class Test_Warehouses():
             "created_at": "2008-02-22 19:55:39",
             "updated_at": "2009-08-28 23:15:50"
         }
+
+    def test_add_warehouse(self):
+        newWarehouse = {
+            "id": 3, 
+            "code": "VCKINLLK", 
+            "name": "Naaldwijk distribution hub", 
+            "address": "Izesteeg 807", 
+            "zip": "1636 KI", "city": "Naaldwijk", 
+            "province": "Utrecht", 
+            "country": "NL", 
+            "contact": 
+                {"name": "Frederique van Wallaert", 
+                 "phone": "(009) 4870289", "email": 
+                 "jelle66@example.net"
+                }, 
+            "created_at": "2001-05-11 10:43:52", 
+            "updated_at": "2017-12-19 14:32:38"
+        }
+        self.warehousesObject.add_warehouse(newWarehouse)
+        warehouseFromDB = self.warehousesObject.get_warehouse(3)
+        assert warehouseFromDB["id"] == newWarehouse["id"] and \
+               warehouseFromDB["code"] == newWarehouse["code"] and\
+               warehouseFromDB["name"] ==  newWarehouse["name"] and\
+               warehouseFromDB["address"] == newWarehouse["address"] and\
+               warehouseFromDB["zip"] == newWarehouse["zip"] and\
+               warehouseFromDB["province"] == newWarehouse["province"] and \
+               warehouseFromDB["country"] == newWarehouse["country"] and \
+               warehouseFromDB["contact"] == newWarehouse["contact"]
+
+        self.warehousesObject.remove_warehouse(3)
