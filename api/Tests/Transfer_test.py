@@ -56,6 +56,17 @@ class Test_Transfers():
         self.newTransfer["transfer_status"] = "Scheduled"
         assert response.status_code == 201
 
+    def test_update_endpoint(self):
+        
+        self.newTransfer["reference"] = "TH269240"
+        self.newTransfer["transfer_status"] = "Completed"
+        self.newTransfer["items"][0]["amount"] = 10
+
+        response = requests.put(
+            f"{BASE_URL}/api/v1/transfers/{self.newTransfer['id']}", headers=self.headers_full, json=self.newTransfer)
+        self.newTransfer["updated_at"] = self.transferObject.get_timestamp().split('T')[0]
+        assert response.status_code == 200
+
     def test_get_endpoint(self):
 
         response = requests.get(
@@ -66,20 +77,6 @@ class Test_Transfers():
         dict_response["created_at"] = dict_response["created_at"].split('T')[0]
         dict_response["updated_at"] = dict_response["updated_at"].split('T')[0]
         assert dict_response == self.newTransfer
-
-    def test_update_endpoint(self):
-        
-        self.newTransfer["reference"] = "TH269240"
-        self.newTransfer["transfer_status"] = "Scheduled"
-        self.newTransfer["items"][0]["amount"] = 10
-
-        response = requests.put(
-            f"{BASE_URL}/api/v1/transfers/{self.newTransfer['id']}", headers=self.headers_full, json=self.newTransfer)
-        self.newTransfer["updated_at"] = self.transferObject.split('T')[0]
-        assert response.status_code == 200
-
-
-
 
     def test_delete_endpoint(self):
 
