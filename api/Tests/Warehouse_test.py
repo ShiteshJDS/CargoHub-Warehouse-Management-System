@@ -27,67 +27,71 @@ class Test_Warehouses():
             "Content-Type": "application/json"
         }
     
+    headers_restricted = {
+            "API_KEY": "f6g7h8i9j0",
+            "Content-Type": "application/json"
+        }
+    
+    newWarehouse = {
+        "id": 0,
+        "code": "YQZZNL56",
+        "name": "Heemskerk cargo hub",
+        "address": "Karlijndreef 281",
+        "zip": "4002 AS",
+        "city": "Heemskerk",
+        "province": "Friesland",
+        "country": "NL",
+        "contact":
+        {
+            "name": "Fem Keijzer",
+            "phone": "(078) 0013363",
+            "email": "blamore@example.net"
+        },
+        "created_at": "-",
+        "updated_at": "-"
+        }
+    
     # Warehouse Endpoint Testing (server must be running when testing endpoints)
-
-    def test_correct_get_endpoint(self):
-
-        response = requests.get(
-            f"{BASE_URL}/api/v1/warehouses/1", headers=self.headers_full)
-        assert response.status_code == 200
-        assert response.json() == {"id": 1,
-                                   "code": "YQZZNL56",
-                                   "name": "Heemskerk cargo hub",
-                                   "address": "Karlijndreef 281",
-                                   "zip": "4002 AS",
-                                   "city": "Heemskerk",
-                                   "province": "Friesland",
-                                   "country": "NL",
-                                   "contact":
-                                   {
-                                       "name": "Fem Keijzer",
-                                       "phone": "(078) 0013363",
-                                       "email": "blamore@example.net"
-                                   },
-                                   "created_at":
-                                   "1983-04-13 04:59:55",
-                                   "updated_at":
-                                   "2007-02-08 20:11:00"
-                                   }  # Replace with your expected response
 
     def test_post_endpoint(self):
 
-        newWarehouseJson = {
-            "id": 9000,
-            "code": "ABCDEFGHIJKLM",
-            "name": "TestName",
-            "address": "TestAddress",
-            "zip": "TestZip",
-            "city": "TestCity",
-            "province": "TestProvince",
-            "country": "TestCountry",
-            "contact":
-            {
-                "name": "TestContactName",
-                    "phone": "TestPhoneNumber",
-                    "email": "TestEmail"
-            },
-                "created_at":
-                "1983-04-13 04:59:55",
-                "updated_at":
-                "2007-02-08 20:11:00"
-        }
-
         response = requests.post(
-            f"{BASE_URL}/api/v1/warehouses/", headers=self.headers_full, json=newWarehouseJson)
+            f"{BASE_URL}/api/v1/warehouses/", headers=self.headers_full, json=self.newWarehouse)
+        new_timestamp = self.warehousesObject.get_timestamp()
+        self.newWarehouse["created_at"] = new_timestamp.split('T')[0]
+        self.newWarehouse["updated_at"] = new_timestamp.split('T')[0]
         assert response.status_code == 201
 
-        # delete the created warehouse
+        response_restricted = requests.post(
+            f"{BASE_URL}/api/v1/warehouses/", headers=self.headers_restricted, json=self.newWarehouse)
+        assert response_restricted.status_code == 403
+        
+    def test_update_endpoint(self):
+        
+        self.newWarehouse["code"] = "Y4ZYNL57"
+        self.newWarehouse["city"] = "Rotterdam"
+        self.newWarehouse["contact"]["phone"] = "(079) 0318253"
 
-        deleteHeader = {
-            "API_KEY": "a1b2c3d4e5"
-        }
+        response = requests.put(
+            f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=self.headers_full, json=self.newWarehouse)
+        self.newWarehouse["updated_at"] = self.warehousesObject.get_timestamp().split('T')[0]
+        assert response.status_code == 200
+   
+    def test_get_endpoint(self):
+
+        response = requests.get(
+            f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=self.headers_full)
+        assert response.status_code == 200
+
+        dict_response = response.json()
+        dict_response["created_at"] = dict_response["created_at"].split('T')[0]
+        dict_response["updated_at"] = dict_response["updated_at"].split('T')[0]
+        assert dict_response == self.newWarehouse
+
+    def test_delete_endpoint(self):
+
         responseDelete = requests.delete(
-            f"{BASE_URL}/api/v1/warehouses/{newWarehouseJson['id']}", headers=deleteHeader)
+            f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=self.headers_full)
         assert responseDelete.status_code == 200
 
     # Warehouse Method Testing
