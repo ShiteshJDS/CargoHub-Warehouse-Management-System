@@ -27,11 +27,6 @@ class Test_Warehouses():
             "Content-Type": "application/json"
         }
     
-    headers_restricted = {
-            "API_KEY": "f6g7h8i9j0",
-            "Content-Type": "application/json"
-        }
-    
     newWarehouse = {
         "id": 0,
         "code": "YQZZNL56",
@@ -55,35 +50,31 @@ class Test_Warehouses():
 
     def test_post_endpoint(self):
 
-        response = requests.post(
+        responsePost = requests.post(
             f"{BASE_URL}/api/v1/warehouses/", headers=self.headers_full, json=self.newWarehouse)
         new_timestamp = self.warehousesObject.get_timestamp()
         self.newWarehouse["created_at"] = new_timestamp.split('T')[0]
         self.newWarehouse["updated_at"] = new_timestamp.split('T')[0]
-        assert response.status_code == 201
+        assert responsePost.status_code == 201
 
-        response_restricted = requests.post(
-            f"{BASE_URL}/api/v1/warehouses/", headers=self.headers_restricted, json=self.newWarehouse)
-        assert response_restricted.status_code == 403
-        
     def test_update_endpoint(self):
         
         self.newWarehouse["code"] = "Y4ZYNL57"
         self.newWarehouse["city"] = "Rotterdam"
         self.newWarehouse["contact"]["phone"] = "(079) 0318253"
 
-        response = requests.put(
+        responsePut = requests.put(
             f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=self.headers_full, json=self.newWarehouse)
         self.newWarehouse["updated_at"] = self.warehousesObject.get_timestamp().split('T')[0]
-        assert response.status_code == 200
+        assert responsePut.status_code == 200
    
     def test_get_endpoint(self):
 
-        response = requests.get(
+        responseGet = requests.get(
             f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=self.headers_full)
-        assert response.status_code == 200
+        assert responseGet.status_code == 200
 
-        dict_response = response.json()
+        dict_response = responseGet.json()
         dict_response["created_at"] = dict_response["created_at"].split('T')[0]
         dict_response["updated_at"] = dict_response["updated_at"].split('T')[0]
         assert dict_response == self.newWarehouse
@@ -93,6 +84,23 @@ class Test_Warehouses():
         responseDelete = requests.delete(
             f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=self.headers_full)
         assert responseDelete.status_code == 200
+
+    def test_endpoint_restrictions(self):
+
+        headers_restricted = {
+            "API_KEY": "f6g7h8i9j0",
+            "Content-Type": "application/json"
+        }
+
+        responsePost_restricted = requests.post(f"{BASE_URL}/api/v1/warehouses/", headers=headers_restricted, json=self.newWarehouse)
+        responsePut_restricted = requests.put(f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=headers_restricted, json=self.newWarehouse)
+        responseDelete_restricted = requests.delete(f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=headers_restricted)
+        responseGet_restricted = requests.get(f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=headers_restricted)
+
+        assert responsePost_restricted.status_code == 403        
+        assert responsePut_restricted.status_code == 403        
+        assert responseDelete_restricted.status_code == 403       
+        assert responseGet_restricted.status_code == 200
 
     # Warehouse Method Testing
 
