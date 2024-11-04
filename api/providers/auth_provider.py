@@ -109,4 +109,6 @@ def has_access(user, path, method):
     if access["full"]:
         return True
     else:
-        return access[path][method]
+        return access[path[0]][method]     # <- This line had an error
+                                           # Origionally it was return access[path][method] 
+                                           # This crashed the program, but with path[0] the program could continue
