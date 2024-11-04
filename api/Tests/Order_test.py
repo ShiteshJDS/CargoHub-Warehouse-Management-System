@@ -691,7 +691,7 @@ class Test_Orders():
                     }
                 ]
             }
-        ]
+        ], "The orders within shipment 2 don't match the expected data"
 
     def test_get_orders_for_client(self):
         orders_for_client8783 = self.orderObject.get_orders_for_client(8783)
@@ -832,7 +832,7 @@ class Test_Orders():
                     }
                 ]
             }
-        ]
+        ], "The orders for client 8783 don't match the expected data"
 
     def test_add_order(self):
         new_order = {

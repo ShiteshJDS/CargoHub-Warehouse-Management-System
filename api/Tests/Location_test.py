@@ -160,7 +160,7 @@ class Test_Locations():
                 "created_at": "1992-05-15 03:21:32",
                 "updated_at": "1992-05-15 03:21:32"
             }
-        ], "The location database doesn't match the expected data"
+        ], "The locations inside warehouse 1 don't match the expected data"
 
     def test_add_location(self):
         new_location = {
