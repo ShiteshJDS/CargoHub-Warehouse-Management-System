@@ -579,119 +579,7 @@ class Test_Orders():
     def test_get_orders_in_shipment(self):
         orders_in_shipment2 = self.orderObject.get_orders_in_shipment(2)
         assert orders_in_shipment2 == [
-            {
-                "id": 2,
-                "source_id": 9,
-                "order_date": "1999-07-05T19:31:10Z",
-                "request_date": "1999-07-09T19:31:10Z",
-                "reference": "ORD00002",
-                "reference_extra": "Vergelijken raak geluid beetje altijd.",
-                "order_status": "Delivered",
-                "notes": "We hobby thee compleet wiel fijn.",
-                "shipping_notes": "Nood provincie hier.",
-                "picking_notes": "Borstelen dit verf suiker.",
-                "warehouse_id": 20,
-                "ship_to": 6428,
-                "bill_to": 6428,
-                "shipment_id": 2,
-                "total_amount": 8484.98,
-                "total_discount": 214.52,
-                "total_tax": 665.09,
-                "total_surcharge": 42.12,
-                "created_at": "1999-07-05T19:31:10Z",
-                "updated_at": "1999-07-07T15:31:10Z",
-                "items": [
-                    {
-                        "item_id": "P003790",
-                        "amount": 10
-                    },
-                    {
-                        "item_id": "P007369",
-                        "amount": 15
-                    },
-                    {
-                        "item_id": "P007311",
-                        "amount": 21
-                    },
-                    {
-                        "item_id": "P004140",
-                        "amount": 8
-                    },
-                    {
-                        "item_id": "P004413",
-                        "amount": 46
-                    },
-                    {
-                        "item_id": "P004717",
-                        "amount": 38
-                    },
-                    {
-                        "item_id": "P001919",
-                        "amount": 13
-                    },
-                    {
-                        "item_id": "P010075",
-                        "amount": 5
-                    },
-                    {
-                        "item_id": "P006603",
-                        "amount": 48
-                    },
-                    {
-                        "item_id": "P004504",
-                        "amount": 30
-                    },
-                    {
-                        "item_id": "P009594",
-                        "amount": 35
-                    },
-                    {
-                        "item_id": "P008851",
-                        "amount": 25
-                    },
-                    {
-                        "item_id": "P002129",
-                        "amount": 46
-                    },
-                    {
-                        "item_id": "P002320",
-                        "amount": 4
-                    },
-                    {
-                        "item_id": "P008341",
-                        "amount": 23
-                    }
-                ]
-            },
-            {
-                "id": 3,
-                "source_id": 52,
-                "order_date": "1983-09-26T19:06:08Z",
-                "request_date": "1983-09-30T19:06:08Z",
-                "reference": "ORD00003",
-                "reference_extra": "Vergeven kamer goed enkele wiel tussen.",
-                "order_status": "Delivered",
-                "notes": "Zeil hoeveel onze map sex ding.",
-                "shipping_notes": "Ontvangen schoon voorzichtig instrument ster vijver kunnen raam.",
-                "picking_notes": "Grof geven politie suiker bodem zuid.",
-                "warehouse_id": 11,
-                "ship_to": 8783,
-                "bill_to": 8783,
-                "shipment_id": 2,
-                "total_amount": 1156.14,
-                "total_discount": 420.45,
-                "total_tax": 677.42,
-                "total_surcharge": 86.03,
-                "created_at": "1983-09-26T19:06:08Z",
-                "updated_at": "1983-09-28T15:06:08Z",
-                "items": [
-                    {
-                        "item_id": "P010669",
-                        "amount": 16
-                    }
-                ]
-            }
-        ], "The orders within shipment 2 don't match the expected data"
+            2, 3], "The orders within shipment 2 don't match the expected data"
 
     def test_get_orders_for_client(self):
         orders_for_client8783 = self.orderObject.get_orders_for_client(8783)
@@ -849,7 +737,7 @@ class Test_Orders():
             "warehouse_id": 45,
             "ship_to": None,
             "bill_to": None,
-            "shipment_id": 5399,
+            "shipment_id": 1,
             "total_amount": 9785.31,
             "total_discount": 432.25,
             "total_tax": 964.0,
@@ -895,7 +783,7 @@ class Test_Orders():
             "warehouse_id": 50,                                 # <- Changed
             "ship_to": None,
             "bill_to": None,
-            "shipment_id": 5399,
+            "shipment_id": 1,
             "total_amount": 4323.31,                            # <- Changed
             "total_discount": 432.25,
             "total_tax": 964.0,
@@ -941,8 +829,7 @@ class Test_Orders():
             {
                 "item_id": "P013603",                       # <- Added
                 "amount": 12
-            },
-
+            }
         ]
 
         self.orderObject.update_items_in_order(4, updated_order_items)
@@ -950,7 +837,13 @@ class Test_Orders():
         assert self.orderObject.get_items_in_order(4) == updated_order_items, \
             "The order items haven't been updated correctly, or get_items_in_order doesn't function properly"
 
-    # def test_orders_in_shipment(self):
+    def test_update_orders_in_shipment(self):
+        updated_shipment_orders = [1, 4]
+
+        self.orderObject.update_orders_in_shipment(3, updated_shipment_orders)
+
+        assert self.orderObject.get_orders_in_shipment(3) == updated_shipment_orders, \
+            "The orders in this shipment haven't been updated correctly, or get_orders_in_shipment doesn't function properly"
 
     def test_remove_order(self):
 

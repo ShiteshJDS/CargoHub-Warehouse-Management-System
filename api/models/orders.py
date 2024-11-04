@@ -30,8 +30,7 @@ class Orders(Base):
         result = []
         for x in self.data:
             if x["shipment_id"] == shipment_id:
-                # Used to be result.append(x["id"]) error fixed
-                result.append(x)
+                result.append(x["id"])
         return result
 
     def get_orders_for_client(self, client_id):
