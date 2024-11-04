@@ -8,7 +8,7 @@ import sys
 import os
 import pytest
 import requests
-import logging
+
 
 
 # Add the path to the CargoHub directory to sys.path
@@ -16,7 +16,7 @@ import logging
 sys.path.insert(0, os.path.abspath(
 os.path.join(os.path.dirname(__file__), '..')))
 from models.warehouses import Warehouses
-from main import StartWebAPI
+
 
 
 BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
@@ -31,40 +31,8 @@ class Test_Warehouses():
     ########## Test Endpoint ##########
 
     # server must be running when testing endpoints
-    
-    def test_correct_get_endpoint(self):
-        # StartWebAPI()
-        headers = {
-            "API_KEY": "a1b2c3d4e5",
-            "Content-Type": "application/json"
-        }
+    def test_warehouses_post_endpoint(self):
 
-        response = requests.get(
-            f"{BASE_URL}/api/v1/warehouses/1", headers=headers)
-        assert response.status_code == 200
-        assert response.json() == {"id": 1,
-                                   "code": "YQZZNL56",
-                                   "name": "Heemskerk cargo hub",
-                                   "address": "Karlijndreef 281",
-                                   "zip": "4002 AS",
-                                   "city": "Heemskerk",
-                                   "province": "Friesland",
-                                   "country": "NL",
-                                   "contact":
-                                   {
-                                       "name": "Fem Keijzer",
-                                       "phone": "(078) 0013363",
-                                       "email": "blamore@example.net"
-                                   },
-                                   "created_at":
-                                   "1983-04-13 04:59:55",
-                                   "updated_at":
-                                   "2007-02-08 20:11:00"
-                                   }  # Replace with your expected response
-        
-
-    def test_post_endpoint(self):
-        
         headers = {
             "API_KEY": "a1b2c3d4e5",
             "Content-Type": "application/json"
@@ -94,7 +62,6 @@ class Test_Warehouses():
         response = requests.post(
             f"{BASE_URL}/api/v1/warehouses/", headers=headers, json=newWarehouseJson)
         assert response.status_code == 201
-
         # delete the created warehouse
 
         deleteHeader = {
@@ -103,6 +70,71 @@ class Test_Warehouses():
         responseDelete = requests.delete(
             f"{BASE_URL}/api/v1/warehouses/{newWarehouseJson['id']}", headers=deleteHeader)
         assert responseDelete.status_code == 200
+
+
+
+    def test_warehouses_get_endpoint(self):
+        # StartWebAPI()
+        headers = {
+            "API_KEY": "a1b2c3d4e5",
+            "Content-Type": "application/json"
+        }
+
+        response = requests.get(
+            f"{BASE_URL}/api/v1/warehouses/1", headers=headers)
+        assert response.status_code == 200
+        assert response.json() == {"id": 1,
+                                   "code": "YQZZNL56",
+                                   "name": "Heemskerk cargo hub",
+                                   "address": "Karlijndreef 281",
+                                   "zip": "4002 AS",
+                                   "city": "Heemskerk",
+                                   "province": "Friesland",
+                                   "country": "NL",
+                                   "contact":
+                                   {
+                                       "name": "Fem Keijzer",
+                                       "phone": "(078) 0013363",
+                                       "email": "blamore@example.net"
+                                   },
+                                   "created_at":
+                                   "1983-04-13 04:59:55",
+                                   "updated_at":
+                                   "2007-02-08 20:11:00"
+                                   }  # Replace with your expected response
+    
+    def test_warehouses_put_endpoint(self):
+        
+        headers = {
+            "API_KEY": "a1b2c3d4e5",
+            "Content-Type": "application/json"
+        }
+
+        newUpdatedWarehouseJson = {
+            "id": 9000,
+            "code": "ABCDEFGHIJKLM2", #<- changed
+            "name": "TestName2",
+            "address": "TestAddress2",
+            "zip": "TestZip2",
+            "city": "TestCity2",
+            "province": "TestProvince2",
+            "country": "TestCountry2",
+            "contact":
+            {
+                "name": "TestContactName2",
+                    "phone": "TestPhoneNumber2",
+                    "email": "TestEmail2"
+            },
+                "created_at":
+                "1983-04-13 04:59:55",
+                "updated_at":
+                "2007-02-08 20:11:00"
+        }
+
+        response = requests.put(
+            f"{BASE_URL}/api/v1/warehouses/9000", headers=headers, json=newUpdatedWarehouseJson)
+        assert response.status_code == 200
+        assert self.warehousesObject.get_warehouse(9000) == newUpdatedWarehouseJson
 
 
     ########## Test Warehouses Methods ##########
