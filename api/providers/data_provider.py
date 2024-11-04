@@ -9,7 +9,7 @@ from models.inventories import Inventories
 from models.suppliers import Suppliers
 from models.orders import Orders
 from models.clients import Clients
-# from models.shipments import Shipments
+from models.shipments import Shipments
 
 DEBUG = False
 

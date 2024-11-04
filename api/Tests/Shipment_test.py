@@ -759,7 +759,7 @@ class Test_Shipments():
         self.shipmentObject.update_items_in_shipment(4, updated_shipment_items)
 
         assert self.shipmentObject.get_items_in_shipment(4) == updated_shipment_items, \
-            "The shipment items haven't been updated correctly, or getitems_in_shipment doesn't function properly"
+            "The shipment items haven't been updated correctly, or get_items_in_shipment doesn't function properly"
 
     def test_remove_shipment(self):
 
