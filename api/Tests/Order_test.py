@@ -46,8 +46,8 @@ class Test_Orders():
         "total_discount": 150.77,
         "total_tax": 372.72,
         "total_surcharge": 77.6,
-        "created_at": "2019-04-03T11:33:15Z",
-        "updated_at": "2019-04-05T07:33:15Z",
+        "created_at": "-",
+        "updated_at": "-",
         "items": [
             {
                 "item_id": "P007435",

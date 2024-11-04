@@ -202,7 +202,6 @@ class Test_Suppliers():
         new_supplier["created_at"] = new_timestamp
         new_supplier["updated_at"] = new_timestamp
 
-        self.suppliersObject.get_supplier(4)
         assert self.suppliersObject.get_supplier(4) == new_supplier, \
             "The new supplier wasn't saved correctly, or get_supplier doesn't function properly"
 
