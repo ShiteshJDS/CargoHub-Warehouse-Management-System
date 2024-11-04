@@ -12,7 +12,8 @@ import logging
 sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..')))
 
-from models.warehouses import Warehouses
+from models.warehouses import Warehouses  # noqa
+
 BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
 
 # Must run in test folder
@@ -22,10 +23,10 @@ class Test_Warehouses():
 
     warehousesObject = Warehouses("Test_Data/test_")
     headers_full = {
-            "API_KEY": "a1b2c3d4e5",
-            "Content-Type": "application/json"
-        }
-    
+        "API_KEY": "a1b2c3d4e5",
+        "Content-Type": "application/json"
+    }
+
     newWarehouse = {
         "id": 0,
         "code": "YQZZNL56",
@@ -43,8 +44,8 @@ class Test_Warehouses():
         },
         "created_at": "-",
         "updated_at": "-"
-        }
-    
+    }
+
     # Warehouse Endpoint Testing (server must be running when testing endpoints)
 
     def test_post_endpoint(self):
@@ -57,16 +58,17 @@ class Test_Warehouses():
         assert responsePost.status_code == 201
 
     def test_update_endpoint(self):
-        
+
         self.newWarehouse["code"] = "Y4ZYNL57"
         self.newWarehouse["city"] = "Rotterdam"
         self.newWarehouse["contact"]["phone"] = "(079) 0318253"
 
         responsePut = requests.put(
             f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=self.headers_full, json=self.newWarehouse)
-        self.newWarehouse["updated_at"] = self.warehousesObject.get_timestamp().split('T')[0]
+        self.newWarehouse["updated_at"] = self.warehousesObject.get_timestamp().split('T')[
+            0]
         assert responsePut.status_code == 200
-   
+
     def test_get_endpoint(self):
 
         responseGet = requests.get(
@@ -91,14 +93,18 @@ class Test_Warehouses():
             "Content-Type": "application/json"
         }
 
-        responsePost_restricted = requests.post(f"{BASE_URL}/api/v1/warehouses/", headers=headers_restricted, json=self.newWarehouse)
-        responsePut_restricted = requests.put(f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=headers_restricted, json=self.newWarehouse)
-        responseDelete_restricted = requests.delete(f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=headers_restricted)
-        responseGet_restricted = requests.get(f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=headers_restricted)
+        responsePost_restricted = requests.post(
+            f"{BASE_URL}/api/v1/warehouses/", headers=headers_restricted, json=self.newWarehouse)
+        responsePut_restricted = requests.put(
+            f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=headers_restricted, json=self.newWarehouse)
+        responseDelete_restricted = requests.delete(
+            f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=headers_restricted)
+        responseGet_restricted = requests.get(
+            f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=headers_restricted)
 
-        assert responsePost_restricted.status_code == 403        
-        assert responsePut_restricted.status_code == 403        
-        assert responseDelete_restricted.status_code == 403       
+        assert responsePost_restricted.status_code == 403
+        assert responsePut_restricted.status_code == 403
+        assert responseDelete_restricted.status_code == 403
         assert responseGet_restricted.status_code == 200
 
     # Warehouse Method Testing
@@ -123,7 +129,7 @@ class Test_Warehouses():
             "created_at": "1983-04-13 04:59:55",
             "updated_at": "2007-02-08 20:11:00"
         },
-        {
+            {
             "id": 2,
             "code": "GIOMNL90",
             "name": "Petten longterm hub",
@@ -140,7 +146,7 @@ class Test_Warehouses():
             "created_at": "2008-02-22 19:55:39",
             "updated_at": "2009-08-28 23:15:50"
         },
-        {
+            {
             "id": 3,
             "code": "VCKINLLK",
             "name": "Naaldwijk distribution hub",
@@ -185,13 +191,13 @@ class Test_Warehouses():
             "code": "VCKINLLK",
             "name": "Naaldwijk distribution hub",
             "address": "Izesteeg 807",
-            "zip": "1636 KI", 
+            "zip": "1636 KI",
             "city": "Naaldwijk",
             "province": "Utrecht",
             "country": "NL",
             "contact": {
                 "name": "Frederique van Wallaert",
-                "phone": "(009) 4870289", 
+                "phone": "(009) 4870289",
                 "email": "jelle66@example.net"
             },
             "created_at": "-",
@@ -212,7 +218,7 @@ class Test_Warehouses():
             "code": "ABCDEFG",                          # <- Changed
             "name": "Rotterdam distribution hub",       # <- Changed
             "address": "Izesteeg 807",
-            "zip": "1636 KI", 
+            "zip": "1636 KI",
             "city": "Rotterdam",                        # <- Changed
             "province": "Zuid-Holland",
             "country": "NL",

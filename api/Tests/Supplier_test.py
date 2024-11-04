@@ -12,7 +12,8 @@ import logging
 sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..')))
 
-from models.suppliers import Suppliers
+from models.suppliers import Suppliers  # noqa
+
 BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
 
 # Must run in test folder
@@ -22,10 +23,10 @@ class Test_Suppliers():
 
     suppliersObject = Suppliers("Test_Data/test_")
     headers_full = {
-            "API_KEY": "a1b2c3d4e5",
-            "Content-Type": "application/json" 
-        }
-    
+        "API_KEY": "a1b2c3d4e5",
+        "Content-Type": "application/json"
+    }
+
     newSupplier = {
         "id": 0,
         "code": "SUP0001",
@@ -42,7 +43,7 @@ class Test_Suppliers():
         "created_at": "-",
         "updated_at": "-"
     }
-    
+
     # Supplier Endpoint Testing (server must be running when testing endpoints)
 
     def test_post_endpoint(self):
@@ -55,16 +56,17 @@ class Test_Suppliers():
         assert responsePost.status_code == 201
 
     def test_update_endpoint(self):
-        
+
         self.newSupplier["code"] = "SUP0002"
         self.newSupplier["city"] = "Amsterdam"
         self.newSupplier["contact_name"] = "Kevin Krul"
 
         responsePut = requests.put(
             f"{BASE_URL}/api/v1/suppliers/{self.newSupplier['id']}", headers=self.headers_full, json=self.newSupplier)
-        self.newSupplier["updated_at"] = self.suppliersObject.get_timestamp().split('T')[0]
+        self.newSupplier["updated_at"] = self.suppliersObject.get_timestamp().split('T')[
+            0]
         assert responsePut.status_code == 200
-   
+
     def test_get_endpoint(self):
 
         responseGet = requests.get(
@@ -89,14 +91,18 @@ class Test_Suppliers():
             "Content-Type": "application/json"
         }
 
-        responsePost_restricted = requests.post(f"{BASE_URL}/api/v1/suppliers/", headers=headers_restricted, json=self.newSupplier)
-        responsePut_restricted = requests.put(f"{BASE_URL}/api/v1/suppliers/{self.newSupplier['id']}", headers=headers_restricted, json=self.newSupplier)
-        responseDelete_restricted = requests.delete(f"{BASE_URL}/api/v1/suppliers/{self.newSupplier['id']}", headers=headers_restricted)
-        responseGet_restricted = requests.get(f"{BASE_URL}/api/v1/suppliers/{self.newSupplier['id']}", headers=headers_restricted)
+        responsePost_restricted = requests.post(
+            f"{BASE_URL}/api/v1/suppliers/", headers=headers_restricted, json=self.newSupplier)
+        responsePut_restricted = requests.put(
+            f"{BASE_URL}/api/v1/suppliers/{self.newSupplier['id']}", headers=headers_restricted, json=self.newSupplier)
+        responseDelete_restricted = requests.delete(
+            f"{BASE_URL}/api/v1/suppliers/{self.newSupplier['id']}", headers=headers_restricted)
+        responseGet_restricted = requests.get(
+            f"{BASE_URL}/api/v1/suppliers/{self.newSupplier['id']}", headers=headers_restricted)
 
-        assert responsePost_restricted.status_code == 403        
-        assert responsePut_restricted.status_code == 403        
-        assert responseDelete_restricted.status_code == 403       
+        assert responsePost_restricted.status_code == 403
+        assert responsePut_restricted.status_code == 403
+        assert responseDelete_restricted.status_code == 403
         assert responseGet_restricted.status_code == 200
 
     # Supplier Method Testing
@@ -106,54 +112,54 @@ class Test_Suppliers():
         allSuppliers = self.suppliersObject.get_suppliers()
         assert allSuppliers == [
             {
-        "id": 1,
-        "code": "SUP0001",
-        "name": "Lee, Parks and Johnson",
-        "address": "5989 Sullivan Drives",
-        "address_extra": "Apt. 996",
-        "city": "Port Anitaburgh",
-        "zip_code": "91688",
-        "province": "Illinois",
-        "country": "Czech Republic",
-        "contact_name": "Toni Barnett",
-        "phonenumber": "363.541.7282x36825",
-        "reference": "LPaJ-SUP0001",
-        "created_at": "1971-10-20 18:06:17",
-        "updated_at": "1985-06-08 00:13:46"
-    },
-    {
-        "id": 2,
-        "code": "SUP0002",
-        "name": "Holden-Quinn",
-        "address": "576 Christopher Roads",
-        "address_extra": "Suite 072",
-        "city": "Amberbury",
-        "zip_code": "16105",
-        "province": "Illinois",
-        "country": "Saint Martin",
-        "contact_name": "Kathleen Vincent",
-        "phonenumber": "001-733-291-8848x3542",
-        "reference": "H-SUP0002",
-        "created_at": "1995-12-18 03:05:46",
-        "updated_at": "2019-11-10 22:11:12"
-    },
-    {
-        "id": 3,
-        "code": "SUP0003",
-        "name": "White and Sons",
-        "address": "1761 Shepard Valley",
-        "address_extra": "Suite 853",
-        "city": "Aguilarton",
-        "zip_code": "63918",
-        "province": "Wyoming",
-        "country": "Ghana",
-        "contact_name": "Jason Hudson",
-        "phonenumber": "001-910-585-6962x8307",
-        "reference": "WaS-SUP0003",
-        "created_at": "2010-06-14 02:32:58",
-        "updated_at": "2019-06-16 19:29:49"
-    }
-    ], "The supplier database doesn't match the expected data"
+                "id": 1,
+                "code": "SUP0001",
+                "name": "Lee, Parks and Johnson",
+                "address": "5989 Sullivan Drives",
+                "address_extra": "Apt. 996",
+                "city": "Port Anitaburgh",
+                "zip_code": "91688",
+                "province": "Illinois",
+                "country": "Czech Republic",
+                "contact_name": "Toni Barnett",
+                "phonenumber": "363.541.7282x36825",
+                "reference": "LPaJ-SUP0001",
+                "created_at": "1971-10-20 18:06:17",
+                "updated_at": "1985-06-08 00:13:46"
+            },
+            {
+                "id": 2,
+                "code": "SUP0002",
+                "name": "Holden-Quinn",
+                "address": "576 Christopher Roads",
+                "address_extra": "Suite 072",
+                "city": "Amberbury",
+                "zip_code": "16105",
+                "province": "Illinois",
+                "country": "Saint Martin",
+                "contact_name": "Kathleen Vincent",
+                "phonenumber": "001-733-291-8848x3542",
+                "reference": "H-SUP0002",
+                "created_at": "1995-12-18 03:05:46",
+                "updated_at": "2019-11-10 22:11:12"
+            },
+            {
+                "id": 3,
+                "code": "SUP0003",
+                "name": "White and Sons",
+                "address": "1761 Shepard Valley",
+                "address_extra": "Suite 853",
+                "city": "Aguilarton",
+                "zip_code": "63918",
+                "province": "Wyoming",
+                "country": "Ghana",
+                "contact_name": "Jason Hudson",
+                "phonenumber": "001-910-585-6962x8307",
+                "reference": "WaS-SUP0003",
+                "created_at": "2010-06-14 02:32:58",
+                "updated_at": "2019-06-16 19:29:49"
+            }
+        ], "The supplier database doesn't match the expected data"
 
     def test_get_supplier_with_id(self):
         supplier2 = self.suppliersObject.get_supplier(2)
