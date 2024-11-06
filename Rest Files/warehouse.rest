@@ -1,31 +1,32 @@
+########## GET ENDPOINTS ##########
+
 # gets all warehouses
 Get http://localhost:3000/api/v1/warehouses
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
-# gets a specific warehouse based on id
-Get http://localhost:3000/api/v1/warehouses/1
+# gets a warehouse based on id 1
+Get http://localhost:3000/api/v1/warehouses/
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 
-# gets all locations of warehouse with id 2
-# return list of all shelves of warehouse with id 2
-Get http://localhost:3000/api/v1/warehouses/2/locations
+### gets all locations of warehouse with id 1
+Get http://localhost:3000/api/v1/warehouses/1/locations
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
-###
 
 
 
-### PUT
 
-# change the warehouse object with id 1 to the given json file
-# id can be changed to one that already exists i.e. there can be multiple warehouses with the same id
-PUT http://localhost:3000/api/v1/warehouses/5000
+
+########## PUT ENDPOINTS ##########
+
+# updates a warehouse based on id 1
+PUT http://localhost:3000/api/v1/warehouses/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -49,13 +50,20 @@ Content-Type: application/json
 }
 ###
 
-# update warehouse 1 to default
-PUT http://localhost:3000/api/v1/warehouses/1
+
+
+
+
+
+########## POST ENDPOINTS ##########
+
+# adds a new warehouse to database
+POST http://localhost:3000/api/v1/warehouses/
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "id": 1,
+    "id": 56,
      "code": "YQZZNL56", 
      "name": "Heemskerk cargo hub", 
      "address": "Karlijndreef 281", 
@@ -74,67 +82,22 @@ Content-Type: application/json
 }
 ###
 
-# when updateing a warehouse with non existing id
-# response is 200 OK 
-PUT http://localhost:3000/api/v1/warehouses/5000
-API_KEY : a1b2c3d4e5
-Content-Type: application/json
-
-{
-    "id": 5000,
-     "code": "YQZZNL56", 
-     "name": "Heemskerk cargo hub", 
-     "address": "Karlijndreef 281", 
-     "zip": "4002 AS", 
-     "city": "Heemskerk", 
-     "province": "Friesland", 
-     "country": "NL", 
-     "contact": 
-        {
-        "name": "Fem Keijzer", 
-        "phone": "(078) 0013363", 
-        "email": "blamore@example.net"
-        }, 
-     "created_at": "1983-04-13 04:59:55", 
-     "updated_at": "2007-01-08 20:11:00"
-}
-###
-
-### POST
-
-# create Warehouse
-# created_at and updated_at don't use body
-# new warehouse has id from body
-POST http://localhost:3000/api/v1/warehouses/5000
-API_KEY : a1b2c3d4e5
-Content-Type: application/json
 
 
-{
-    "id": 1000,
-    "code": "test code ", 
-    "name": "test name", 
-    "address": "test address", 
-    "zip": "test zip", 
-    "city": "test city", 
-    "province": "test province", 
-    "country": "test country", 
-    "contact": 
-    {
-        "name": "test name", 
-        "phone": "test phone", 
-        "email": "test email"
-    }, 
-    "created_at": "test created at", 
-    "updated_at": "test updated at"
-}
-###
 
-# DELETE
 
-# deletes warehouse with id
-# returns OK 200 status when deleting non-existent warehouse id
-DELETE http://localhost:3000/api/v1/warehouses/1003494393400
+
+########## DELETE ENDPOINTS ##########
+
+# removes a warehouse based on id 1
+DELETE http://localhost:3000/api/v1/warehouses/1
 API_KEY : a1b2c3d4e5
 
 ###
+
+
+
+### Marked Wrong Endpoints ###
+# The POST and PUT endpoints accept incomplete, resulting in inconsistent data in the json
+# The POST and PUT endpoints accepts existing id's, leading to double id's
+# The GET, PUT and DELETE endpoint accepts nonexistent id's 
