@@ -145,3 +145,47 @@ class Test_Items():
         "created_at": "2005-08-23 00:48:17",
         "updated_at": "2017-04-29 15:25:25"
     }
+        
+    def test_get_items_for_supplier(self):
+        items = self.itemsObject.get_items_for_supplier(34)
+        assert len(items) == 2
+        assert items[0] == {
+        "uid": "P000001",
+        "code": "sjQ23408K",
+        "description": "Face-to-face clear-thinking complexity",
+        "short_description": "must",
+        "upc_code": "6523540947122",
+        "model_number": "63-OFFTq0T",
+        "commodity_code": "oTo304",
+        "item_line": 11,
+        "item_group": 73,
+        "item_type": 14,
+        "unit_purchase_quantity": 47,
+        "unit_order_quantity": 13,
+        "pack_order_quantity": 11,
+        "supplier_id": 34,
+        "supplier_code": "SUP423",
+        "supplier_part_number": "E-86805-uTM",
+        "created_at": "2015-02-19 16:08:24",
+        "updated_at": "2015-09-26 06:37:56"
+    }
+        assert items[1] == {
+        "uid": "P000004",
+        "code": "zdN19039A",
+        "description": "Pre-emptive asynchronous throughput",
+        "short_description": "take",
+        "upc_code": "9668154959486",
+        "model_number": "pZ-7816",
+        "commodity_code": "IFq-47R1",
+        "item_line": 58,
+        "item_group": 23,
+        "item_type": 40,
+        "unit_purchase_quantity": 21,
+        "unit_order_quantity": 20,
+        "pack_order_quantity": 20,
+        "supplier_id": 34,
+        "supplier_code": "SUP140",
+        "supplier_part_number": "T-210-I4M",
+        "created_at": "2005-08-23 00:48:17",
+        "updated_at": "2017-04-29 15:25:25"
+    }
