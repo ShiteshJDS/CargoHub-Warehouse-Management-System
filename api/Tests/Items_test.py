@@ -121,3 +121,27 @@ class Test_Items():
         "created_at": "2020-05-31 16:00:08",
         "updated_at": "2020-11-08 12:49:21"
     }
+    
+    def test_get_items_for_item_type(self):
+        items = self.itemsObject.get_items_for_item_type(40)
+        assert len(items) == 1
+        assert items[0] == {
+        "uid": "P000004",
+        "code": "zdN19039A",
+        "description": "Pre-emptive asynchronous throughput",
+        "short_description": "take",
+        "upc_code": "9668154959486",
+        "model_number": "pZ-7816",
+        "commodity_code": "IFq-47R1",
+        "item_line": 58,
+        "item_group": 23,
+        "item_type": 40,
+        "unit_purchase_quantity": 21,
+        "unit_order_quantity": 20,
+        "pack_order_quantity": 20,
+        "supplier_id": 34,
+        "supplier_code": "SUP140",
+        "supplier_part_number": "T-210-I4M",
+        "created_at": "2005-08-23 00:48:17",
+        "updated_at": "2017-04-29 15:25:25"
+    }
