@@ -73,3 +73,27 @@ class Test_Items():
         "created_at": "2020-05-31 16:00:08",
         "updated_at": "2020-11-08 12:49:21"
     }
+    
+    def test_get_items_for_item_line(self):
+        items = self.itemsObject.get_items_for_item_line(54)
+        assert len(items) == 1
+        assert items[0] == {
+        "uid": "P000003",
+        "code": "QVm03739H",
+        "description": "Cloned actuating artificial intelligence",
+        "short_description": "we",
+        "upc_code": "3722576017240",
+        "model_number": "aHx-68Q4",
+        "commodity_code": "t-541-F0g",
+        "item_line": 54,
+        "item_group": 88,
+        "item_type": 42,
+        "unit_purchase_quantity": 30,
+        "unit_order_quantity": 17,
+        "pack_order_quantity": 11,
+        "supplier_id": 2,
+        "supplier_code": "SUP237",
+        "supplier_part_number": "r-920-z2C",
+        "created_at": "1994-06-02 06:38:40",
+        "updated_at": "1999-10-13 01:10:32"
+    }
