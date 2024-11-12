@@ -189,3 +189,64 @@ class Test_Items():
         "created_at": "2005-08-23 00:48:17",
         "updated_at": "2017-04-29 15:25:25"
     }
+    
+    def test_add_item(self):
+        item = {
+        "uid": "P000005",
+        "code": "zdN19039A",
+        "description": "Pre-emptive asynchronous throughput",
+        "short_description": "take",
+        "upc_code": "9668154959486",
+        "model_number": "pZ-7816",
+        "commodity_code": "IFq-47R1",
+        "item_line": 58,
+        "item_group": 23,
+        "item_type": 40,
+        "unit_purchase_quantity": 21,
+        "unit_order_quantity": 20,
+        "pack_order_quantity": 20,
+        "supplier_id": 34,
+        "supplier_code": "SUP140",
+        "supplier_part_number": "T-210-I4M",
+        "created_at": "2005-08-23 00:48:17",
+        "updated_at": "2017-04-29 15:25:25"
+    }
+        self.itemsObject.add_item(item)
+        items = self.itemsObject.get_items()
+        assert len(items) == 5
+        assert items[4] == item
+    
+    def test_update_item(self):
+        item = {
+        "uid": "P000005",
+        "code": "zdN19039A",
+        "description": "Pre-emptive asynchronous throughput",
+        "short_description": "take",
+        "upc_code": "9668154959486",
+        "model_number": "pZ-7816",
+        "commodity_code": "IFq-47R1",
+        "item_line": 59,
+        "item_group": 23,
+        "item_type": 41,
+        "unit_purchase_quantity": 21,
+        "unit_order_quantity": 20,
+        "pack_order_quantity": 20,
+        "supplier_id": 34,
+        "supplier_code": "SUP140",
+        "supplier_part_number": "T-210-I4M",
+        "created_at": "2005-08-23 00:48:17",
+        "updated_at": "2017-04-29 15:25:25"
+    }
+        self.itemsObject.update_item("P000005", item)
+        items = self.itemsObject.get_items()
+        assert len(items) == 5
+        assert items[4] == item
+    
+    def test_remove_item(self):
+        self.itemsObject.remove_item("P000005")
+        items = self.itemsObject.get_items()
+        assert len(items) == 4
+        assert items[0]["uid"] == "P000001"
+        assert items[1]["uid"] == "P000002"
+        assert items[2]["uid"] == "P000003"
+        assert items[3]["uid"] == "P000004"
