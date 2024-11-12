@@ -1,17 +1,79 @@
-### gets all item types
+########## GET ENDPOINTS ##########
+
+### gets all item_types
 Get http://localhost:3000/api/v1/item_types
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
-### gets item type with id
+### gets an item_type based on id 1
 Get http://localhost:3000/api/v1/item_types/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
-### gets all items in the item type
+### gets all items for an item_type
 Get http://localhost:3000/api/v1/item_types/1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
+
+
+
+
+
+########## PUT ENDPOINTS ##########
+
+### updates an item_type based on id 1
+PUT http://localhost:3000/api/v1/item_types/1
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "Desktop",
+    "description": "",
+    "created_at": "1993-07-28 13:43:32",
+    "updated_at": "2022-05-12 08:54:35"
+}
+###
+
+
+
+
+
+########## POST ENDPOINTS ##########
+
+### adds a new item_type to database
+POST http://localhost:3000/api/v1/item_types
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "Desktop",
+    "description": "",
+    "created_at": "1993-07-28 13:43:32",
+    "updated_at": "2022-05-12 08:54:35"
+}
+###
+
+
+
+
+
+########## DELETE ENDPOINTS ##########
+
+### removes an item_type based on id 1
+DELETE http://localhost:3000/api/v1/item_types/1
+API_KEY : a1b2c3d4e5
+###
+
+
+
+### Marked Wrong Endpoints ###
+# The POST and PUT endpoints accept incomplete, resulting in inconsistent data in the json
+# The POST and PUT endpoints accepts existing id's, leading to double id's
+# The GET, PUT and DELETE endpoint accepts nonexistent id's 
+
+# The POST endpoint is missing in the main

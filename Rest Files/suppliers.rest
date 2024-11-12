@@ -1,17 +1,95 @@
+########## GET ENDPOINTS ##########
+
 ### gets all suppliers
 Get http://localhost:3000/api/v1/suppliers
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
-### gets supplier with id
+### gets a supplier based on id 1
 Get http://localhost:3000/api/v1/suppliers/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
-### gets suppliers items
+### gets all items for a supplier
 Get http://localhost:3000/api/v1/suppliers/1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
+
+
+
+
+
+########## PUT ENDPOINTS ##########
+
+### updates a supplier based on id 1
+PUT http://localhost:3000/api/v1/suppliers/1
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "id": 1,
+    "code": "SUP0001",
+    "name": "Lee, Parks and Johnson",
+    "address": "5989 Sullivan Drives",
+    "address_extra": "Apt. 996",
+    "city": "Port Anitaburgh",
+    "zip_code": "91688",
+    "province": "Illinois",
+    "country": "Czech Republic",
+    "contact_name": "Toni Barnett",
+    "phonenumber": "363.541.7282x36825",
+    "reference": "LPaJ-SUP0001",
+    "created_at": "1971-10-20 18:06:17",
+    "updated_at": "1985-06-08 00:13:46"
+}
+###
+
+
+
+
+
+########## POST ENDPOINTS ##########
+
+### adds a new supplier to database
+POST http://localhost:3000/api/v1/suppliers
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "id": 1,
+    "code": "SUP0001",
+    "name": "Lee, Parks and Johnson",
+    "address": "5989 Sullivan Drives",
+    "address_extra": "Apt. 996",
+    "city": "Port Anitaburgh",
+    "zip_code": "91688",
+    "province": "Illinois",
+    "country": "Czech Republic",
+    "contact_name": "Toni Barnett",
+    "phonenumber": "363.541.7282x36825",
+    "reference": "LPaJ-SUP0001",
+    "created_at": "1971-10-20 18:06:17",
+    "updated_at": "1985-06-08 00:13:46"
+}
+###
+
+
+
+
+
+########## DELETE ENDPOINTS ##########
+
+### removes a supplier based on id 1
+DELETE http://localhost:3000/api/v1/suppliers/1
+API_KEY : a1b2c3d4e5
+###
+
+
+
+### Marked Wrong Endpoints ###
+# The POST and PUT endpoints accept incomplete, resulting in inconsistent data in the json
+# The POST and PUT endpoints accepts existing id's, leading to double id's
+# The GET, PUT and DELETE endpoint accepts nonexistent id's 
