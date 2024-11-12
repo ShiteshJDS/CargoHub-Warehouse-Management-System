@@ -49,3 +49,27 @@ class Test_Items():
     }, "Item is not correct"
 
 
+    def test_get_item(self):
+        item = self.itemsObject.get_item("P000002")
+        assert item is not None
+        assert item["code"] == "nyg48736S"
+        assert item == {
+        "uid": "P000002",
+        "code": "nyg48736S",
+        "description": "Focused transitional alliance",
+        "short_description": "may",
+        "upc_code": "9733132830047",
+        "model_number": "ck-109684-VFb",
+        "commodity_code": "y-20588-owy",
+        "item_line": 69,
+        "item_group": 85,
+        "item_type": 39,
+        "unit_purchase_quantity": 10,
+        "unit_order_quantity": 15,
+        "pack_order_quantity": 23,
+        "supplier_id": 57,
+        "supplier_code": "SUP312",
+        "supplier_part_number": "j-10730-ESk",
+        "created_at": "2020-05-31 16:00:08",
+        "updated_at": "2020-11-08 12:49:21"
+    }
