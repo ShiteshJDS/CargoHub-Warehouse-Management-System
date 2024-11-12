@@ -97,3 +97,27 @@ class Test_Items():
         "created_at": "1994-06-02 06:38:40",
         "updated_at": "1999-10-13 01:10:32"
     }
+
+    def test_get_items_for_item_group(self):
+        items = self.itemsObject.get_items_for_item_group(85)
+        assert len(items) == 1
+        assert items[0] == {
+        "uid": "P000002",
+        "code": "nyg48736S",
+        "description": "Focused transitional alliance",
+        "short_description": "may",
+        "upc_code": "9733132830047",
+        "model_number": "ck-109684-VFb",
+        "commodity_code": "y-20588-owy",
+        "item_line": 69,
+        "item_group": 85,
+        "item_type": 39,
+        "unit_purchase_quantity": 10,
+        "unit_order_quantity": 15,
+        "pack_order_quantity": 23,
+        "supplier_id": 57,
+        "supplier_code": "SUP312",
+        "supplier_part_number": "j-10730-ESk",
+        "created_at": "2020-05-31 16:00:08",
+        "updated_at": "2020-11-08 12:49:21"
+    }
