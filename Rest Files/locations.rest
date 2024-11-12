@@ -1,91 +1,73 @@
-##################### GET #####################
+########## GET ENDPOINTS ##########
 
-# gets all locations 
-# doesn't work, response is larger than 2 MB
+### gets all locations
 Get http://localhost:3000/api/v1/locations
 API_KEY : a1b2c3d4e5
-
 Content-Type: application/json
 ###
 
-
-# gets location with id 
-Get http://localhost:3000/api/v1/locations/2
+### gets a locations based on id 1
+Get http://localhost:3000/api/v1/locations/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
-##################### POST #####################
 
-# create new Location
-# created_at and updated_at don't use body
-# new location has id from body
-# can create already existing locations
 
-# Response: HTTP/1.0 201 Created
-POST http://localhost:3000/api/v1/locations/
+
+
+########## PUT ENDPOINTS ##########
+
+### updates a location based on id 1
+PUT http://localhost:3000/api/v1/locations/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "id": 100000, 
-    "warehouse_id": 1, 
-    "code": "Test code", 
-    "name": "Row: Test, Rack: Test, Shelf: Test", 
-    "created_at": "Test", 
-    "updated_at": "Test"
-}
-###
-##################### PUT #####################
-
-# change the location with id 1 to the given json content
-# id can be changed to one that already exists i.e. there can be multiple locations with the same id
-
-# Response: HTTP/1.0 200 OK
-PUT http://localhost:3000/api/v1/locations/2
-API_KEY : a1b2c3d4e5
-Content-Type: application/json
-
-{
-    "id": 1, 
-    "warehouse_id": 1, 
-    "code": "A.1.0", 
-    "name": "Row: A, Rack: 1, Shelf: 0", 
-    "created_at": "1992-05-15 03:21:32", 
+    "id": 1,
+    "warehouse_id": 1,
+    "code": "A.1.0",
+    "name": "Row: A, Rack: 1, Shelf: 0",
+    "created_at": "1992-05-15 03:21:32",
     "updated_at": "1992-05-15 03:21:32"
 }
-
 ###
 
-# when updateing a location with non existing id
-# Response: HTTP/1.0 200 OK
-# status should be changed 
-PUT http://localhost:3000/api/v1/locations/999999
+
+
+
+
+########## POST ENDPOINTS ##########
+
+### adds a new location to database
+POST http://localhost:3000/api/v1/locations
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "id": 9999999, 
-    "warehouse_id": 1, 
-    "code": "Test Code", 
-    "name": "Test Row", 
-    "created_at": "Test Created_at", 
-    "updated_at": "Updated_at"
+    "id": 1,
+    "warehouse_id": 1,
+    "code": "A.1.0",
+    "name": "Row: A, Rack: 1, Shelf: 0",
+    "created_at": "1992-05-15 03:21:32",
+    "updated_at": "1992-05-15 03:21:32"
 }
 ###
 
-##################### DELETE #####################
 
-# deletes location with id
-# Response: HTTP/1.0 200 OK
-DELETE http://localhost:3000/api/v1/locations/100000
+
+
+
+########## DELETE ENDPOINTS ##########
+
+### removes a location based on id 1
+DELETE http://localhost:3000/api/v1/locations/1
 API_KEY : a1b2c3d4e5
-
 ###
 
-# deletes location with id
-# returns OK 200 status when deleting non-existent location id
-DELETE http://localhost:3000/api/v1/locations/1003494393400
-API_KEY : a1b2c3d4e5
 
-###
+
+### Marked Wrong Endpoints ###
+# The POST and PUT endpoints accept incomplete, resulting in inconsistent data in the json
+# The POST and PUT endpoints accepts existing id's, leading to double id's
+# The GET, PUT and DELETE endpoint accepts nonexistent id's 

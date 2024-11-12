@@ -139,8 +139,6 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                     self.end_headers()
         elif path[0] == "item_lines":
             paths = len(path)
-            print(paths, path)
-
             match paths:
                 case 1:
                     item_lines = data_provider.fetch_item_line_pool().get_item_lines()
@@ -576,6 +574,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                                         y["total_allocated"]
                                     data_provider.fetch_inventory_pool(
                                     ).update_inventory(y["id"], y)
+                                # It is very likely this vvv should be "Completed" instead of "Processed"
                         transfer["transfer_status"] = "Processed"
                         data_provider.fetch_transfer_pool().update_transfer(transfer_id, transfer)
                         notification_processor.push(
@@ -719,6 +718,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                         self.send_response(200)
                         self.end_headers()
                     elif path[2] == "commit":
+                        # ToDo (Pending, Transit, Delivered)
                         pass
                     else:
                         self.send_response(404)

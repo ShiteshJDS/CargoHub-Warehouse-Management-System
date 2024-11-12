@@ -1,17 +1,79 @@
-### gets all item groups
+########## GET ENDPOINTS ##########
+
+### gets all item_groups
 Get http://localhost:3000/api/v1/item_groups
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
-### gets item group with id
+### gets an item_group based on id 1
 Get http://localhost:3000/api/v1/item_groups/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
-### gets all items in the item group
+### gets all items in the item_group
 Get http://localhost:3000/api/v1/item_groups/1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
+
+
+
+
+
+########## PUT ENDPOINTS ##########
+
+### updates a item_group based on id 1
+PUT http://localhost:3000/api/v1/item_groups/1
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "Furniture",
+    "description": "",
+    "created_at": "2019-09-22 15:51:07",
+    "updated_at": "2022-05-18 13:49:28"
+}
+###
+
+
+
+
+
+########## POST ENDPOINTS ##########
+
+### adds a new item_group to database
+POST http://localhost:3000/api/v1/item_groups
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "Furniture",
+    "description": "",
+    "created_at": "2019-09-22 15:51:07",
+    "updated_at": "2022-05-18 13:49:28"
+}
+###
+
+
+
+
+
+########## DELETE ENDPOINTS ##########
+
+### removes an item_group based on id 1
+DELETE http://localhost:3000/api/v1/item_groups/1
+API_KEY : a1b2c3d4e5
+###
+
+
+
+### Marked Wrong Endpoints ###
+# The POST and PUT endpoints accept incomplete, resulting in inconsistent data in the json
+# The POST and PUT endpoints accepts existing id's, leading to double id's
+# The GET, PUT and DELETE endpoint accepts nonexistent id's 
+
+# The POST endpoint is missing in the main
