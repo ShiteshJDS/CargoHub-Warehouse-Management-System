@@ -95,7 +95,30 @@ class Test_Items():
         self.newItem["updated_at"] = new_timestamp.split('T')[0]
         assert responsePost.status_code == 409, "Item already exists, should return 409"
     # ?? The test currently gives the Response code 201, which is incorrect. The test should return 409 as the item already exists.
-    
+
+    def test_get_correct_endpoint(self):
+        responseGet = requests.get(
+            f"{BASE_URL}/api/v1/items/P999999", headers=self.headers_full)
+        json = responseGet.json()
+        assert json["uid"] == self.newItem["uid"] and \
+            json["code"] ==  self.newItem["code"] and\
+            json["description"] == self.newItem["description"] and\
+            json["short_description"] == self.newItem["short_description"] and\
+            json["upc_code"] == self.newItem["upc_code"] and\
+            json["model_number"] == self.newItem["model_number"] and \
+            json["commodity_code"] == self.newItem["commodity_code"] and \
+            json["item_line"] == self.newItem["item_line"] and\
+            json["item_group"] == self.newItem["item_group"] and\
+            json["item_type"] == self.newItem["item_type"] and\
+            json["unit_purchase_quantity"] == self.newItem["unit_purchase_quantity"] and\
+            json["unit_order_quantity"] == self.newItem["unit_order_quantity"] and\
+            json["pack_order_quantity"] == self.newItem["pack_order_quantity"] and\
+            json["supplier_id"] == self.newItem["supplier_id"] and\
+            json["supplier_code"] == self.newItem["supplier_code"] and\
+            json["supplier_part_number"] == self.newItem["supplier_part_number"]
+            
+        assert responseGet.status_code == 200, "Correct item should return 200"
+        
 
     # Test methods for Items
 
