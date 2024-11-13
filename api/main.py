@@ -1,3 +1,8 @@
+import os
+import logging
+from functools import wraps
+from http.server import BaseHTTPRequestHandler
+
 import socketserver
 import http.server
 import json
@@ -7,6 +12,28 @@ from providers import data_provider
 
 from processors import notification_processor
 
+# Middleware logging
+log_file_path = "./logs/requests.log"
+log_directory = os.path.dirname(log_file_path)
+
+if not os.path.exists(log_directory):
+    os.makedirs(log_directory)
+
+logging.basicConfig(filename=log_file_path, level=logging.INFO, format='%(message)s')
+
+def log_requests(handler):
+    @wraps(handler)
+    def wrapper(self, *args, **kwargs):
+        response_status_code = 200
+        try:
+            handler(self, *args, **kwargs)
+        except Exception as e:
+            response_status_code = 500
+            raise e
+        finally:
+            log_message = f"{self.path} was handled with status code {self.send_response.__self__.status_code}\n"
+            logging.info(log_message)
+    return wrapper
 
 class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
 
