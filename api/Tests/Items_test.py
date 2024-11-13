@@ -23,6 +23,82 @@ class Test_Items():
         "Content-Type": "application/json"
     }
 
+    newItem = {
+        "uid": "P999999",
+        "code": "sjQ23408K",
+        "description": "Face-to-face clear-thinking complexity",
+        "short_description": "must",
+        "upc_code": "6523540947122",
+        "model_number": "63-OFFTq0T",
+        "commodity_code": "oTo304",
+        "item_line": 11,
+        "item_group": 73,
+        "item_type": 14,
+        "unit_purchase_quantity": 47,
+        "unit_order_quantity": 13,
+        "pack_order_quantity": 11,
+        "supplier_id": 34,
+        "supplier_code": "SUP423",
+        "supplier_part_number": "E-86805-uTM",
+        "created_at": "-",
+        "updated_at": "-"
+    }
+
+    incorrectItem = {
+        "description": "Face-to-face clear-thinking complexity",
+        "short_description": "must",
+        "upc_code": "6523540947122",
+        "model_number": "63-OFFTq0T",
+        "commodity_code": "oTo304",
+        "item_line": 11,
+        "item_group": 73,
+        "item_type": 14,
+        "unit_purchase_quantity": 47,
+        "unit_order_quantity": 13,
+        "pack_order_quantity": 11,
+        "supplier_id": 34,
+        "supplier_code": "SUP423",
+        "supplier_part_number": "E-86805-uTM",
+        "created_at": "-",
+        "updated_at": "-"
+    }
+
+
+
+    # Test endpoints for Items
+
+    def test_post_correct_endpoint(self):
+        responsePost = requests.post(
+            f"{BASE_URL}/api/v1/items/", headers=self.headers_full, json=self.newItem)
+        new_timestamp = self.itemsObject.get_timestamp()
+        self.newItem["created_at"] = new_timestamp.split('T')[0]
+        self.newItem["updated_at"] = new_timestamp.split('T')[0]
+        assert responsePost.status_code == 201, "Correct item should return 201"
+    
+    def test_post_empty_item_endpoint(self):
+        responsePost = requests.post(
+            f"{BASE_URL}/api/v1/items/", headers=self.headers_full, json={})
+        assert responsePost.status_code == 400, "Empty item should return 400"
+    # ?? The test currently gives the Response code 201, which is incorrect. The test should return 400 as the item is empty.
+
+    def test_post_missing_item_endpoint(self):
+        responsePost = requests.post(
+            f"{BASE_URL}/api/v1/items/", headers=self.headers_full, json=self.incorrectItem)
+        assert responsePost.status_code == 400, "Missing item should return 400"
+    # ?? The test currently gives the Response code 201, which is incorrect. The test should return 400 as the item is missing the UID.
+    
+    def test_post_duplicate_endpoint(self):
+        responsePost = requests.post(
+            f"{BASE_URL}/api/v1/items/", headers=self.headers_full, json=self.newItem)
+        new_timestamp = self.itemsObject.get_timestamp()
+        self.newItem["created_at"] = new_timestamp.split('T')[0]
+        self.newItem["updated_at"] = new_timestamp.split('T')[0]
+        assert responsePost.status_code == 409, "Item already exists, should return 409"
+    # ?? The test currently gives the Response code 201, which is incorrect. The test should return 409 as the item already exists.
+    
+
+    # Test methods for Items
+
     def test_get_items(self):
         items = self.itemsObject.get_items()
         assert len(items) == 4
