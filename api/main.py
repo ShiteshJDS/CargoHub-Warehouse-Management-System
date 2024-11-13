@@ -1,16 +1,36 @@
 import socketserver
 import http.server
 import json
+import logging
 
 from providers import auth_provider
 from providers import data_provider
 
 from processors import notification_processor
 
+# Configure logging
+logging.basicConfig(
+    filename='requests.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
 
+    def log_request(self, user):
+        """Logs details of the incoming request."""
+        api_key = self.headers.get("API_KEY")
+        request_info = {
+            "method": self.command,
+            "path": self.path,
+            "api_key": api_key,
+            "user": user,
+            "headers": dict(self.headers),
+        }
+        logging.info(f"Request: {json.dumps(request_info)}")
+
     def handle_get_version_1(self, path, user):
+        self.log_request(user)
         if not auth_provider.has_access(user, path, "get"):
             self.send_response(403)
             self.end_headers()
@@ -393,6 +413,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.end_headers()
 
     def handle_post_version_1(self, path, user):
+        self.log_request(user)
         if not auth_provider.has_access(user, path, "post"):
             self.send_response(403)
             self.end_headers()
@@ -515,6 +536,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.end_headers()
 
     def handle_put_version_1(self, path, user):
+        self.log_request(user)
         if not auth_provider.has_access(user, path, "put"):
             self.send_response(403)
             self.end_headers()
@@ -746,6 +768,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.end_headers()
 
     def handle_delete_version_1(self, path, user):
+        self.log_request(user)
         if not auth_provider.has_access(user, path, "delete"):
             self.send_response(403)
             self.end_headers()
