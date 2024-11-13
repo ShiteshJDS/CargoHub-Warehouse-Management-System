@@ -431,30 +431,32 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             data_provider.fetch_item_pool().save()
             self.send_response(201)
             self.end_headers()
-        # elif path[0] == "item_lines":
-        #     content_length = int(self.headers["Content-Length"])
-        #     post_data = self.rfile.read(content_length)
-        #     new_item_line = json.loads(post_data.decode())
-        #     data_provider.fetch_item_line_pool().add_item_line(new_item_line)
-        #     data_provider.fetch_item_line_pool().save()
-        #     self.send_response(201)
-        #     self.end_headers()
-        # elif path[0] == "item_groups":
-        #     content_length = int(self.headers["Content-Length"])
-        #     post_data = self.rfile.read(content_length)
-        #     new_item_group = json.loads(post_data.decode())
-        #     data_provider.fetch_item_group_pool().add_item_group(new_item_group)
-        #     data_provider.fetch_item_group_pool().save()
-        #     self.send_response(201)
-        #     self.end_headers()
-        # elif path[0] == "item_types":
-        #     content_length = int(self.headers["Content-Length"])
-        #     post_data = self.rfile.read(content_length)
-        #     new_item_type = json.loads(post_data.decode())
-        #     data_provider.fetch_item_type_pool().add_item_type(new_item_type)
-        #     data_provider.fetch_item_type_pool().save()
-        #     self.send_response(201)
-        #     self.end_headers()
+
+        elif path[0] == "item_lines":
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_item_line = json.loads(post_data.decode())
+            data_provider.fetch_item_line_pool().add_item_line(new_item_line)
+            data_provider.fetch_item_line_pool().save()
+            self.send_response(201)
+            self.end_headers()
+        elif path[0] == "item_groups":
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_item_group = json.loads(post_data.decode())
+            data_provider.fetch_item_group_pool().add_item_group(new_item_group)
+            data_provider.fetch_item_group_pool().save()
+            self.send_response(201)
+            self.end_headers()
+        elif path[0] == "item_types":
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_item_type = json.loads(post_data.decode())
+            data_provider.fetch_item_type_pool().add_item_type(new_item_type)
+            data_provider.fetch_item_type_pool().save()
+            self.send_response(201)
+            self.end_headers()
+
         elif path[0] == "inventories":
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
@@ -574,7 +576,8 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                                         y["total_allocated"]
                                     data_provider.fetch_inventory_pool(
                                     ).update_inventory(y["id"], y)
-                                # It is very likely this vvv should be "Completed" instead of "Processed"
+                                # The above code contains many errors. It should be rewritten
+                                # It is very likely this ↓ ↓ ↓  should be "Completed" instead of "Processed"
                         transfer["transfer_status"] = "Processed"
                         data_provider.fetch_transfer_pool().update_transfer(transfer_id, transfer)
                         notification_processor.push(
@@ -854,3 +857,22 @@ def StartWebAPI():
 
 if __name__ == "__main__":
     StartWebAPI()
+
+
+# Improvement ideas:
+# All files should prevent double id's, incomplete jsons and nonexistent id's
+# For each delete endpoint, stop as soon as the id is found. Now it goes through the whole file all the time
+# get_items_in_transfer() in transfers returns a list, however this list always contains one item. This can be simplified
+# Each transfer has only one item. Maybe the dictionary structure can be simplified
+# get_inventories_for_item() in items returns a list, however this list always contains one item. This can be simplified
+# get_orders_in_shipment() returns a list, however this list always contains one item. This can be simplified
+# get_orders_in_shipment() returns a list with a number. We could consider changing the code to return the order objects.
+
+# Found Errors:
+# Non-fullaccess users in Auth-provider
+# Post endpoint for item_type, item_line and item_group
+# Empty PUT commit endpoint in shipment
+# Failing PUT update_items in shipment
+# The PUT update_orders in shipments 200 OK, but can cause negative id's and potentially more errors
+# Failing PUT commit endpoint in transfers
+# Failing PUT update_items in orders
