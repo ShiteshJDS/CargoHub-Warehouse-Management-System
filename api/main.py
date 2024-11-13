@@ -37,6 +37,70 @@ def log_requests(handler):
 
 class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
 
+    @log_requests
+    def do_GET(self):
+        api_key = self.headers.get("API_KEY")
+        user = auth_provider.get_user(api_key)
+        if user == None:
+            self.send_response(401)
+            self.end_headers()
+        else:
+            try:
+                path = self.path.split("/")
+                if len(path) > 3 and path[1] == "api" and path[2] == "v1":
+                    self.handle_get_version_1(path[3:], user)
+            except Exception:
+                self.send_response(500)
+                self.end_headers()
+
+    @log_requests
+    def do_POST(self):
+        api_key = self.headers.get("API_KEY")
+        user = auth_provider.get_user(api_key)
+        if user == None:
+            self.send_response(401)
+            self.end_headers()
+        else:
+            try:
+                path = self.path.split("/")
+                if len(path) > 3 and path[1] == "api" and path[2] == "v1":
+                    self.handle_post_version_1(path[3:], user)
+            except Exception:
+                self.send_response(500)
+                self.end_headers()
+
+    @log_requests
+    def do_PUT(self):
+        api_key = self.headers.get("API_KEY")
+        user = auth_provider.get_user(api_key)
+        if user == None:
+            self.send_response(401)
+            self.end_headers()
+        else:
+            try:
+                path = self.path.split("/")
+                if len(path) > 3 and path[1] == "api" and path[2] == "v1":
+                    self.handle_put_version_1(path[3:], user)
+            except Exception:
+                self.send_response(500)
+                self.end_headers()
+
+    @log_requests
+    def do_DELETE(self):
+        api_key = self.headers.get("API_KEY")
+        user = auth_provider.get_user(api_key)
+        if user == None:
+            self.send_response(401)
+            self.end_headers()
+        else:
+            try:
+                path = self.path.split("/")
+                if len(path) > 3 and path[1] == "api" and path[2] == "v1":
+                    self.handle_delete_version_1(path[3:], user)
+            except Exception:
+                self.send_response(500)
+                self.end_headers()
+
     def handle_get_version_1(self, path, user):
         if not auth_provider.has_access(user, path, "get"):
             self.send_response(403)
