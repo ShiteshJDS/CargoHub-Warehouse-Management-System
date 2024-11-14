@@ -119,6 +119,44 @@ class Test_Items():
             
         assert responseGet.status_code == 200, "Correct item should return 200"
         
+    def test_put_correct_endpoint(self):
+        self.newItem["item_line"] = 12
+        self.newItem["item_group"] = 74
+        self.newItem["item_type"] = 15
+
+        responsePut = requests.put(f"{BASE_URL}/api/v1/items/P999999", headers=self.headers_full, json=self.newItem)
+
+        responseGet = requests.get(f"{BASE_URL}/api/v1/items/P999999", headers=self.headers_full)
+        json = responseGet.json()
+        assert json["uid"] == self.newItem["uid"] and \
+            json["code"] ==  self.newItem["code"] and\
+            json["description"] == self.newItem["description"] and\
+            json["short_description"] == self.newItem["short_description"] and\
+            json["upc_code"] == self.newItem["upc_code"] and\
+            json["model_number"] == self.newItem["model_number"] and \
+            json["commodity_code"] == self.newItem["commodity_code"] and \
+            json["item_line"] == self.newItem["item_line"] and\
+            json["item_group"] == self.newItem["item_group"] and\
+            json["item_type"] == self.newItem["item_type"] and\
+            json["unit_purchase_quantity"] == self.newItem["unit_purchase_quantity"] and\
+            json["unit_order_quantity"] == self.newItem["unit_order_quantity"] and\
+            json["pack_order_quantity"] == self.newItem["pack_order_quantity"] and\
+            json["supplier_id"] == self.newItem["supplier_id"] and\
+            json["supplier_code"] == self.newItem["supplier_code"] and\
+            json["supplier_part_number"] == self.newItem["supplier_part_number"] , "Item should be updated"
+        assert responsePut.status_code == 200, "Correct item should return 200"
+
+    # def test_put_empty_item_endpoint(self):
+    #     responsePut = requests.put(f"{BASE_URL}/api/v1/items/P999999", headers=self.headers_full, json={})
+    #     assert responsePut.status_code == 400, "Empty item should return 400"
+
+    # def test_put_missing_item_endpoint(self):
+    #     responsePut = requests.put(f"{BASE_URL}/api/v1/items/P999999", headers=self.headers_full, json=self.incorrectItem)
+    #     assert responsePut.status_code == 400, "Missing item should return 400"
+
+    def test_delete_correct_endpoint(self):
+        responseDelete = requests.delete(f"{BASE_URL}/api/v1/items/P999999", headers=self.headers_full)
+        assert responseDelete.status_code == 200, "Correct item should return 200"
 
     # Test methods for Items
 
