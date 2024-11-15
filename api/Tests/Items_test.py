@@ -1,0 +1,389 @@
+import pytest
+import unittest
+import sys
+import os
+import requests
+import logging
+
+# Add the path to the CargoHub directory to sys.path
+# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..')))
+
+from models.items import Items
+
+BASE_URL = "http://localhost:3000"
+
+
+class Test_Items():
+
+    itemsObject = Items("Test_Data/test_")
+    headers_full = {
+        "API_KEY": "a1b2c3d4e5",
+        "Content-Type": "application/json"
+    }
+
+    newItem = {
+        "uid": "P999999",
+        "code": "sjQ23408K",
+        "description": "Face-to-face clear-thinking complexity",
+        "short_description": "must",
+        "upc_code": "6523540947122",
+        "model_number": "63-OFFTq0T",
+        "commodity_code": "oTo304",
+        "item_line": 11,
+        "item_group": 73,
+        "item_type": 14,
+        "unit_purchase_quantity": 47,
+        "unit_order_quantity": 13,
+        "pack_order_quantity": 11,
+        "supplier_id": 34,
+        "supplier_code": "SUP423",
+        "supplier_part_number": "E-86805-uTM",
+        "created_at": "-",
+        "updated_at": "-"
+    }
+
+    incorrectItem = {
+        "description": "Face-to-face clear-thinking complexity",
+        "short_description": "must",
+        "upc_code": "6523540947122",
+        "model_number": "63-OFFTq0T",
+        "commodity_code": "oTo304",
+        "item_line": 11,
+        "item_group": 73,
+        "item_type": 14,
+        "unit_purchase_quantity": 47,
+        "unit_order_quantity": 13,
+        "pack_order_quantity": 11,
+        "supplier_id": 34,
+        "supplier_code": "SUP423",
+        "supplier_part_number": "E-86805-uTM",
+        "created_at": "-",
+        "updated_at": "-"
+    }
+
+
+
+    # Test endpoints for Items
+
+    def test_post_correct_endpoint(self):
+        responsePost = requests.post(
+            f"{BASE_URL}/api/v1/items/", headers=self.headers_full, json=self.newItem)
+        new_timestamp = self.itemsObject.get_timestamp()
+        self.newItem["created_at"] = new_timestamp.split('T')[0]
+        self.newItem["updated_at"] = new_timestamp.split('T')[0]
+        assert responsePost.status_code == 201, "Correct item should return 201"
+    
+    def test_post_empty_item_endpoint(self):
+        responsePost = requests.post(
+            f"{BASE_URL}/api/v1/items/", headers=self.headers_full, json={})
+        assert responsePost.status_code == 400, "Empty item should return 400"
+    # ?? The test currently gives the Response code 201, which is incorrect. The test should return 400 as the item is empty.
+
+    def test_post_missing_item_endpoint(self):
+        responsePost = requests.post(
+            f"{BASE_URL}/api/v1/items/", headers=self.headers_full, json=self.incorrectItem)
+        assert responsePost.status_code == 400, "Missing item should return 400"
+    # ?? The test currently gives the Response code 201, which is incorrect. The test should return 400 as the item is missing the UID.
+    
+    def test_post_duplicate_endpoint(self):
+        responsePost = requests.post(
+            f"{BASE_URL}/api/v1/items/", headers=self.headers_full, json=self.newItem)
+        new_timestamp = self.itemsObject.get_timestamp()
+        self.newItem["created_at"] = new_timestamp.split('T')[0]
+        self.newItem["updated_at"] = new_timestamp.split('T')[0]
+        assert responsePost.status_code == 409, "Item already exists, should return 409"
+    # ?? The test currently gives the Response code 201, which is incorrect. The test should return 409 as the item already exists.
+
+    def test_get_correct_endpoint(self):
+        responseGet = requests.get(
+            f"{BASE_URL}/api/v1/items/P999999", headers=self.headers_full)
+        json = responseGet.json()
+        assert json["uid"] == self.newItem["uid"] and \
+            json["code"] ==  self.newItem["code"] and\
+            json["description"] == self.newItem["description"] and\
+            json["short_description"] == self.newItem["short_description"] and\
+            json["upc_code"] == self.newItem["upc_code"] and\
+            json["model_number"] == self.newItem["model_number"] and \
+            json["commodity_code"] == self.newItem["commodity_code"] and \
+            json["item_line"] == self.newItem["item_line"] and\
+            json["item_group"] == self.newItem["item_group"] and\
+            json["item_type"] == self.newItem["item_type"] and\
+            json["unit_purchase_quantity"] == self.newItem["unit_purchase_quantity"] and\
+            json["unit_order_quantity"] == self.newItem["unit_order_quantity"] and\
+            json["pack_order_quantity"] == self.newItem["pack_order_quantity"] and\
+            json["supplier_id"] == self.newItem["supplier_id"] and\
+            json["supplier_code"] == self.newItem["supplier_code"] and\
+            json["supplier_part_number"] == self.newItem["supplier_part_number"]
+            
+        assert responseGet.status_code == 200, "Correct item should return 200"
+        
+    def test_put_correct_endpoint(self):
+        self.newItem["item_line"] = 12
+        self.newItem["item_group"] = 74
+        self.newItem["item_type"] = 15
+
+        responsePut = requests.put(f"{BASE_URL}/api/v1/items/P999999", headers=self.headers_full, json=self.newItem)
+
+        responseGet = requests.get(f"{BASE_URL}/api/v1/items/P999999", headers=self.headers_full)
+        json = responseGet.json()
+        assert json["uid"] == self.newItem["uid"] and \
+            json["code"] ==  self.newItem["code"] and\
+            json["description"] == self.newItem["description"] and\
+            json["short_description"] == self.newItem["short_description"] and\
+            json["upc_code"] == self.newItem["upc_code"] and\
+            json["model_number"] == self.newItem["model_number"] and \
+            json["commodity_code"] == self.newItem["commodity_code"] and \
+            json["item_line"] == self.newItem["item_line"] and\
+            json["item_group"] == self.newItem["item_group"] and\
+            json["item_type"] == self.newItem["item_type"] and\
+            json["unit_purchase_quantity"] == self.newItem["unit_purchase_quantity"] and\
+            json["unit_order_quantity"] == self.newItem["unit_order_quantity"] and\
+            json["pack_order_quantity"] == self.newItem["pack_order_quantity"] and\
+            json["supplier_id"] == self.newItem["supplier_id"] and\
+            json["supplier_code"] == self.newItem["supplier_code"] and\
+            json["supplier_part_number"] == self.newItem["supplier_part_number"] , "Item should be updated"
+        assert responsePut.status_code == 200, "Correct item should return 200"
+
+    # def test_put_empty_item_endpoint(self):
+    #     responsePut = requests.put(f"{BASE_URL}/api/v1/items/P999999", headers=self.headers_full, json={})
+    #     assert responsePut.status_code == 400, "Empty item should return 400"
+
+    # def test_put_missing_item_endpoint(self):
+    #     responsePut = requests.put(f"{BASE_URL}/api/v1/items/P999999", headers=self.headers_full, json=self.incorrectItem)
+    #     assert responsePut.status_code == 400, "Missing item should return 400"
+
+    def test_delete_correct_endpoint(self):
+        responseDelete = requests.delete(f"{BASE_URL}/api/v1/items/P999999", headers=self.headers_full)
+        assert responseDelete.status_code == 200, "Correct item should return 200"
+
+    # Test methods for Items
+
+    def test_get_items(self):
+        items = self.itemsObject.get_items()
+        assert len(items) == 4
+        assert items[0]["uid"] == "P000001", "UID is not correct"
+        assert items[0] == {
+        "uid": "P000001",
+        "code": "sjQ23408K",
+        "description": "Face-to-face clear-thinking complexity",
+        "short_description": "must",
+        "upc_code": "6523540947122",
+        "model_number": "63-OFFTq0T",
+        "commodity_code": "oTo304",
+        "item_line": 11,
+        "item_group": 73,
+        "item_type": 14,
+        "unit_purchase_quantity": 47,
+        "unit_order_quantity": 13,
+        "pack_order_quantity": 11,
+        "supplier_id": 34,
+        "supplier_code": "SUP423",
+        "supplier_part_number": "E-86805-uTM",
+        "created_at": "2015-02-19 16:08:24",
+        "updated_at": "2015-09-26 06:37:56"
+    }, "Item is not correct"
+
+
+    def test_get_item(self):
+        item = self.itemsObject.get_item("P000002")
+        assert item is not None
+        assert item["code"] == "nyg48736S"
+        assert item == {
+        "uid": "P000002",
+        "code": "nyg48736S",
+        "description": "Focused transitional alliance",
+        "short_description": "may",
+        "upc_code": "9733132830047",
+        "model_number": "ck-109684-VFb",
+        "commodity_code": "y-20588-owy",
+        "item_line": 69,
+        "item_group": 85,
+        "item_type": 39,
+        "unit_purchase_quantity": 10,
+        "unit_order_quantity": 15,
+        "pack_order_quantity": 23,
+        "supplier_id": 57,
+        "supplier_code": "SUP312",
+        "supplier_part_number": "j-10730-ESk",
+        "created_at": "2020-05-31 16:00:08",
+        "updated_at": "2020-11-08 12:49:21"
+    }
+    
+    def test_get_items_for_item_line(self):
+        items = self.itemsObject.get_items_for_item_line(54)
+        assert len(items) == 1
+        assert items[0] == {
+        "uid": "P000003",
+        "code": "QVm03739H",
+        "description": "Cloned actuating artificial intelligence",
+        "short_description": "we",
+        "upc_code": "3722576017240",
+        "model_number": "aHx-68Q4",
+        "commodity_code": "t-541-F0g",
+        "item_line": 54,
+        "item_group": 88,
+        "item_type": 42,
+        "unit_purchase_quantity": 30,
+        "unit_order_quantity": 17,
+        "pack_order_quantity": 11,
+        "supplier_id": 2,
+        "supplier_code": "SUP237",
+        "supplier_part_number": "r-920-z2C",
+        "created_at": "1994-06-02 06:38:40",
+        "updated_at": "1999-10-13 01:10:32"
+    }
+
+    def test_get_items_for_item_group(self):
+        items = self.itemsObject.get_items_for_item_group(85)
+        assert len(items) == 1
+        assert items[0] == {
+        "uid": "P000002",
+        "code": "nyg48736S",
+        "description": "Focused transitional alliance",
+        "short_description": "may",
+        "upc_code": "9733132830047",
+        "model_number": "ck-109684-VFb",
+        "commodity_code": "y-20588-owy",
+        "item_line": 69,
+        "item_group": 85,
+        "item_type": 39,
+        "unit_purchase_quantity": 10,
+        "unit_order_quantity": 15,
+        "pack_order_quantity": 23,
+        "supplier_id": 57,
+        "supplier_code": "SUP312",
+        "supplier_part_number": "j-10730-ESk",
+        "created_at": "2020-05-31 16:00:08",
+        "updated_at": "2020-11-08 12:49:21"
+    }
+    
+    def test_get_items_for_item_type(self):
+        items = self.itemsObject.get_items_for_item_type(40)
+        assert len(items) == 1
+        assert items[0] == {
+        "uid": "P000004",
+        "code": "zdN19039A",
+        "description": "Pre-emptive asynchronous throughput",
+        "short_description": "take",
+        "upc_code": "9668154959486",
+        "model_number": "pZ-7816",
+        "commodity_code": "IFq-47R1",
+        "item_line": 58,
+        "item_group": 23,
+        "item_type": 40,
+        "unit_purchase_quantity": 21,
+        "unit_order_quantity": 20,
+        "pack_order_quantity": 20,
+        "supplier_id": 34,
+        "supplier_code": "SUP140",
+        "supplier_part_number": "T-210-I4M",
+        "created_at": "2005-08-23 00:48:17",
+        "updated_at": "2017-04-29 15:25:25"
+    }
+        
+    def test_get_items_for_supplier(self):
+        items = self.itemsObject.get_items_for_supplier(34)
+        assert len(items) == 2
+        assert items[0] == {
+        "uid": "P000001",
+        "code": "sjQ23408K",
+        "description": "Face-to-face clear-thinking complexity",
+        "short_description": "must",
+        "upc_code": "6523540947122",
+        "model_number": "63-OFFTq0T",
+        "commodity_code": "oTo304",
+        "item_line": 11,
+        "item_group": 73,
+        "item_type": 14,
+        "unit_purchase_quantity": 47,
+        "unit_order_quantity": 13,
+        "pack_order_quantity": 11,
+        "supplier_id": 34,
+        "supplier_code": "SUP423",
+        "supplier_part_number": "E-86805-uTM",
+        "created_at": "2015-02-19 16:08:24",
+        "updated_at": "2015-09-26 06:37:56"
+    }
+        assert items[1] == {
+        "uid": "P000004",
+        "code": "zdN19039A",
+        "description": "Pre-emptive asynchronous throughput",
+        "short_description": "take",
+        "upc_code": "9668154959486",
+        "model_number": "pZ-7816",
+        "commodity_code": "IFq-47R1",
+        "item_line": 58,
+        "item_group": 23,
+        "item_type": 40,
+        "unit_purchase_quantity": 21,
+        "unit_order_quantity": 20,
+        "pack_order_quantity": 20,
+        "supplier_id": 34,
+        "supplier_code": "SUP140",
+        "supplier_part_number": "T-210-I4M",
+        "created_at": "2005-08-23 00:48:17",
+        "updated_at": "2017-04-29 15:25:25"
+    }
+    
+    def test_add_item(self):
+        item = {
+        "uid": "P000005",
+        "code": "zdN19039A",
+        "description": "Pre-emptive asynchronous throughput",
+        "short_description": "take",
+        "upc_code": "9668154959486",
+        "model_number": "pZ-7816",
+        "commodity_code": "IFq-47R1",
+        "item_line": 58,
+        "item_group": 23,
+        "item_type": 40,
+        "unit_purchase_quantity": 21,
+        "unit_order_quantity": 20,
+        "pack_order_quantity": 20,
+        "supplier_id": 34,
+        "supplier_code": "SUP140",
+        "supplier_part_number": "T-210-I4M",
+        "created_at": "2005-08-23 00:48:17",
+        "updated_at": "2017-04-29 15:25:25"
+    }
+        self.itemsObject.add_item(item)
+        items = self.itemsObject.get_items()
+        assert len(items) == 5
+        assert items[4] == item
+    
+    def test_update_item(self):
+        item = {
+        "uid": "P000005",
+        "code": "zdN19039A",
+        "description": "Pre-emptive asynchronous throughput",
+        "short_description": "take",
+        "upc_code": "9668154959486",
+        "model_number": "pZ-7816",
+        "commodity_code": "IFq-47R1",
+        "item_line": 59,
+        "item_group": 23,
+        "item_type": 41,
+        "unit_purchase_quantity": 21,
+        "unit_order_quantity": 20,
+        "pack_order_quantity": 20,
+        "supplier_id": 34,
+        "supplier_code": "SUP140",
+        "supplier_part_number": "T-210-I4M",
+        "created_at": "2005-08-23 00:48:17",
+        "updated_at": "2017-04-29 15:25:25"
+    }
+        self.itemsObject.update_item("P000005", item)
+        items = self.itemsObject.get_items()
+        assert len(items) == 5
+        assert items[4] == item
+    
+    def test_remove_item(self):
+        self.itemsObject.remove_item("P000005")
+        items = self.itemsObject.get_items()
+        assert len(items) == 4
+        assert items[0]["uid"] == "P000001"
+        assert items[1]["uid"] == "P000002"
+        assert items[2]["uid"] == "P000003"
+        assert items[3]["uid"] == "P000004"
