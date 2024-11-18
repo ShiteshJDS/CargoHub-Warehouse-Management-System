@@ -1,7 +1,6 @@
 import json
 
 from models.base import Base
-from providers import data_provider
 
 SHIPMENTS = []
 
@@ -39,6 +38,7 @@ class Shipments(Base):
                 break
 
     def update_items_in_shipment(self, shipment_id, items):
+        from providers import data_provider
         shipment = self.get_shipment(shipment_id)
         current = shipment["items"]
         for x in current:
