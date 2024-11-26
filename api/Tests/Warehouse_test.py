@@ -65,7 +65,7 @@ class Test_Warehouses_Endpoints():
 
         def test_post_missing_items_endpoint():
             missing_items_warehouse = copy.deepcopy(self.newWarehouse)
-            for i in ['code', 'zip', 'city']:
+            for i in ['id', 'code', 'city']:
                 missing_items_warehouse.pop(i)
 
             responsePost = requests.post(
@@ -83,7 +83,7 @@ class Test_Warehouses_Endpoints():
         def test_post_wrong_types_endpoint():
             wrong_types_warehouse = copy.deepcopy(self.newWarehouse)
             wrong_types_warehouse.update(
-                {"city": 1, "zip": True, "code": [1, 2, 3]})
+                {"id": True, "code": [1, 2, 3], "city": 1})
 
             responsePost = requests.post(
                 f"{BASE_URL}/api/v1/warehouses", headers=self.headers_full, json=wrong_types_warehouse)
@@ -92,7 +92,7 @@ class Test_Warehouses_Endpoints():
         def test_post_empty_values_endpoint():
             empty_values_warehouse = copy.deepcopy(self.newWarehouse)
             empty_values_warehouse.update(
-                {"city": "", "zip": "", "code": ""})
+                {"code": "", "zip": "", "city": ""})
 
             responsePost = requests.post(
                 f"{BASE_URL}/api/v1/warehouses", headers=self.headers_full, json=empty_values_warehouse)
@@ -124,7 +124,7 @@ class Test_Warehouses_Endpoints():
 
         def test_put_missing_items_endpoint():
             missing_items_warehouse = copy.deepcopy(self.newWarehouse)
-            for i in ['code', 'zip', 'city']:
+            for i in ['id', 'code', 'city']:
                 missing_items_warehouse.pop(i)
 
             responsePut = requests.put(
@@ -142,7 +142,7 @@ class Test_Warehouses_Endpoints():
         def test_put_wrong_types_endpoint():
             wrong_types_warehouse = copy.deepcopy(self.newWarehouse)
             wrong_types_warehouse.update(
-                {"city": 1, "zip": True, "code": [1, 2, 3]})
+                {"id": True, "code": [1, 2, 3], "city": 1})
 
             responsePut = requests.put(
                 f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=self.headers_full, json=wrong_types_warehouse)
@@ -151,7 +151,7 @@ class Test_Warehouses_Endpoints():
         def test_put_empty_values_endpoint():
             empty_values_warehouse = copy.deepcopy(self.newWarehouse)
             empty_values_warehouse.update(
-                {"city": "", "zip": "", "code": ""})
+                {"code": "", "zip": "", "city": ""})
 
             responsePut = requests.put(
                 f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=self.headers_full, json=empty_values_warehouse)
@@ -162,7 +162,7 @@ class Test_Warehouses_Endpoints():
         test_put_missing_items_endpoint()   # ?? Missing items
         test_put_extra_items_endpoint()     # ?? Extra items
         test_put_wrong_types_endpoint()     # ?? Wrong item types
-        test_put_empty_values_endpoint()        # ?? Empty items
+        test_put_empty_values_endpoint()    # ?? Empty items
 
     def test_get_endpoints(self):
 
