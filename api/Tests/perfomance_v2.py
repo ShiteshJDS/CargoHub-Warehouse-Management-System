@@ -218,15 +218,17 @@ def save_git_state():
     except subprocess.CalledProcessError as e:
         print(f"Error saving git state: {e}")
 
-def revert_git_state():
+def revert_json_files():
     """
-    Revert to the last committed state using Git.
+    Revert all JSON files in the repository to their last committed state using Git.
     """
     try:
-        subprocess.run(["git", "reset", "--hard"], check=True)
-        print("Reverted to last committed state.")
+        # Revert all JSON files to the last committed state
+        subprocess.run(["git", "checkout", "--", "*.json"], check=True)
+        print("Reverted all JSON files to last committed state.")
     except subprocess.CalledProcessError as e:
-        print(f"Error reverting git state: {e}")
+        print(f"Error reverting JSON files: {e}")
+
 
 def main():
     try:
@@ -251,8 +253,9 @@ def main():
         save_results_to_csv(results, output_file)
         print(f"Performance results saved to {output_file}")
     finally:
-        # Ensure changes are reverted after tests
-        revert_git_state()
+        # Ensure JSON changes are reverted after tests
+        revert_json_files()
+
 
 if __name__ == "__main__":
     main()
