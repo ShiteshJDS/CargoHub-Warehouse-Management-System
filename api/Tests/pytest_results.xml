@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="69" time="134.944" timestamp="2024-11-06T10:44:40.481465+01:00" hostname="DESKTOP-BOSQ9RJ"><testcase classname="Location_test.Test_Locations" name="test_post_endpoint" time="2.627" /><testcase classname="Location_test.Test_Locations" name="test_update_endpoint" time="3.327" /><testcase classname="Location_test.Test_Locations" name="test_get_endpoint" time="2.044" /><testcase classname="Location_test.Test_Locations" name="test_delete_endpoint" time="2.696" /><testcase classname="Location_test.Test_Locations" name="test_endpoint_restrictions" time="8.146" /><testcase classname="Location_test.Test_Locations" name="test_get_locations" time="0.003" /><testcase classname="Location_test.Test_Locations" name="test_get_location_with_id" time="0.002" /><testcase classname="Location_test.Test_Locations" name="test_get_locations_in_warehouse" time="0.002" /><testcase classname="Location_test.Test_Locations" name="test_add_location" time="0.003" /><testcase classname="Location_test.Test_Locations" name="test_update_location" time="0.002" /><testcase classname="Location_test.Test_Locations" name="test_remove_location" time="0.003" /><testcase classname="Order_test.Test_Orders" name="test_post_endpoint" time="5.406" /><testcase classname="Order_test.Test_Orders" name="test_update_endpoint" time="5.466" /><testcase classname="Order_test.Test_Orders" name="test_get_endpoint" time="2.062" /><testcase classname="Order_test.Test_Orders" name="test_delete_endpoint" time="5.158" /><testcase classname="Order_test.Test_Orders" name="test_endpoint_restriction" time="8.135" /><testcase classname="Order_test.Test_Orders" name="test_get_orders" time="0.002" /><testcase classname="Order_test.Test_Orders" name="test_get_order_with_id" time="0.003" /><testcase classname="Order_test.Test_Orders" name="test_get_items_in_order" time="0.002" /><testcase classname="Order_test.Test_Orders" name="test_get_orders_in_shipment" time="0.002" /><testcase classname="Order_test.Test_Orders" name="test_get_orders_for_client" time="0.002" /><testcase classname="Order_test.Test_Orders" name="test_add_order" time="0.002" /><testcase classname="Order_test.Test_Orders" name="test_update_order" time="0.002" /><testcase classname="Order_test.Test_Orders" name="test_update_items_in_order" time="0.002"><failure message="NameError: name 'data_provider' is not defined">self = &lt;Order_test.Test_Orders object at 0x000002AFD669C1D0&gt;
+
+    def test_update_items_in_order(self):
+        updated_order_items = [
+            {
+                "item_id": "P004263",
+                "amount": 38
+            },
+            {
+                "item_id": "P003874",
+                "amount": 7771111                                # &lt;- Changed
+            },
+            {
+                "item_id": "P001603",                       # &lt;- Changed
+                "amount": 38
+            },
+            {
+                "item_id": "P013603",                       # &lt;- Added
+                "amount": 12
+            }
+        ]
+    
+&gt;       self.orderObject.update_items_in_order(4, updated_order_items)
+
+Order_test.py:835: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;models.orders.Orders object at 0x000002AFD4A2B860&gt;, order_id = 4
+items = [{'amount': 38, 'item_id': 'P004263'}, {'amount': 7771111, 'item_id': 'P003874'}, {'amount': 38, 'item_id': 'P001603'}, {'amount': 12, 'item_id': 'P013603'}]
+
+    def update_items_in_order(self, order_id, items):
+        order = self.get_order(order_id)
+        current = order["items"]
+        for x in current:
+            found = False
+            for y in items:
+                if x["item_id"] == y["item_id"]:
+                    found = True
+                    break
+            if not found:
+&gt;               inventories = data_provider.fetch_inventory_pool(
+                ).get_inventories_for_item(x["item_id"])
+E               NameError: name 'data_provider' is not defined
+
+..\models\orders.py:65: NameError</failure></testcase><testcase classname="Order_test.Test_Orders" name="test_update_orders_in_shipment" time="0.002" /><testcase classname="Order_test.Test_Orders" name="test_remove_order" time="0.002" /><testcase classname="Shipment_test.Test_Shipments" name="test_post_endpoint" time="3.801" /><testcase classname="Shipment_test.Test_Shipments" name="test_update_endpoint" time="4.677" /><testcase classname="Shipment_test.Test_Shipments" name="test_get_endpoint" time="2.048" /><testcase classname="Shipment_test.Test_Shipments" name="test_delete_endpoint" time="4.421" /><testcase classname="Shipment_test.Test_Shipments" name="test_endpoint_restriction" time="8.176" /><testcase classname="Shipment_test.Test_Shipments" name="test_get_shipments" time="0.001" /><testcase classname="Shipment_test.Test_Shipments" name="test_get_shipment_with_id" time="0.001" /><testcase classname="Shipment_test.Test_Shipments" name="test_get_items_in_shipment" time="0.002" /><testcase classname="Shipment_test.Test_Shipments" name="test_add_shipment" time="0.002" /><testcase classname="Shipment_test.Test_Shipments" name="test_update_shipment" time="0.001" /><testcase classname="Shipment_test.Test_Shipments" name="test_update_items_in_shipment" time="0.002"><failure message="NameError: name 'data_provider' is not defined">self = &lt;Shipment_test.Test_Shipments object at 0x000002AFD669E6C0&gt;
+
+    def test_update_items_in_shipment(self):
+        updated_shipment_items = [
+            {
+                "item_id": "P005978",
+                "amount": 77             # &lt;- Changed
+            },
+            {
+                "item_id": "P011465",
+                "amount": 50
+            },
+            {
+                "item_id": "P000881",
+                "amount": 42
+            },
+            {
+                "item_id": "P003490",
+                "amount": 37
+            },
+            {
+                "item_id": "P004389",
+                "amount": 12              # &lt;- Changed
+            },
+            {
+                "item_id": "P009705",
+                "amount": 22
+            },
+            {
+                "item_id": "P005412",
+                "amount": 3
+            },
+            {
+                "item_id": "P010266",    # &lt;- Changed
+                "amount": 36
+            },
+            {
+                "item_id": "P005678",     # &lt;- Changed
+                "amount": 28
+            },
+            {
+                "item_id": "P025678",     # &lt;- Added
+                "amount": 12
+            }
+        ]
+    
+&gt;       self.shipmentObject.update_items_in_shipment(4, updated_shipment_items)
+
+Shipment_test.py:759: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;models.shipments.Shipments object at 0x000002AFD6669100&gt;, shipment_id = 4
+items = [{'amount': 77, 'item_id': 'P005978'}, {'amount': 50, 'item_id': 'P011465'}, {'amount': 42, 'item_id': 'P000881'}, {'amount': 37, 'item_id': 'P003490'}, {'amount': 12, 'item_id': 'P004389'}, {'amount': 22, 'item_id': 'P009705'}, ...]
+
+    def update_items_in_shipment(self, shipment_id, items):
+        shipment = self.get_shipment(shipment_id)
+        current = shipment["items"]
+        for x in current:
+            found = False
+            for y in items:
+                if x["item_id"] == y["item_id"]:
+                    found = True
+                    break
+            if not found:
+&gt;               inventories = data_provider.fetch_inventory_pool(
+                ).get_inventories_for_item(x["item_id"])
+E               NameError: name 'data_provider' is not defined
+
+..\models\shipments.py:51: NameError</failure></testcase><testcase classname="Shipment_test.Test_Shipments" name="test_remove_shipment" time="0.001" /><testcase classname="Supplier_test.Test_Suppliers" name="test_post_endpoint" time="2.093" /><testcase classname="Supplier_test.Test_Suppliers" name="test_update_endpoint" time="2.080" /><testcase classname="Supplier_test.Test_Suppliers" name="test_get_endpoint" time="2.054" /><testcase classname="Supplier_test.Test_Suppliers" name="test_delete_endpoint" time="2.087" /><testcase classname="Supplier_test.Test_Suppliers" name="test_endpoint_restrictions" time="8.160" /><testcase classname="Supplier_test.Test_Suppliers" name="test_get_suppliers" time="0.001" /><testcase classname="Supplier_test.Test_Suppliers" name="test_get_supplier_with_id" time="0.001" /><testcase classname="Supplier_test.Test_Suppliers" name="test_add_supplier" time="0.002" /><testcase classname="Supplier_test.Test_Suppliers" name="test_update_supplier" time="0.002" /><testcase classname="Supplier_test.Test_Suppliers" name="test_remove_supplier" time="0.002" /><testcase classname="Transfer_test.Test_Transfers" name="test_post_endpoint" time="8.788" /><testcase classname="Transfer_test.Test_Transfers" name="test_update_endpoint" time="7.222" /><testcase classname="Transfer_test.Test_Transfers" name="test_get_endpoint" time="2.060" /><testcase classname="Transfer_test.Test_Transfers" name="test_delete_endpoint" time="6.390" /><testcase classname="Transfer_test.Test_Transfers" name="test_endpoint_restriction" time="8.146" /><testcase classname="Transfer_test.Test_Transfers" name="test_get_transfers" time="0.002" /><testcase classname="Transfer_test.Test_Transfers" name="test_get_transfer_with_id" time="0.003" /><testcase classname="Transfer_test.Test_Transfers" name="test_get_items_in_transfer" time="0.002" /><testcase classname="Transfer_test.Test_Transfers" name="test_add_transfer" time="0.003" /><testcase classname="Transfer_test.Test_Transfers" name="test_update_transfer" time="0.002" /><testcase classname="Transfer_test.Test_Transfers" name="test_remove_transfer" time="0.002" /><testcase classname="Warehouse_test.Test_Warehouses" name="test_post_endpoint" time="2.038" /><testcase classname="Warehouse_test.Test_Warehouses" name="test_update_endpoint" time="2.046" /><testcase classname="Warehouse_test.Test_Warehouses" name="test_get_endpoint" time="2.036" /><testcase classname="Warehouse_test.Test_Warehouses" name="test_delete_endpoint" time="2.060" /><testcase classname="Warehouse_test.Test_Warehouses" name="test_endpoint_restrictions" time="8.154" /><testcase classname="Warehouse_test.Test_Warehouses" name="test_get_warehouses" time="0.002" /><testcase classname="Warehouse_test.Test_Warehouses" name="test_get_warehouse_with_id" time="0.003" /><testcase classname="Warehouse_test.Test_Warehouses" name="test_add_warehouse" time="0.002" /><testcase classname="Warehouse_test.Test_Warehouses" name="test_update_warehouse" time="0.002" /><testcase classname="Warehouse_test.Test_Warehouses" name="test_remove_warehouse" time="0.003" /></testsuite></testsuites>

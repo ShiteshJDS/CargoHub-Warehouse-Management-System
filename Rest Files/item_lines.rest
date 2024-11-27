@@ -1,10 +1,12 @@
-### gets all item lines
+########## GET ENDPOINTS ##########
+
+### gets all item_lines
 Get http://localhost:3000/api/v1/item_lines
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
-### gets item line with id
+### gets an item_line based on id 1
 Get http://localhost:3000/api/v1/item_lines/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
@@ -15,3 +17,63 @@ Get http://localhost:3000/api/v1/item_lines/1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
+
+
+
+
+
+########## PUT ENDPOINTS ##########
+
+### updates a iten_line based on id 1
+PUT http://localhost:3000/api/v1/item_lines/1
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "Home Appliances",
+    "description": "",
+    "created_at": "1979-01-16 07:07:50",
+    "updated_at": "2024-01-05 23:53:25"
+}
+###
+
+
+
+
+
+########## POST ENDPOINTS ##########
+
+### adds a new item_line to database
+POST http://localhost:3000/api/v1/item_lines
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "Home Appliances",
+    "description": "",
+    "created_at": "1979-01-16 07:07:50",
+    "updated_at": "2024-01-05 23:53:25"
+}
+###
+
+
+
+
+
+########## DELETE ENDPOINTS ##########
+
+### removes an item_line based on id 1
+DELETE http://localhost:3000/api/v1/item_lines/1
+API_KEY : a1b2c3d4e5
+###
+
+
+
+### Marked Wrong Endpoints ###
+# The POST and PUT endpoints accept incomplete, resulting in inconsistent data in the json
+# The POST and PUT endpoints accepts existing id's, leading to double id's
+# The GET, PUT and DELETE endpoint accepts nonexistent id's 
+
+# The POST endpoint is missing in the main

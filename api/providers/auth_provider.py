@@ -18,70 +18,70 @@ USERS = [
                 "put": False,
                 "delete": False
             },
-            "locations":  {
+            "locations": {
                 "full": False,
                 "get": True,
                 "post": False,
                 "put": False,
                 "delete": False
             },
-            "transfers":  {
+            "transfers": {
                 "full": False,
                 "get": True,
                 "post": False,
                 "put": False,
                 "delete": False
             },
-            "items":  {
+            "items": {
                 "full": False,
                 "get": True,
                 "post": False,
                 "put": False,
                 "delete": False
             },
-            "item_lines":  {
+            "item_lines": {
                 "full": False,
                 "get": True,
                 "post": False,
                 "put": False,
                 "delete": False
             },
-            "item_groups":  {
+            "item_groups": {
                 "full": False,
                 "get": True,
                 "post": False,
                 "put": False,
                 "delete": False
             },
-            "item_types":  {
+            "item_types": {
                 "full": False,
                 "get": True,
                 "post": False,
                 "put": False,
                 "delete": False
             },
-            "suppliers":  {
+            "suppliers": {
                 "full": False,
                 "get": True,
                 "post": False,
                 "put": False,
                 "delete": False
             },
-            "orders":  {
+            "orders": {
                 "full": False,
                 "get": True,
                 "post": False,
                 "put": False,
                 "delete": False
             },
-            "clients":  {
+            "clients": {
                 "full": False,
                 "get": True,
                 "post": False,
                 "put": False,
                 "delete": False
             },
-            "shipments":  {
+            "shipments": {
                 "full": False,
                 "get": True,
                 "post": False,
@@ -94,9 +94,11 @@ USERS = [
 
 _users = None
 
+
 def init():
     global _users
     _users = USERS
+
 
 def get_user(api_key):
     for x in _users:
@@ -104,9 +106,12 @@ def get_user(api_key):
             return x
     return None
 
+
 def has_access(user, path, method):
     access = user["endpoint_access"]
     if access["full"]:
         return True
     else:
-        return access[path][method]
+        return access[path][method]     # <- This line has an error
+        # Origionally it was return access[path][method]
+        # This crashed the program, but with path[0] the program could continue
