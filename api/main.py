@@ -29,98 +29,99 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
         }
         logging.info(f"Request: {json.dumps(request_info)}")
 
-class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
+    def handle_get_version_1(self, path, user):
+        self.log_request(user)
+        if not auth_provider.has_access(user, path, "get"):
+            self.send_response(403)
+            self.end_headers()
+            return
 
-    def log_request(self, user):
-        """Logs details of the incoming request."""
-        api_key = self.headers.get("API_KEY")
-        request_info = {
-            "method": self.command,
-            "path": self.path,
-            "api_key": api_key,
-            "user": user,
-            "headers": dict(self.headers),
+        def send_json_response(data, status=200):
+            self.send_response(status)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+            if data is not None:
+                self.wfile.write(json.dumps(data).encode("utf-8"))
+
+        pools = {
+            "warehouses": data_provider.fetch_warehouse_pool(),
+            "locations": data_provider.fetch_location_pool(),
+            "transfers": data_provider.fetch_transfer_pool(),
+            "items": data_provider.fetch_item_pool(),
+            "inventories": data_provider.fetch_inventory_pool(),
+            "suppliers": data_provider.fetch_supplier_pool(),
+            "orders": data_provider.fetch_order_pool(),
+            "clients": data_provider.fetch_client_pool(),
+            "shipments": data_provider.fetch_shipment_pool(),
+            "item_lines": data_provider.fetch_item_line_pool(),
+            "item_groups": data_provider.fetch_item_group_pool(),
+            "item_types": data_provider.fetch_item_type_pool(),
         }
-        logging.info(f"Request: {json.dumps(request_info)}")
 
-    def send_json_response(self, data, status=200):
-        """Sends a JSON response with the given data and status code."""
-        self.send_response(status)
-        self.send_header("Content-type", "application/json")
-        self.end_headers()
-        if data is not None:
-            self.wfile.write(json.dumps(data).encode("utf-8"))
-
-    def handle_entity_request(self, path, user, entity_map):
-        """Generic handler for entity-based requests."""
-        if not auth_provider.has_access(user, path[0], "get"):
-            self.send_json_response(None, status=403)
+        if path[0] not in pools:
+            self.send_response(404)
+            self.end_headers()
             return
 
-        entity, actions = entity_map.get(path[0], (None, None))
-        if entity is None:
-            self.send_json_response(None, status=404)
-            return
+        pool = pools[path[0]]
+        paths = len(path)
 
         try:
-            paths = len(path)
-            action = actions.get(paths)
-            if action:
-                action(path, entity)
+            if paths == 1:
+                if hasattr(pool, "get_" + path[0]):
+                    send_json_response(getattr(pool, "get_" + path[0])())
+                else:
+                    send_json_response(None, 404)
+            elif paths == 2:
+                identifier = int(path[1]) if path[0] != "items" else path[1]
+                if hasattr(pool, "get_" + path[0][:-1]):
+                    send_json_response(getattr(pool, "get_" + path[0][:-1])(identifier))
+                else:
+                    send_json_response(None, 404)
+            elif paths == 3:
+                if path[2] in ["locations", "items", "inventory", "orders"]:
+                    if hasattr(pool, "get_" + path[2] + "_in_" + path[0][:-1]):
+                        send_json_response(
+                            getattr(pool, "get_" + path[2] + "_in_" + path[0][:-1])(
+                                int(path[1])
+                            )
+                        )
+                    elif path[2] == "inventory" and hasattr(pool, "get_inventories_for_item"):
+                        send_json_response(
+                            pool.get_inventories_for_item(path[1])
+                        )
+                    else:
+                        send_json_response(None, 404)
+                else:
+                    send_json_response(None, 404)
+            elif paths == 4 and path[2] == "inventory" and path[3] == "totals":
+                if hasattr(pool, "get_inventory_totals_for_item"):
+                    send_json_response(pool.get_inventory_totals_for_item(path[1]))
+                else:
+                    send_json_response(None, 404)
             else:
-                self.send_json_response(None, status=404)
-        except ValueError:
-            self.send_json_response(None, status=400)
-
-    def handle_entity_action(self, path, entity):
-        """Default entity handler for generic entity actions."""
-        paths = len(path)
-        pool = getattr(data_provider, f"fetch_{entity}_pool")()
-        if paths == 1:
-            self.send_json_response(getattr(pool, f"get_{entity}s")())
-        elif paths == 2:
-            item_id = int(path[1])
-            self.send_json_response(getattr(pool, f"get_{entity}")(item_id))
-        elif paths == 3 and path[2] in {"items", "locations", "orders"}:
-            related_entity = path[2]
-            item_id = int(path[1])
-            self.send_json_response(
-                getattr(pool, f"get_{related_entity}_for_{entity}")(item_id)
-            )
-        else:
-            self.send_json_response(None, status=404)
+                send_json_response(None, 404)
+        except Exception:
+            self.send_response(500)
+            self.end_headers()
 
     def do_GET(self):
         api_key = self.headers.get("API_KEY")
         user = auth_provider.get_user(api_key)
         if user is None:
-            self.send_json_response(None, status=401)
-            return
-
-        try:
-            path = self.path.split("/")
-            if len(path) > 3 and path[1] == "api" and path[2] == "v1":
-                self.log_request(user)
-                entity_map = {
-                    "warehouses": ("warehouse", self.handle_entity_action),
-                    "locations": ("location", self.handle_entity_action),
-                    "transfers": ("transfer", self.handle_entity_action),
-                    "items": ("item", self.handle_entity_action),
-                    "item_lines": ("item_line", self.handle_entity_action),
-                    "item_groups": ("item_group", self.handle_entity_action),
-                    "item_types": ("item_type", self.handle_entity_action),
-                    "inventories": ("inventory", self.handle_entity_action),
-                    "suppliers": ("supplier", self.handle_entity_action),
-                    "orders": ("order", self.handle_entity_action),
-                    "clients": ("client", self.handle_entity_action),
-                    "shipments": ("shipment", self.handle_entity_action),
-                }
-                self.handle_entity_request(path[3:], user, entity_map)
-            else:
-                self.send_json_response(None, status=404)
-        except Exception as e:
-            logging.error(f"Error processing request: {e}")
-            self.send_json_response(None, status=500)
+            self.send_response(401)
+            self.end_headers()
+        else:
+            try:
+                path = self.path.split("/")
+                if len(path) > 3 and path[1] == "api" and path[2] == "v1":
+                    self.handle_get_version_1(path[3:], user)
+                else:
+                    self.send_response(404)
+                    self.end_headers()
+            except Exception:
+                self.send_response(500)
+                self.end_headers()
 
     def handle_post_version_1(self, path, user):
         self.log_request(user)
