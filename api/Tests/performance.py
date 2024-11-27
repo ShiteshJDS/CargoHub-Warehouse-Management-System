@@ -4,6 +4,7 @@ import csv
 
 # Define endpoints with methods, headers, and payloads
 endpoints = [
+    # Clients Endpoints
     {
         "method": "GET",
         "url": "http://localhost:3000/api/v1/clients",
@@ -11,7 +12,7 @@ endpoints = [
             "API_KEY": "a1b2c3d4e5",
             "Content-Type": "application/json",
         },
-        "data": None,  # No payload for GET
+        "data": None,
     },
     {
         "method": "GET",
@@ -78,6 +79,95 @@ endpoints = [
     {
         "method": "DELETE",
         "url": "http://localhost:3000/api/v1/clients/1",
+        "headers": {
+            "API_KEY": "a1b2c3d4e5",
+        },
+        "data": None,
+    },
+    # Inventories Endpoints
+    {
+        "method": "GET",
+        "url": "http://localhost:3000/api/v1/inventories",
+        "headers": {
+            "API_KEY": "a1b2c3d4e5",
+            "Content-Type": "application/json",
+        },
+        "data": None,
+    },
+    {
+        "method": "GET",
+        "url": "http://localhost:3000/api/v1/inventories/1",
+        "headers": {
+            "API_KEY": "a1b2c3d4e5",
+            "Content-Type": "application/json",
+        },
+        "data": None,
+    },
+    {
+        "method": "PUT",
+        "url": "http://localhost:3000/api/v1/inventories/1",
+        "headers": {
+            "API_KEY": "a1b2c3d4e5",
+            "Content-Type": "application/json",
+        },
+        "data": """{
+            "id": 1,
+            "item_id": "P000001",
+            "description": "Face-to-face clear-thinking complexity",
+            "item_reference": "sjQ23408K",
+            "locations": [
+                3211,
+                24700,
+                14123,
+                19538,
+                31071,
+                24701,
+                11606,
+                11817
+            ],
+            "total_on_hand": 262,
+            "total_expected": 0,
+            "total_ordered": 80,
+            "total_allocated": 41,
+            "total_available": 141,
+            "created_at": "2015-02-19 16:08:24",
+            "updated_at": "2015-09-26 06:37:56"
+        }""",
+    },
+    {
+        "method": "POST",
+        "url": "http://localhost:3000/api/v1/inventories",
+        "headers": {
+            "API_KEY": "a1b2c3d4e5",
+            "Content-Type": "application/json",
+        },
+        "data": """{
+            "id": 1,
+            "item_id": "P000001",
+            "description": "Face-to-face clear-thinking complexity",
+            "item_reference": "sjQ23408K",
+            "locations": [
+                3211,
+                24700,
+                14123,
+                19538,
+                31071,
+                24701,
+                11606,
+                11817
+            ],
+            "total_on_hand": 262,
+            "total_expected": 0,
+            "total_ordered": 80,
+            "total_allocated": 41,
+            "total_available": 141,
+            "created_at": "2015-02-19 16:08:24",
+            "updated_at": "2015-09-26 06:37:56"
+        }""",
+    },
+    {
+        "method": "DELETE",
+        "url": "http://localhost:3000/api/v1/inventories/1",
         "headers": {
             "API_KEY": "a1b2c3d4e5",
         },
