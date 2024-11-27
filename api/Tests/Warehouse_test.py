@@ -39,7 +39,7 @@ def backup_and_restore_data():
         json.dump(BackupJson, file, indent=4)
 
 
-class Test_Warehouses():
+class Test_Warehouses_V1():
 
     warehousesObject = Warehouses("Test_Data/test_")
 
@@ -114,19 +114,17 @@ class Test_Warehouses():
             },
             "created_at": "1983-04-13 04:59:55",
             "updated_at": "2007-02-08 20:11:00"
-            
         }
 
 
         response = requests.post(
             f"{BASE_URL}/api/v1/warehouses/", headers=headers, json=incompleteWarehouseJson)
-        
 
         getResponse = requests.get(
             f"{BASE_URL}/api/v1/warehouses/9001", headers=headers)
         warehouseFromDB =  getResponse.json()
         assert response.status_code == 400, f"Returns {response.status_code}, Should return 400 Bad Request"
-        assert warehouseFromDB == None, "Should return None because the client shouldn't be added to DB"
+        assert warehouseFromDB == None, "Should return None because the warehouse shouldn't be added to DB"
         # ?? returns 201 instead of 400 Bad Request 
 
     def test_warehouse_post_endpoint_duplicate(self):
@@ -212,7 +210,7 @@ class Test_Warehouses():
         }
         response = requests.get(
             f"{BASE_URL}/api/v1/warehouses/99999", headers=headers)
-        assert response.status_code == 404, f"Returns {response.status_code}, should be 404 because warehouse doesn't exist"
+        assert response.status_code == 404, f"Returns {response.status_code}, should return 404 because warehouse doesn't exist"
         # ?? returns 200 instead of 404
 
     def test_warehouses_put_endpoint(self):
@@ -289,7 +287,7 @@ class Test_Warehouses():
 
         response = requests.put(
             f"{BASE_URL}/api/v1/warehouses/9000", headers=headers, json=newUpdatedWarehouseJson)
-        assert response.status_code == 404, f"Returns {response.status_code}, Should return 404 because client doesn't exist"
+        assert response.status_code == 404, f"Returns {response.status_code}, Should return 404 because warehouse doesn't exist"
         # ?? returns 200 instead of 404
 
     def test_warehouses_delete_endpoint(self):
@@ -300,7 +298,7 @@ class Test_Warehouses():
         response = requests.delete(
             f"{BASE_URL}/api/v1/warehouses/9000", headers=headers)
         assert response.status_code == 200, "Returns {response.status_code}, Should be 200 for successful deletion"
-        assert self.warehousesObject.get_warehouse(9000) == None, "Client shouldn't exist in the DB"
+        assert self.warehousesObject.get_warehouse(9000) == None, "Warehouse shouldn't exist in the DB"
 
     def test_warehouses_delete_endpoint_non_existent(self):
         headers = {
@@ -309,7 +307,7 @@ class Test_Warehouses():
         }
         response = requests.delete(
             f"{BASE_URL}/api/v1/warehouses/9002", headers=headers)
-        assert response.status_code == 404, f"Returns {response.status_code}, Should return 404 because client doesn't exist"
+        assert response.status_code == 404, f"Returns {response.status_code}, Should return 404 because warehouse doesn't exist"
         # ?? returns 200 instead of 404
 
     ########## Test Warehouses Methods ##########

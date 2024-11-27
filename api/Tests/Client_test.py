@@ -94,7 +94,7 @@ class Test_Clients():
 
         response = requests.post(
             f"{BASE_URL}/api/v1/clients/", headers=headers, json=incompleteClientJson)
-
+ 
         getResponse = requests.get(
             f"{BASE_URL}/api/v1/clients/100001", headers=headers)
         clientFromDB =  getResponse.json()
@@ -251,7 +251,7 @@ class Test_Clients():
         assert response.status_code == 200, "Returns {response.status_code}, Should be 200 for successful deletion"
         assert self.ClientsObject.get_client(9000) == None, "Client shouldn't exist in the DB"
 
-    def test_warehouses_delete_endpoint_non_existent(self):
+    def test_clients_delete_endpoint_non_existent(self):
         headers = {
             "API_KEY": "a1b2c3d4e5",
             "Content-Type": "application/json"
