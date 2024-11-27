@@ -29,7 +29,7 @@ class Test_Warehouses_Endpoints():
     }
 
     newWarehouse = {
-        "id": 0,
+        "id": pow(10, 100),
         "code": "YQZZNL56",
         "name": "Heemskerk cargo hub",
         "address": "Karlijndreef 281",
@@ -119,7 +119,7 @@ class Test_Warehouses_Endpoints():
 
         def test_put_nonexistent_id_endpoint():
             responsePut = requests.put(
-                f"{BASE_URL}/api/v1/warehouses/-1", headers=self.headers_full, json=self.newWarehouse)
+                f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']+1}", headers=self.headers_full, json=self.newWarehouse)
             assert responsePut.status_code == 403, "test_put_nonexistent_id_endpoint"
 
         def test_put_missing_items_endpoint():
@@ -193,12 +193,12 @@ class Test_Warehouses_Endpoints():
 
         def test_get_by_id_nonexistent_id_endpoint():
             responseGet = requests.get(
-                f"{BASE_URL}/api/v1/warehouses/-1", headers=self.headers_full)
+                f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']+1}", headers=self.headers_full)
             assert responseGet.status_code == 403, "test_get_by_id_nonexistent_id_endpoint"
 
         def test_get_locations_nonexistent_id_endpoint():
             responseGet = requests.get(
-                f"{BASE_URL}/api/v1/warehouses/-1/locations", headers=self.headers_full)
+                f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']+1}/locations", headers=self.headers_full)
             assert responseGet.status_code == 403, "test_get_locations_nonexistent_id_endpoint"
 
         test_get_by_id_correct_endpoint()
@@ -216,7 +216,7 @@ class Test_Warehouses_Endpoints():
 
         def test_delete_nonexistent_id_endpoint():
             responseDelete = requests.delete(
-                f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=self.headers_full)
+                f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']+1}", headers=self.headers_full)
             assert responseDelete.status_code == 403, "test_delete_nonexistent_id_endpoint"
 
         test_delete_correct_endpoint()

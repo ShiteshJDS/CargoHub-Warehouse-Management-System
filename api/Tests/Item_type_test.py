@@ -29,7 +29,7 @@ class Test_ItemTypes():
     }
 
     newItemType = {
-        "id": -1,
+        "id": pow(10, 100),
         "name": "Calculator",
         "description": "",
         "created_at": "-",
@@ -109,7 +109,7 @@ class Test_ItemTypes():
 
         def test_put_nonexistent_id_endpoint():
             responsePut = requests.put(
-                f"{BASE_URL}/api/v1/item_types/-1", headers=self.headers_full, json=self.newItemType)
+                f"{BASE_URL}/api/v1/item_types/{self.newItemType['id']+1}", headers=self.headers_full, json=self.newItemType)
             assert responsePut.status_code == 403, "test_put_nonexistent_id_endpoint"
 
         def test_put_missing_items_endpoint():
@@ -183,12 +183,12 @@ class Test_ItemTypes():
 
         def test_get_by_id_nonexistent_id_endpoint():
             responseGet = requests.get(
-                f"{BASE_URL}/api/v1/item_types/-1", headers=self.headers_full)
+                f"{BASE_URL}/api/v1/item_types/{self.newItemType['id']+1}", headers=self.headers_full)
             assert responseGet.status_code == 403, "test_get_by_id_nonexistent_id_endpoint"
 
         def test_get_locations_nonexistent_id_endpoint():
             responseGet = requests.get(
-                f"{BASE_URL}/api/v1/item_types/-1/locations", headers=self.headers_full)
+                f"{BASE_URL}/api/v1/item_types/{self.newItemType['id']+1}/locations", headers=self.headers_full)
             assert responseGet.status_code == 403, "test_get_locations_nonexistent_id_endpoint"
 
         test_get_by_id_correct_endpoint()
@@ -206,7 +206,7 @@ class Test_ItemTypes():
 
         def test_delete_nonexistent_id_endpoint():
             responseDelete = requests.delete(
-                f"{BASE_URL}/api/v1/item_types/{self.newItemType['id']}", headers=self.headers_full)
+                f"{BASE_URL}/api/v1/item_types/{self.newItemType['id']+1}", headers=self.headers_full)
             assert responseDelete.status_code == 403, "test_delete_nonexistent_id_endpoint"
 
         test_delete_correct_endpoint()
