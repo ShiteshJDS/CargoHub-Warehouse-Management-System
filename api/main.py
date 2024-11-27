@@ -36,6 +36,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             return
 
+        # helper function voor het verzenden van responses
         def send_json_response(data, status=200):
             self.send_response(status)
             self.send_header("Content-type", "application/json")
