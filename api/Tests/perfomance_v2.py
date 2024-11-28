@@ -42,7 +42,7 @@ def save_results_to_csv(results, filename):
         writer.writerows(results)
 
 def main():
-    json_file_names = ["clients.json", "inventories.json", "item_groups.json", "item_lines.json", "item_types.json", "items.json", "locations.json", "orders.json", "suppliers.json", "transfers.json", "warehouses.json"]
+    json_file_names = ["clients.json", "inventories.json", "item_groups.json", "item_lines.json", "item_types.json", "items.json", "locations.json", "orders.json", "suppliers.json", "transfers.json", "warehouses.json", "shipments.json"]
     results = []  # Initialize results before the loop
 
     # Iterate over json_file_names and corresponding endpoints
