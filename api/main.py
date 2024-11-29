@@ -29,20 +29,19 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
         }
         logging.info(f"Request: {json.dumps(request_info)}")
 
+    # helper function voor het verzenden van responses
+    def send_json_response(self, data, status=200):
+        self.send_response(status)
+        self.send_header("Content-type", "application/json")
+        self.end_headers()
+        if data is not None:
+            self.wfile.write(json.dumps(data).encode("utf-8"))
+
     def handle_get_version_1(self, path, user):
         self.log_request(user)
         if not auth_provider.has_access(user, path, "get"):
-            self.send_response(403)
-            self.end_headers()
+            self.send_json_response(None, 403)
             return
-
-        # helper function voor het verzenden van responses
-        def send_json_response(data, status=200):
-            self.send_response(status)
-            self.send_header("Content-type", "application/json")
-            self.end_headers()
-            if data is not None:
-                self.wfile.write(json.dumps(data).encode("utf-8"))
 
         pools = {
             "warehouses": data_provider.fetch_warehouse_pool(),
@@ -59,60 +58,58 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             "item_types": data_provider.fetch_item_type_pool(),
         }
 
-        # kijkt of de recource bestaat in de dictionary
+        # Check if the resource exists in the pools dictionary
         if path[0] not in pools:
-            self.send_response(404)
-            self.end_headers()
+            self.send_json_response(None, 404)
             return
 
         pool = pools[path[0]]
         paths = len(path)
 
         try:
-            # Verwerk verzoeken met alleen de resource-naam (bijv. "/items").
+            # Handle requests with only the resource name (e.g., "/items").
             if paths == 1:
                 if hasattr(pool, "get_" + path[0]):
-                    send_json_response(getattr(pool, "get_" + path[0])())
+                    self.send_json_response(getattr(pool, "get_" + path[0])())
                 else:
-                    send_json_response(None, 404)
+                    self.send_json_response(None, 404)
 
-            # Verwerk verzoeken met een resource en een identificator (bijv. "/items/123").
+            # Handle requests with a resource and an identifier (e.g., "/items/123").
             elif paths == 2:
                 identifier = int(path[1]) if path[0] != "items" else path[1]
                 if hasattr(pool, "get_" + path[0][:-1]):
-                    send_json_response(getattr(pool, "get_" + path[0][:-1])(identifier))
+                    self.send_json_response(getattr(pool, "get_" + path[0][:-1])(identifier))
                 else:
-                    send_json_response(None, 404)
+                    self.send_json_response(None, 404)
 
-            # Verwerk verzoeken met een resource, een identificator en een geneste resource (bijv. "/warehouses/123/items").
+            # Handle requests with a resource, an identifier, and a nested resource (e.g., "/warehouses/123/items").
             elif paths == 3:
                 if path[2] in ["locations", "items", "inventory", "orders"]:
                     if hasattr(pool, "get_" + path[2] + "_in_" + path[0][:-1]):
-                        send_json_response(
+                        self.send_json_response(
                             getattr(pool, "get_" + path[2] + "_in_" + path[0][:-1])(
                                 int(path[1])
                             )
                         )
                     elif path[2] == "inventory" and hasattr(pool, "get_inventories_for_item"):
-                        send_json_response(
+                        self.send_json_response(
                             pool.get_inventories_for_item(path[1])
                         )
                     else:
-                        send_json_response(None, 404)
+                        self.send_json_response(None, 404)
                 else:
-                    send_json_response(None, 404)
+                    self.send_json_response(None, 404)
 
-            # Verwerk een speciale case voor inventory-totals (bijv. "/items/123/inventory/totals").
+            # Special case for inventory totals (e.g., "/items/123/inventory/totals").
             elif paths == 4 and path[2] == "inventory" and path[3] == "totals":
                 if hasattr(pool, "get_inventory_totals_for_item"):
-                    send_json_response(pool.get_inventory_totals_for_item(path[1]))
+                    self.send_json_response(pool.get_inventory_totals_for_item(path[1]))
                 else:
-                    send_json_response(None, 404)
+                    self.send_json_response(None, 404)
             else:
-                send_json_response(None, 404)
+                self.send_json_response(None, 404)
         except Exception:
-            self.send_response(500)
-            self.end_headers()
+            self.send_json_response(None, 500)
 
     def do_GET(self):
         api_key = self.headers.get("API_KEY")
