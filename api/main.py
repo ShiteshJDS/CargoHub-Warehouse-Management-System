@@ -138,128 +138,48 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(403)
             self.end_headers()
             return
-        if path[0] == "warehouses":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_warehouse = json.loads(post_data.decode())
-            data_provider.fetch_warehouse_pool().add_warehouse(new_warehouse)
-            data_provider.fetch_warehouse_pool().save()
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "locations":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_location = json.loads(post_data.decode())
-            data_provider.fetch_location_pool().add_location(new_location)
-            data_provider.fetch_location_pool().save()
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "transfers":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_transfer = json.loads(post_data.decode())
-            data_provider.fetch_transfer_pool().add_transfer(new_transfer)
-            data_provider.fetch_transfer_pool().save()
-            notification_processor.push(
-                f"Scheduled batch transfer {new_transfer['id']}")
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "items":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_item = json.loads(post_data.decode())
-            data_provider.fetch_item_pool().add_item(new_item)
-            data_provider.fetch_item_pool().save()
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "item_lines":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_item_line = json.loads(post_data.decode())
-            data_provider.fetch_item_line_pool().add_item_line(new_item_line)
-            data_provider.fetch_item_line_pool().save()
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "item_groups":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_item_group = json.loads(post_data.decode())
-            data_provider.fetch_item_group_pool().add_item_group(new_item_group)
-            data_provider.fetch_item_group_pool().save()
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "item_types":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_item_type = json.loads(post_data.decode())
-            data_provider.fetch_item_type_pool().add_item_type(new_item_type)
-            data_provider.fetch_item_type_pool().save()
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "item_lines":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_item_line = json.loads(post_data.decode())
-            data_provider.fetch_item_line_pool().add_item_line(new_item_line)
-            data_provider.fetch_item_line_pool().save()
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "item_groups":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_item_group = json.loads(post_data.decode())
-            data_provider.fetch_item_group_pool().add_item_group(new_item_group)
-            data_provider.fetch_item_group_pool().save()
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "item_types":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_item_type = json.loads(post_data.decode())
-            data_provider.fetch_item_type_pool().add_item_type(new_item_type)
-            data_provider.fetch_item_type_pool().save()
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "inventories":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_inventory = json.loads(post_data.decode())
-            data_provider.fetch_inventory_pool().add_inventory(new_inventory)
-            data_provider.fetch_inventory_pool().save()
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "suppliers":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_supplier = json.loads(post_data.decode())
-            data_provider.fetch_supplier_pool().add_supplier(new_supplier)
-            data_provider.fetch_supplier_pool().save()
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "orders":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_order = json.loads(post_data.decode())
-            data_provider.fetch_order_pool().add_order(new_order)
-            data_provider.fetch_order_pool().save()
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "clients":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_client = json.loads(post_data.decode())
-            data_provider.fetch_client_pool().add_client(new_client)
-            data_provider.fetch_client_pool().save()
-            self.send_response(201)
-            self.end_headers()
-        elif path[0] == "shipments":
-            content_length = int(self.headers["Content-Length"])
-            post_data = self.rfile.read(content_length)
-            new_shipment = json.loads(post_data.decode())
-            data_provider.fetch_shipment_pool().add_shipment(new_shipment)
-            data_provider.fetch_shipment_pool().save()
-            self.send_response(201)
-            self.end_headers()
+
+        # Define actions as a dictionary mapping
+        actions = {
+            "warehouses": data_provider.fetch_warehouse_pool,
+            "locations": data_provider.fetch_location_pool,
+            "transfers": data_provider.fetch_transfer_pool,
+            "items": data_provider.fetch_item_pool,
+            "item_lines": data_provider.fetch_item_line_pool,
+            "item_groups": data_provider.fetch_item_group_pool,
+            "item_types": data_provider.fetch_item_type_pool,
+            "inventories": data_provider.fetch_inventory_pool,
+            "suppliers": data_provider.fetch_supplier_pool,
+            "orders": data_provider.fetch_order_pool,
+            "clients": data_provider.fetch_client_pool,
+            "shipments": data_provider.fetch_shipment_pool,
+        }
+
+        if path[0] in actions:
+            try:
+                # Read and parse the POST data
+                content_length = int(self.headers["Content-Length"])
+                post_data = self.rfile.read(content_length)
+                new_data = json.loads(post_data.decode())
+
+                # Get the pool and add/save the new data
+                pool = actions[path[0]]()
+                add_method = getattr(pool, f"add_{path[0][:-1]}")
+                add_method(new_data)
+                pool.save()
+
+                # Special case for "transfers" to handle notifications
+                if path[0] == "transfers":
+                    notification_processor.push(
+                        f"Scheduled batch transfer {new_data['id']}"
+                    )
+
+                self.send_response(201)
+                self.end_headers()
+            except Exception as e:
+                self.send_response(500)
+                self.end_headers()
+                print(f"Error processing POST for {path[0]}: {e}")
         else:
             self.send_response(404)
             self.end_headers()
