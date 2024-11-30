@@ -12,7 +12,6 @@ endpoints_file_path = os.path.join(current_dir, "Endpoints.json")
 with open(endpoints_file_path, 'r') as file:
     endpoints = json.load(file)
 
-# File to store performance results
 output_file = "performance_async_results.csv"
 
 # Asynchronous function to test endpoint performance
@@ -87,11 +86,9 @@ async def main():
             with open(json_file_path, 'w') as file:
                 json.dump(BackupJson, file, indent=4)
 
-    # Save results to a CSV file
     save_results_to_csv(results, output_file)
     print(f"Performance results saved to {output_file}")
 
-# Function to save results to CSV file
 def save_results_to_csv(results, filename):
     with open(filename, mode='w', newline='') as file:
         writer = csv.writer(file)

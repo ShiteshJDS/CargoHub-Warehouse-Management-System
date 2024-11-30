@@ -10,8 +10,9 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 current_dir = os.path.dirname(os.path.abspath(__file__))
 endpoints_file_path = os.path.join(current_dir, "Endpoints.json")
 
+# Backup the original JSON content
 with open(endpoints_file_path, 'r') as file:
-    endpoints = json.load(file)
+    BackupJson = json.load(file)
 
 # File to store performance results
 output_file = "performance_multiple_requests_results.csv"
@@ -88,11 +89,17 @@ def save_results_to_csv(results, filename):
             writer.writerow([result['url'], result['total_requests'], result['successful_requests'],
                              result['failed_requests'], f"{result['average_response_time']:.2f}"])
 
+# Save BackupJson back to the original file after processing
+def save_backup_json(json_data, json_file_path):
+    """Save the unchanged JSON data back to the file."""
+    with open(json_file_path, 'w') as file:
+        json.dump(json_data, file, indent=4)
+
 def main():
     results = []
 
     # Iterate over endpoints to process each
-    for endpoint_group in endpoints:
+    for endpoint_group in BackupJson:  # Use BackupJson here
         for endpoint in endpoint_group:
             print(f"Testing endpoint {endpoint['url']} with a random number of concurrent requests.")
             result = process_endpoint(endpoint)
@@ -107,6 +114,10 @@ def main():
     # Save results to CSV
     save_results_to_csv(results, output_file)
     print(f"Performance results saved to {output_file}")
+
+    # Save the unchanged BackupJson back to the original JSON file after processing
+    save_backup_json(BackupJson, endpoints_file_path)
+    print(f"Backup JSON saved to {endpoints_file_path}")
 
 if __name__ == "__main__":
     main()
