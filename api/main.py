@@ -139,8 +139,8 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             return
 
-        # Define actions as a dictionary mapping
-        actions = {
+        # Define pools as a dictionary mapping
+        pools = {
             "warehouses": data_provider.fetch_warehouse_pool,
             "locations": data_provider.fetch_location_pool,
             "transfers": data_provider.fetch_transfer_pool,
@@ -155,7 +155,17 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             "shipments": data_provider.fetch_shipment_pool,
         }
 
-        if path[0] in actions:
+        # Hieronder is de volgende code refactored
+            # if path[0] == "warehouses":
+            # content_length = int(self.headers["Content-Length"])
+            # post_data = self.rfile.read(content_length)
+            # new_warehouse = json.loads(post_data.decode())
+            # data_provider.fetch_warehouse_pool().add_warehouse(new_warehouse)
+            # data_provider.fetch_warehouse_pool().save()
+            # self.send_response(201)
+            # self.end_headers()
+
+        if path[0] in pools:
             try:
                 # Read and parse the POST data
                 content_length = int(self.headers["Content-Length"])
@@ -163,7 +173,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 new_data = json.loads(post_data.decode())
 
                 # Get the pool and add/save the new data
-                pool = actions[path[0]]()
+                pool = pools[path[0]]()
                 add_method = getattr(pool, f"add_{path[0][:-1]}")
                 add_method(new_data)
                 pool.save()
@@ -206,10 +216,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
         if not auth_provider.has_access(user, path, "put"):
             self.send_response(403)
             self.end_headers()
-            return
+            return            
         
         # Define the entity pools and their respective update methods
-        entity_mapping = {
+        update_mapping = {
             "warehouses": (data_provider.fetch_warehouse_pool(), "update_warehouse"),
             "locations": (data_provider.fetch_location_pool(), "update_location"),
             "items": (data_provider.fetch_item_pool(), "update_item"),
@@ -224,8 +234,8 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
         }
         
         # Handle different entities with similar logic
-        if path[0] in entity_mapping:
-            entity_pool, update_method = entity_mapping[path[0]]
+        if path[0] in update_mapping:
+            entity_pool, update_method = update_mapping[path[0]]
             entity_id = int(path[1])
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
@@ -374,6 +384,14 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             "clients": (data_provider.fetch_client_pool(), "remove_client"),
             "shipments": (data_provider.fetch_shipment_pool(), "remove_shipment")
         }
+
+        # Het volgende code wordt hieronder uitgevoerd maar dan refactored
+            # if path[0] == "warehouses":
+            # warehouse_id = int(path[1])
+            # data_provider.fetch_warehouse_pool().remove_warehouse(warehouse_id)
+            # data_provider.fetch_warehouse_pool().save()
+            # self.send_response(200)
+            # self.end_headers()
 
         if path[0] in delete_mappings:
             pool, remove_method = delete_mappings[path[0]]
