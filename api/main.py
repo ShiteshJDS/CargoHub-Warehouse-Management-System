@@ -15,6 +15,7 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
+
 class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
 
     def log_request(self, user):
