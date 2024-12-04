@@ -31,18 +31,20 @@ Content-Type: application/json
 
 {
    "id": 1,
-   "reference": "TR00001",
-   "transfer_from": null,
-   "transfer_to": 9229,
-   "transfer_status": "Completed",
-   "created_at": "2000-03-11T13:11:14Z",
-   "updated_at": "2000-03-12T16:11:14Z",
-   "items": [
-      {
-         "item_id": "P007435",
-         "amount": 23
-      }
-   ]
+   "code": "YQZZNL56",
+   "name": "Heemskerk cargo hub",
+   "address": "Karlijndreef 281",
+   "zip": "4002 AS",
+   "city": "Heemskerk",
+   "province": "Friesland",
+   "country": "NL",
+   "contact": {
+      "name": "Fem Keijzer",
+      "phone": "(078) 0013363",
+      "email": "blamore@example.net"
+   },
+   "created_at": "1983-04-13 04:59:55",
+   "updated_at": "2007-02-08 20:11:00"
 }
 ###
 
