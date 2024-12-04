@@ -24,6 +24,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Ensure Test Data Directory
+      run: |
+        mkdir -p Test_Data
+        # Add commands to copy or create the necessary test data files
+        cp -r path/to/your/test/data/* Test_Data/
     - name: Lint with flake8
       run: |
         # Treat all linting issues as warnings, allowing the build to continue
