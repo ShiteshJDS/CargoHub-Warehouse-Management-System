@@ -125,6 +125,47 @@ def create_inventories_table(db_name, json_relative_path):
         conn.close()
 
 
+def create_item_groups_table(db_name, json_relative_path):
+    table_name = 'item_groups'
+    columns = '''id INTEGER PRIMARY KEY, 
+                 name TEXT, 
+                 description TEXT, 
+                 created_at TEXT, 
+                 updated_at TEXT'''
+
+    # Load data from JSON
+    data = load_data_from_json(json_relative_path)
+    
+    # Connect to the database
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+    
+    try:
+        # Create the table
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns});")
+        
+        # Insert data into the table
+        for item_group in data:
+            cursor.execute(f"""
+                INSERT INTO {table_name} (id, name, description, created_at, updated_at) 
+                VALUES (?, ?, ?, ?, ?)
+            """, (
+                item_group['id'], item_group['name'], item_group['description'], 
+                item_group.get('created_at', datetime.now().isoformat()), 
+                item_group.get('updated_at', datetime.now().isoformat())
+            ))
+        
+        # Commit changes
+        conn.commit()
+        print(f"Data successfully inserted into the '{table_name}' table.")
+    
+    except sqlite3.Error as e:
+        print(f"SQLite error: {e}")
+    
+    finally:
+        # Close the connection
+        conn.close()
+
 
 def load_data_from_json(json_relative_path):
     # Determine the absolute path of the JSON file based on the script's location
@@ -138,10 +179,9 @@ def load_data_from_json(json_relative_path):
     return data
 
 
-
-
 if __name__ == '__main__':
     db_name = 'data/Cargohub.db'  # Database name
 
     create_clients_table(db_name, 'data/clients.json')
     create_inventories_table(db_name, 'data/inventories.json')
+    create_item_groups_table(db_name, 'data/item_groups.json')
