@@ -311,6 +311,46 @@ def create_items_table(db_name, json_relative_path):
         # Close the connection
         conn.close()
 
+def create_locations_table(db_name, json_relative_path):
+    table_name = 'locations'
+    columns = '''id Integer PRIMARY KEY,
+                 warehouse_id Integer,
+                 code Text,
+                 name Text,
+                 created_at Text,
+                 updated_at Text'''
+    
+    # Load data from JSON
+    data = load_data_from_json(json_relative_path)
+
+    # Connect to the database
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    try:
+        # Create the table
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns});")
+
+        # Insert data into the table
+        for location in data:
+            cursor.execute(f"""
+                INSERT INTO {table_name} (id, warehouse_id, code, name, created_at, updated_at) 
+                VALUES (?, ?, ?, ?, ?, ?)
+            """, (
+                location['id'], location['warehouse_id'], location['code'], location['name'], 
+                location['created_at'], location['updated_at']
+            ))
+        
+        # Commit changes
+        conn.commit()
+        print(f"Data successfully inserted into the '{table_name}' table.")
+
+    except sqlite3.Error as e:
+        print(f"SQLite error: {e}")
+    
+    finally:
+        # Close the connection
+        conn.close()
 
 
 def load_data_from_json(json_relative_path):
@@ -334,3 +374,4 @@ if __name__ == '__main__':
     create_item_lines_table(db_name, 'data/item_lines.json')
     create_item_types_table(db_name, 'data/item_types.json')
     create_items_table(db_name, 'data/items.json')
+    create_locations_table(db_name, 'data/locations.json')
