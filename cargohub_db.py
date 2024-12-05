@@ -251,6 +251,68 @@ def create_item_types_table(db_name, json_relative_path):
         conn.close()
 
 
+def create_items_table(db_name, json_relative_path):
+    table_name = 'items'
+    columns = '''uid Text PRIMARY KEY,
+                 code Text,
+                 description Text,
+                 short_description Text,
+                 upc_code Text,
+                 model_number Text,
+                 commodity_code Text,
+                 item_line_id Integer,
+                 item_group_id Integer,
+                 item_type_id Integer,
+                 unit_purchase_quantity Integer,
+                 unit_order_quantity Integer,
+                 pack_order_quantity Integer,
+                 supplier_id Integer,
+                 supplier_code Text,
+                 supplier_part_number Text,
+                 created_at Text,
+                 updated_at Text'''
+    
+    # Load data from JSON
+    data = load_data_from_json(json_relative_path)
+
+    # Connect to the database
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    try:
+        # Create the table
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns});")
+
+        # Insert data into the table
+        for item in data:
+            cursor.execute(f"""
+                INSERT INTO {table_name} (uid, code, description, short_description, upc_code, model_number, 
+                                          commodity_code, item_line_id, item_group_id, item_type_id, 
+                                          unit_purchase_quantity, unit_order_quantity, pack_order_quantity, 
+                                          supplier_id, supplier_code, supplier_part_number, created_at, updated_at) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, ( 
+                item['uid'], item['code'], item['description'], item['short_description'], item['upc_code'], 
+                item['model_number'], item['commodity_code'], item['item_line'], item['item_group'], 
+                item['item_type'], item['unit_purchase_quantity'], item['unit_order_quantity'],
+                item['pack_order_quantity'], item['supplier_id'], item['supplier_code'], 
+                item['supplier_part_number'], item.get('created_at', datetime.now().isoformat()), 
+                item.get('updated_at', datetime.now().isoformat())
+            ))
+        
+        # Commit changes
+        conn.commit()
+        print(f"Data successfully inserted into the '{table_name}' table.")
+
+    except sqlite3.Error as e:
+        print(f"SQLite error: {e}")
+    
+    finally:
+        # Close the connection
+        conn.close()
+
+
+
 def load_data_from_json(json_relative_path):
     # Determine the absolute path of the JSON file based on the script's location
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -271,3 +333,4 @@ if __name__ == '__main__':
     create_item_groups_table(db_name, 'data/item_groups.json')
     create_item_lines_table(db_name, 'data/item_lines.json')
     create_item_types_table(db_name, 'data/item_types.json')
+    create_items_table(db_name, 'data/items.json')
