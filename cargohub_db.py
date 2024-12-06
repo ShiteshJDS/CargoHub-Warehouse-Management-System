@@ -509,6 +509,64 @@ def create_shipments_table(db_name, json_relative_path):
         conn.close()
 
 
+def create_suppliers_table(db_name, json_relative_path):
+    suppliers_table = "suppliers"
+
+    # Define table schema
+    suppliers_columns = '''id INTEGER PRIMARY KEY, 
+                           code TEXT, 
+                           name TEXT, 
+                           address TEXT, 
+                           address_extra TEXT, 
+                           city TEXT, 
+                           zip_code TEXT, 
+                           province TEXT, 
+                           country TEXT, 
+                           contact_name TEXT, 
+                           phonenumber TEXT, 
+                           reference TEXT, 
+                           created_at TEXT, 
+                           updated_at TEXT'''
+
+    # Load data from JSON
+    with open(json_relative_path, 'r') as file:
+        data = json.load(file)
+
+    # Connect to the database
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    try:
+        # Create the suppliers table
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {suppliers_table} ({suppliers_columns});")
+
+        # Insert data into the suppliers table
+        for supplier in data:
+            cursor.execute(f"""
+                INSERT INTO {suppliers_table} (id, code, name, address, address_extra, city, zip_code, 
+                                               province, country, contact_name, phonenumber, reference, 
+                                               created_at, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                supplier['id'], supplier['code'], supplier['name'], supplier['address'], 
+                supplier.get('address_extra', ''), supplier['city'], supplier['zip_code'], 
+                supplier['province'], supplier['country'], supplier['contact_name'], 
+                supplier['phonenumber'], supplier['reference'], 
+                supplier.get('created_at', datetime.now().isoformat()), 
+                supplier.get('updated_at', datetime.now().isoformat())
+            ))
+
+        # Commit changes
+        conn.commit()
+        print(f"Data successfully inserted into the '{suppliers_table}' table.")
+    
+    except sqlite3.Error as e:
+        print(f"SQLite error: {e}")
+    
+    finally:
+        # Close the connection
+        conn.close()
+
 
 def load_data_from_json(json_relative_path):
     # Determine the absolute path of the JSON file based on the script's location
@@ -534,3 +592,4 @@ if __name__ == '__main__':
     create_locations_table(db_name, 'data/locations.json')
     # create_orders_table(db_name, 'data/orders.json')
     create_shipments_table(db_name, 'data/shipments.json')
+    create_suppliers_table(db_name, 'data/suppliers.json')
