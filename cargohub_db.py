@@ -568,6 +568,73 @@ def create_suppliers_table(db_name, json_relative_path):
         conn.close()
 
 
+def create_transfers_table(db_name, json_relative_path):
+    transfers_table = "transfers"
+    transfer_items_table = "transfer_items"
+
+    # Define table schemas
+    transfers_columns = '''id INTEGER PRIMARY KEY, 
+                           reference TEXT, 
+                           transfer_from INTEGER, 
+                           transfer_to INTEGER, 
+                           transfer_status TEXT, 
+                           created_at TEXT, 
+                           updated_at TEXT'''
+
+    transfer_items_columns = '''id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                                transfer_id INTEGER, 
+                                item_id TEXT, 
+                                amount INTEGER, 
+                                FOREIGN KEY (transfer_id) REFERENCES transfers (id) ON DELETE CASCADE'''
+
+    # Load data from JSON
+    with open(json_relative_path, 'r') as file:
+        data = json.load(file)
+
+    # Connect to the database
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    try:
+        # Create the transfers table
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {transfers_table} ({transfers_columns});")
+
+        # Create the transfer_items table
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {transfer_items_table} ({transfer_items_columns});")
+
+        # Insert data into the transfers and transfer_items tables
+        for transfer in data:
+            # Insert into transfers table
+            cursor.execute(f"""
+                INSERT INTO {transfers_table} (id, reference, transfer_from, transfer_to, 
+                                               transfer_status, created_at, updated_at) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (
+                transfer['id'], transfer['reference'], transfer['transfer_from'], transfer['transfer_to'],
+                transfer['transfer_status'], transfer['created_at'], transfer['updated_at']
+            ))
+
+            # Insert into transfer_items table
+            for item in transfer['items']:
+                cursor.execute(f"""
+                    INSERT INTO {transfer_items_table} (transfer_id, item_id, amount) 
+                    VALUES (?, ?, ?)
+                """, (
+                    transfer['id'], item['item_id'], item['amount']
+                ))
+
+        # Commit changes
+        conn.commit()
+        print(f"Data successfully inserted into the '{transfers_table}' and '{transfer_items_table}' tables.")
+    
+    except sqlite3.Error as e:
+        print(f"SQLite error: {e}")
+    
+    finally:
+        # Close the connection
+        conn.close()
+
+
 def load_data_from_json(json_relative_path):
     # Determine the absolute path of the JSON file based on the script's location
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -593,3 +660,4 @@ if __name__ == '__main__':
     # create_orders_table(db_name, 'data/orders.json')
     create_shipments_table(db_name, 'data/shipments.json')
     create_suppliers_table(db_name, 'data/suppliers.json')
+    create_transfers_table(db_name, 'data/transfers.json')
