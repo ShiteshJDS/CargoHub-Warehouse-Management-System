@@ -635,6 +635,78 @@ def create_transfers_table(db_name, json_relative_path):
         conn.close()
 
 
+def create_warehouses_table(db_name, json_relative_path):
+    warehouses_table = "warehouses"
+    warehouse_contacts_table = "warehouse_contacts"
+
+    # Define table schemas
+    warehouses_columns = '''id INTEGER PRIMARY KEY, 
+                            code TEXT, 
+                            name TEXT, 
+                            address TEXT, 
+                            zip TEXT, 
+                            city TEXT, 
+                            province TEXT, 
+                            country TEXT, 
+                            created_at TEXT, 
+                            updated_at TEXT'''
+
+    warehouse_contacts_columns = '''id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                                    warehouse_id INTEGER, 
+                                    contact_name TEXT, 
+                                    contact_phone TEXT, 
+                                    contact_email TEXT, 
+                                    FOREIGN KEY (warehouse_id) REFERENCES warehouses (id) ON DELETE CASCADE'''
+
+    # Load data from JSON
+    with open(json_relative_path, 'r') as file:
+        data = json.load(file)
+
+    # Connect to the database
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    try:
+        # Create the warehouses table
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {warehouses_table} ({warehouses_columns});")
+
+        # Create the warehouse_contacts table
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {warehouse_contacts_table} ({warehouse_contacts_columns});")
+
+        # Insert data into the warehouses and warehouse_contacts tables
+        for warehouse in data:
+            # Insert into warehouses table
+            cursor.execute(f"""
+                INSERT INTO {warehouses_table} (id, code, name, address, zip, city, province, country, 
+                                                created_at, updated_at) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                warehouse['id'], warehouse['code'], warehouse['name'], warehouse['address'], warehouse['zip'],
+                warehouse['city'], warehouse['province'], warehouse['country'], 
+                warehouse['created_at'], warehouse['updated_at']
+            ))
+
+            # Insert into warehouse_contacts table
+            contact = warehouse['contact']
+            cursor.execute(f"""
+                INSERT INTO {warehouse_contacts_table} (warehouse_id, contact_name, contact_phone, contact_email) 
+                VALUES (?, ?, ?, ?)
+            """, (
+                warehouse['id'], contact['name'], contact['phone'], contact['email']
+            ))
+
+        # Commit changes
+        conn.commit()
+        print(f"Data successfully inserted into the '{warehouses_table}' and '{warehouse_contacts_table}' tables.")
+    
+    except sqlite3.Error as e:
+        print(f"SQLite error: {e}")
+    
+    finally:
+        # Close the connection
+        conn.close()
+
+
 def load_data_from_json(json_relative_path):
     # Determine the absolute path of the JSON file based on the script's location
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -648,7 +720,7 @@ def load_data_from_json(json_relative_path):
 
 
 if __name__ == '__main__':
-    db_name = 'data/Cargohub.db'  # Database name
+    db_name = 'data/Cargohub.db'
 
     create_clients_table(db_name, 'data/clients.json')
     create_inventories_table(db_name, 'data/inventories.json')
@@ -661,3 +733,4 @@ if __name__ == '__main__':
     create_shipments_table(db_name, 'data/shipments.json')
     create_suppliers_table(db_name, 'data/suppliers.json')
     create_transfers_table(db_name, 'data/transfers.json')
+    create_warehouses_table(db_name, 'data/warehouses.json')
