@@ -311,6 +311,7 @@ def create_items_table(db_name, json_relative_path):
         # Close the connection
         conn.close()
 
+
 def create_locations_table(db_name, json_relative_path):
     table_name = 'locations'
     columns = '''id Integer PRIMARY KEY,
@@ -353,6 +354,77 @@ def create_locations_table(db_name, json_relative_path):
         conn.close()
 
 
+def create_orders_table(db_name, json_relative_path):
+    orders_table = 'orders'
+    order_items_table = 'order_items'
+
+    orders_columns = '''id INTEGER PRIMARY KEY, 
+                        source_id INTEGER, 
+                        order_date TEXT, 
+                        request_date TEXT, 
+                        reference TEXT, 
+                        reference_extra TEXT, 
+                        order_status TEXT, 
+                        notes TEXT, 
+                        shipping_notes TEXT, 
+                        picking_notes TEXT, 
+                        warehouse_id INTEGER, 
+                        ship_to TEXT, 
+                        bill_to TEXT, 
+                        shipment_id INTEGER, 
+                        total_amount REAL, 
+                        total_discount REAL, 
+                        total_tax REAL, 
+                        total_surcharge REAL, 
+                        created_at TEXT, 
+                        updated_at TEXT'''
+
+    order_items_columns = '''id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                             order_id INTEGER, 
+                             item_id TEXT, 
+                             amount INTEGER, 
+                             FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE'''
+
+    data = load_data_from_json(json_relative_path)
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {orders_table} ({orders_columns});")
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {order_items_table} ({order_items_columns});")
+
+        for order in data:
+            cursor.execute(f"""
+                INSERT OR IGNORE INTO {orders_table} (id, source_id, order_date, request_date, reference, 
+                                                      reference_extra, order_status, notes, shipping_notes, 
+                                                      picking_notes, warehouse_id, ship_to, bill_to, shipment_id, 
+                                                      total_amount, total_discount, total_tax, total_surcharge, 
+                                                      created_at, updated_at) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                order['id'], order['source_id'], order['order_date'], order['request_date'], order['reference'], 
+                order['reference_extra'], order['order_status'], order['notes'], order['shipping_notes'], 
+                order['picking_notes'], order['warehouse_id'], order['ship_to'], order['bill_to'], 
+                order['shipment_id'], order['total_amount'], order['total_discount'], order['total_tax'], 
+                order['total_surcharge'], order['created_at'], order['updated_at']
+            ))
+
+            for item in order['items']:
+                cursor.execute(f"""
+                    INSERT INTO {order_items_table} (order_id, item_id, amount) 
+                    VALUES (?, ?, ?)
+                """, (order['id'], item['item_id'], item['amount']))
+
+        conn.commit()
+        print(f"Data successfully inserted into the '{orders_table}' and '{order_items_table}' tables.")
+
+    except sqlite3.Error as e:
+        print(f"SQLite error: {e}")
+
+    finally:
+        conn.close()
+
+
 def load_data_from_json(json_relative_path):
     # Determine the absolute path of the JSON file based on the script's location
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -375,3 +447,4 @@ if __name__ == '__main__':
     create_item_types_table(db_name, 'data/item_types.json')
     create_items_table(db_name, 'data/items.json')
     create_locations_table(db_name, 'data/locations.json')
+    # create_orders_table(db_name, 'data/orders.json')
