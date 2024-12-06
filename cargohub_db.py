@@ -425,6 +425,91 @@ def create_orders_table(db_name, json_relative_path):
         conn.close()
 
 
+def create_shipments_table(db_name, json_relative_path):
+    shipments_table = "shipments"
+    shipment_items_table = "shipment_items"
+
+    # Define table schemas
+    shipments_columns = '''id INTEGER PRIMARY KEY, 
+                           order_id INTEGER, 
+                           source_id INTEGER, 
+                           order_date TEXT, 
+                           request_date TEXT, 
+                           shipment_date TEXT, 
+                           shipment_type TEXT, 
+                           shipment_status TEXT, 
+                           notes TEXT, 
+                           carrier_code TEXT, 
+                           carrier_description TEXT, 
+                           service_code TEXT, 
+                           payment_type TEXT, 
+                           transfer_mode TEXT, 
+                           total_package_count INTEGER, 
+                           total_package_weight REAL, 
+                           created_at TEXT, 
+                           updated_at TEXT'''
+
+    shipment_items_columns = '''id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                                shipment_id INTEGER, 
+                                item_id TEXT, 
+                                amount INTEGER, 
+                                FOREIGN KEY (shipment_id) REFERENCES shipments (id) ON DELETE CASCADE'''
+
+    # Load data from JSON
+    with open(json_relative_path, 'r') as file:
+        data = json.load(file)
+
+    # Connect to the database
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    try:
+        # Create the tables
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {shipments_table} ({shipments_columns});")
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {shipment_items_table} ({shipment_items_columns});")
+
+        # Insert data into the shipments table
+        for shipment in data:
+            cursor.execute(f"""
+                INSERT INTO {shipments_table} (id, order_id, source_id, order_date, request_date, 
+                                               shipment_date, shipment_type, shipment_status, notes, 
+                                               carrier_code, carrier_description, service_code, 
+                                               payment_type, transfer_mode, total_package_count, 
+                                               total_package_weight, created_at, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                shipment['id'], shipment['order_id'], shipment['source_id'], shipment['order_date'],
+                shipment['request_date'], shipment['shipment_date'], shipment['shipment_type'],
+                shipment['shipment_status'], shipment['notes'], shipment['carrier_code'],
+                shipment['carrier_description'], shipment['service_code'], shipment['payment_type'],
+                shipment['transfer_mode'], shipment['total_package_count'],
+                shipment['total_package_weight'], shipment.get('created_at', datetime.now().isoformat()),
+                shipment.get('updated_at', datetime.now().isoformat())
+            ))
+
+            # Get the shipment ID
+            shipment_id = shipment['id']
+
+            # Insert items into the shipment_items table
+            for item in shipment['items']:
+                cursor.execute(f"""
+                    INSERT INTO {shipment_items_table} (shipment_id, item_id, amount) 
+                    VALUES (?, ?, ?)
+                """, (shipment_id, item['item_id'], item['amount']))
+        
+        # Commit changes
+        conn.commit()
+        print(f"Data successfully inserted into the '{shipments_table}' and '{shipment_items_table}' tables.")
+    
+    except sqlite3.Error as e:
+        print(f"SQLite error: {e}")
+    
+    finally:
+        # Close the connection
+        conn.close()
+
+
+
 def load_data_from_json(json_relative_path):
     # Determine the absolute path of the JSON file based on the script's location
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -448,3 +533,4 @@ if __name__ == '__main__':
     create_items_table(db_name, 'data/items.json')
     create_locations_table(db_name, 'data/locations.json')
     # create_orders_table(db_name, 'data/orders.json')
+    create_shipments_table(db_name, 'data/shipments.json')
