@@ -30,7 +30,20 @@ class Clients(Base):
         query = "SELECT * FROM clients WHERE id = ?"
         return self.execute_query(query, params=(client_id,), fetch_one=True)
 
-
+    # Add a new client to the database.
+    def add_client(self, client):
+        query = """
+        INSERT INTO clients (id, name, address, city, zip_code, province, country, 
+                             contact_name, contact_phone, contact_email, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+        client['created_at'] = self.get_timestamp()
+        client['updated_at'] = self.get_timestamp()
+        self.execute_query(query, params=(
+            client['id'], client['name'], client['address'], client['city'], client['zip_code'], 
+            client['province'], client['country'], client['contact_name'], client['contact_phone'], 
+            client['contact_email'], client['created_at'], client['updated_at']
+        ))
 
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "clients.json"
