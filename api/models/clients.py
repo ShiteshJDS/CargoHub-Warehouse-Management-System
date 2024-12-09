@@ -44,6 +44,20 @@ class Clients(Base):
             client['province'], client['country'], client['contact_name'], client['contact_phone'], 
             client['contact_email'], client['created_at'], client['updated_at']
         ))
+    
+    # Update an existing client.
+    def update_client(self, client_id, client):
+        query = """
+        UPDATE clients SET name = ?, address = ?, city = ?, zip_code = ?, province = ?, 
+                           country = ?, contact_name = ?, contact_phone = ?, contact_email = ?, 
+                           updated_at = ? WHERE id = ?
+        """
+        client['updated_at'] = self.get_timestamp()
+        self.execute_query(query, params=(
+            client['name'], client['address'], client['city'], client['zip_code'], 
+            client['province'], client['country'], client['contact_name'], client['contact_phone'], 
+            client['contact_email'], client['updated_at'], client_id
+        ))
 
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "clients.json"
