@@ -58,6 +58,11 @@ class Clients(Base):
             client['province'], client['country'], client['contact_name'], client['contact_phone'], 
             client['contact_email'], client['updated_at'], client_id
         ))
+    
+    # Delete a client from the database.
+    def remove_client(self, client_id):
+        query = "DELETE FROM clients WHERE id = ?"
+        self.execute_query(query, params=(client_id,))
 
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "clients.json"
