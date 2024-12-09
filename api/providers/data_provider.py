@@ -51,7 +51,7 @@ def init():
     global _orders
     _orders = Orders(ROOT_PATH, DEBUG)
     global _clients
-    _clients = Clients(ROOT_PATH, DEBUG)
+    _clients = Clients("data/clients.db")
     global _shipments
     _shipments = Shipments(ROOT_PATH, DEBUG)
 
