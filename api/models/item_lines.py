@@ -55,6 +55,12 @@ class ItemLines(Base):
             item_line["updated_at"], item_line_id
         ))
 
+    # Delete an item line from the database.
+    def remove_item_line(self, item_line_id):
+        query = "DELETE FROM item_lines WHERE id = ?"
+        self.execute_query(query, params=(item_line_id,))
+
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "item_lines.json"
     #     self.load(is_debug)
