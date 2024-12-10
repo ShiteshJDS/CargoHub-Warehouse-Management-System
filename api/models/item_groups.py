@@ -43,6 +43,17 @@ class ItemGroups(Base):
             item_group["created_at"], item_group["updated_at"]
         ))
 
+    # Update an existing item group.
+    def update_item_group(self, item_group_id, item_group):
+        query = """
+        UPDATE item_groups SET name = ?, description = ?, updated_at = ? 
+        WHERE id = ?
+        """
+        item_group["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            item_group["name"], item_group["description"],
+            item_group["updated_at"], item_group_id
+        ))
 
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "item_groups.json"
