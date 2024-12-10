@@ -45,7 +45,7 @@ def init():
     global _item_types
     _item_types = ItemTypes(ROOT_PATH, DEBUG)
     global _inventories
-    _inventories = Inventories(ROOT_PATH, DEBUG)
+    _inventories = Inventories("data/inventories.db")
     global _suppliers
     _suppliers = Suppliers(ROOT_PATH, DEBUG)
     global _orders
