@@ -29,8 +29,20 @@ class ItemLines(Base):
     def get_item_line(self, item_line_id):
         query = "SELECT * FROM item_lines WHERE id = ?"
         return self.execute_query(query, params=(item_line_id,), fetch_one=True)
-    
-    
+
+    # Add a new item line to the database.
+    def add_item_line(self, item_line):
+        query = """
+        INSERT INTO item_lines (id, name, description, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?)
+        """
+        item_line["created_at"] = self.get_timestamp()
+        item_line["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            item_line["id"], item_line["name"], item_line["description"],
+            item_line["created_at"], item_line["updated_at"]
+        ))
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "item_lines.json"
     #     self.load(is_debug)
