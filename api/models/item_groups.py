@@ -55,6 +55,11 @@ class ItemGroups(Base):
             item_group["updated_at"], item_group_id
         ))
 
+    # Delete an item group from the database.
+    def remove_item_group(self, item_group_id):
+        query = "DELETE FROM item_groups WHERE id = ?"
+        self.execute_query(query, params=(item_group_id,))
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "item_groups.json"
     #     self.load(is_debug)
