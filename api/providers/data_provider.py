@@ -41,7 +41,7 @@ def init():
     global _item_lines
     _item_lines = ItemLines(ROOT_PATH, DEBUG)
     global _item_groups
-    _item_groups = ItemGroups(ROOT_PATH, DEBUG)
+    _item_groups = ItemGroups("data/item_groups.db")
     global _item_types
     _item_types = ItemTypes(ROOT_PATH, DEBUG)
     global _inventories
