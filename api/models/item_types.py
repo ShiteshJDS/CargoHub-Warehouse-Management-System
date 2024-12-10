@@ -44,6 +44,18 @@ class ItemTypes(Base):
             item_type["created_at"], item_type["updated_at"]
         ))
 
+    # Update an existing item type.
+    def update_item_type(self, item_type_id, item_type):
+        query = """
+        UPDATE item_types SET name = ?, description = ?, updated_at = ? 
+        WHERE id = ?
+        """
+        item_type["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            item_type["name"], item_type["description"],
+            item_type["updated_at"], item_type_id
+        ))
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "item_types.json"
     #     self.load(is_debug)
