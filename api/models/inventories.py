@@ -62,6 +62,20 @@ class Inventories(Base):
             inventory['updated_at']
         ))
 
+    # Update an existing inventory entry.
+    def update_inventory(self, inventory_id, inventory):
+        query = """
+        UPDATE inventories SET item_id = ?, description = ?, item_reference = ?, total_on_hand = ?, 
+                               total_expected = ?, total_ordered = ?, total_allocated = ?, total_available = ?, 
+                               updated_at = ? WHERE id = ?
+        """
+        inventory['updated_at'] = self.get_timestamp()
+        self.execute_query(query, params=(
+            inventory['item_id'], inventory['description'], inventory['item_reference'], inventory['total_on_hand'],
+            inventory['total_expected'], inventory['total_ordered'], inventory['total_allocated'],
+            inventory['total_available'], inventory['updated_at'], inventory_id
+        ))
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "inventories.json"
     #     self.load(is_debug)
