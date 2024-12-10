@@ -30,6 +30,20 @@ class ItemTypes(Base):
         query = "SELECT * FROM item_types WHERE id = ?"
         return self.execute_query(query, params=(item_type_id,), fetch_one=True)
 
+
+    # Add a new item type to the database.
+    def add_item_type(self, item_type):
+        query = """
+        INSERT INTO item_types (id, name, description, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?)
+        """
+        item_type["created_at"] = self.get_timestamp()
+        item_type["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            item_type["id"], item_type["name"], item_type["description"],
+            item_type["created_at"], item_type["updated_at"]
+        ))
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "item_types.json"
     #     self.load(is_debug)
