@@ -46,6 +46,21 @@ class Inventories(Base):
         """
         return self.execute_query(query, params=(item_id,), fetch_one=True)
 
+    # Add a new inventory entry.
+    def add_inventory(self, inventory):
+        query = """
+        INSERT INTO inventories (id, item_id, description, item_reference, total_on_hand, total_expected, 
+                                 total_ordered, total_allocated, total_available, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+        inventory['created_at'] = self.get_timestamp()
+        inventory['updated_at'] = self.get_timestamp()
+        self.execute_query(query, params=(
+            inventory['id'], inventory['item_id'], inventory['description'], inventory['item_reference'],
+            inventory['total_on_hand'], inventory['total_expected'], inventory['total_ordered'],
+            inventory['total_allocated'], inventory['total_available'], inventory['created_at'],
+            inventory['updated_at']
+        ))
 
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "inventories.json"
