@@ -30,6 +30,20 @@ class ItemGroups(Base):
         query = "SELECT * FROM item_groups WHERE id = ?"
         return self.execute_query(query, params=(item_group_id,), fetch_one=True)
 
+    # Add a new item group to the database.
+    def add_item_group(self, item_group):
+        query = """
+        INSERT INTO item_groups (id, name, description, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?)
+        """
+        item_group["created_at"] = self.get_timestamp()
+        item_group["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            item_group["id"], item_group["name"], item_group["description"],
+            item_group["created_at"], item_group["updated_at"]
+        ))
+
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "item_groups.json"
     #     self.load(is_debug)
