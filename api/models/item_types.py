@@ -56,6 +56,11 @@ class ItemTypes(Base):
             item_type["updated_at"], item_type_id
         ))
 
+    # Delete an item type from the database.
+    def remove_item_type(self, item_type_id):
+        query = "DELETE FROM item_types WHERE id = ?"
+        self.execute_query(query, params=(item_type_id,))
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "item_types.json"
     #     self.load(is_debug)
