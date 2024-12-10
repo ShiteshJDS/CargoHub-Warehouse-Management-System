@@ -75,6 +75,11 @@ class Inventories(Base):
             inventory['total_expected'], inventory['total_ordered'], inventory['total_allocated'],
             inventory['total_available'], inventory['updated_at'], inventory_id
         ))
+    
+    # Delete an existing inventory entry.
+    def remove_inventory(self, inventory_id):
+        query = "DELETE FROM inventories WHERE id = ?"
+        self.execute_query(query, params=(inventory_id,))
 
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "inventories.json"
