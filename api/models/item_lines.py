@@ -43,6 +43,18 @@ class ItemLines(Base):
             item_line["created_at"], item_line["updated_at"]
         ))
 
+    # Update an existing item line.
+    def update_item_line(self, item_line_id, item_line):
+        query = """
+        UPDATE item_lines SET name = ?, description = ?, updated_at = ? 
+        WHERE id = ?
+        """
+        item_line["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            item_line["name"], item_line["description"],
+            item_line["updated_at"], item_line_id
+        ))
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "item_lines.json"
     #     self.load(is_debug)
