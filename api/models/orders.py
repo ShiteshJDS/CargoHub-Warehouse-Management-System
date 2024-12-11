@@ -63,6 +63,53 @@ class Orders(Base):
             order["total_surcharge"], order["created_at"], order["updated_at"]
         ))
 
+    # Update an existing order.
+    def update_order(self, order_id, order):
+        query = """
+        UPDATE orders SET source_id = ?, order_date = ?, request_date = ?, reference = ?, reference_extra = ?, 
+                         order_status = ?, notes = ?, shipping_notes = ?, picking_notes = ?, warehouse_id = ?, 
+                         ship_to = ?, bill_to = ?, shipment_id = ?, total_amount = ?, total_discount = ?, 
+                         total_tax = ?, total_surcharge = ?, updated_at = ? WHERE id = ?
+        """
+        order["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            order["source_id"], order["order_date"], order["request_date"], order["reference"], order["reference_extra"],
+            order["order_status"], order["notes"], order["shipping_notes"], order["picking_notes"],
+            order["warehouse_id"], order["ship_to"], order["bill_to"], order["shipment_id"], order["total_amount"],
+            order["total_discount"], order["total_tax"], order["total_surcharge"], order["updated_at"], order_id
+        ))
+
+    # Update items in an existing order.
+    def update_items_in_order(self, order_id, items):
+        delete_query = "DELETE FROM order_items WHERE order_id = ?"
+        insert_query = """
+        INSERT INTO order_items (order_id, item_id, amount) VALUES (?, ?, ?)
+        """
+        self.execute_query(delete_query, params=(order_id,))
+        for item in items:
+            self.execute_query(insert_query, params=(order_id, item["item_id"], item["amount"]))
+
+    # Update orders associated with a shipment.
+    def update_orders_in_shipment(self, shipment_id, orders):
+        update_query = "UPDATE orders SET shipment_id = ?, order_status = ? WHERE id = ?"
+        for order_id in orders:
+            self.execute_query(update_query, params=(shipment_id, "Packed", order_id))
+
+        reset_query = "UPDATE orders SET shipment_id = -1, order_status = 'Scheduled' WHERE shipment_id = ? AND id NOT IN ({})"
+        if orders:
+            placeholders = ", ".join("?" for _ in orders)
+            reset_query = reset_query.format(placeholders)
+            self.execute_query(reset_query, params=(shipment_id, *orders))
+        else:
+            self.execute_query(reset_query.format("NULL"), params=(shipment_id,))
+
+    # Delete an order by ID.
+    def remove_order(self, order_id):
+        delete_items_query = "DELETE FROM order_items WHERE order_id = ?"
+        delete_order_query = "DELETE FROM orders WHERE id = ?"
+        self.execute_query(delete_items_query, params=(order_id,))
+        self.execute_query(delete_order_query, params=(order_id,))
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "orders.json"
     #     self.load(is_debug)
