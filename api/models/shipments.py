@@ -36,6 +36,24 @@ class Shipments(Base):
         query = "SELECT * FROM shipment_items WHERE shipment_id = ?"
         return self.execute_query(query, params=(shipment_id,), fetch_all=True)
 
+    # Add a new shipment to the database.
+    def add_shipment(self, shipment):
+        query = """
+        INSERT INTO shipments (id, order_id, source_id, shipment_date, shipment_type, shipment_status, 
+                               notes, carrier_code, carrier_description, service_code, payment_type, 
+                               transfer_mode, total_package_count, total_package_weight, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+        shipment["created_at"] = self.get_timestamp()
+        shipment["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            shipment["id"], shipment["order_id"], shipment["source_id"], shipment["shipment_date"],
+            shipment["shipment_type"], shipment["shipment_status"], shipment["notes"], shipment["carrier_code"],
+            shipment["carrier_description"], shipment["service_code"], shipment["payment_type"],
+            shipment["transfer_mode"], shipment["total_package_count"], shipment["total_package_weight"],
+            shipment["created_at"], shipment["updated_at"]
+        ))
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "shipments.json"
     #     self.load(is_debug)
