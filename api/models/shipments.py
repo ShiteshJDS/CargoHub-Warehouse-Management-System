@@ -54,6 +54,34 @@ class Shipments(Base):
             shipment["created_at"], shipment["updated_at"]
         ))
 
+    # Update an existing shipment.
+    def update_shipment(self, shipment_id, shipment):
+        query = """
+        UPDATE shipments SET order_id = ?, source_id = ?, shipment_date = ?, shipment_type = ?, 
+                             shipment_status = ?, notes = ?, carrier_code = ?, carrier_description = ?, 
+                             service_code = ?, payment_type = ?, transfer_mode = ?, total_package_count = ?, 
+                             total_package_weight = ?, updated_at = ? WHERE id = ?
+        """
+        shipment["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            shipment["order_id"], shipment["source_id"], shipment["shipment_date"], shipment["shipment_type"],
+            shipment["shipment_status"], shipment["notes"], shipment["carrier_code"], shipment["carrier_description"],
+            shipment["service_code"], shipment["payment_type"], shipment["transfer_mode"],
+            shipment["total_package_count"], shipment["total_package_weight"], shipment["updated_at"], shipment_id
+        ))
+
+    # Update items in a specific shipment.
+    def update_items_in_shipment(self, shipment_id, items):
+        delete_query = "DELETE FROM shipment_items WHERE shipment_id = ?"
+        insert_query = """
+        INSERT INTO shipment_items (shipment_id, item_id, amount) VALUES (?, ?, ?)
+        """
+        # Remove current items in the shipment
+        self.execute_query(delete_query, params=(shipment_id,))
+        # Add new items to the shipment
+        for item in items:
+            self.execute_query(insert_query, params=(shipment_id, item["item_id"], item["amount"]))
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "shipments.json"
     #     self.load(is_debug)
