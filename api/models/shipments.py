@@ -9,18 +9,6 @@ class Shipments(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Helper method to interact with the database.
-    def execute_query(self, query, params=None, fetch_one=False, fetch_all=False):
-        """Helper method to interact with the database."""
-        with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.cursor()
-            cursor.execute(query, params or [])
-            conn.commit()
-            if fetch_one:
-                return cursor.fetchone()
-            if fetch_all:
-                return cursor.fetchall()
-
     # Retrieve all shipments from the database.
     def get_shipments(self):
         query = "SELECT * FROM shipments"

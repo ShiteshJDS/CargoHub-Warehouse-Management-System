@@ -9,17 +9,6 @@ class Inventories(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Helper method to interact with the database.
-    def execute_query(self, query, params=None, fetch_one=False, fetch_all=False):
-        with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.cursor()
-            cursor.execute(query, params or [])
-            conn.commit()
-            if fetch_one:
-                return cursor.fetchone()
-            if fetch_all:
-                return cursor.fetchall()
-
     # Retrieve all inventories from the database.
     def get_inventories(self):
         query = "SELECT * FROM inventories"
