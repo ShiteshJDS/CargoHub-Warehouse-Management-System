@@ -5,7 +5,7 @@ import sys
 import os
 import requests
 import logging
-
+import shutil
 
 # Add the path to the CargoHub directory to sys.path
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -18,6 +18,20 @@ BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
 
 # Must run in test folder
 
+@pytest.fixture(scope="module", autouse=True)
+def manage_warehouse_json_state():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    json_file_path = os.path.join(current_dir, "../../data/transfers.json")
+    backup_file_path = f"{json_file_path}.backup"
+
+    # Backup the JSON file
+    shutil.copyfile(json_file_path, backup_file_path)
+
+    yield  # Run the tests
+
+    # Restore the JSON file from backup
+    shutil.copyfile(backup_file_path, json_file_path)
+    os.remove(backup_file_path)  # Clean up the backup file
 
 class Test_Transfers():
 
