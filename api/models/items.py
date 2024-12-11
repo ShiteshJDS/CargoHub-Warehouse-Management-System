@@ -50,6 +50,23 @@ class Items(Base):
         query = "SELECT * FROM items WHERE supplier_id = ?"
         return self.execute_query(query, params=(supplier_id,), fetch_all=True)
 
+    # Add a new item to the database.
+    def add_item(self, item):
+        query = """
+        INSERT INTO items (uid, code, description, short_description, upc_code, model_number, commodity_code, 
+                           item_line_id, item_group_id, item_type_id, unit_purchase_quantity, unit_order_quantity, 
+                           pack_order_quantity, supplier_id, supplier_code, supplier_part_number, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+        item["created_at"] = self.get_timestamp()
+        item["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            item["uid"], item["code"], item["description"], item["short_description"], item["upc_code"],
+            item["model_number"], item["commodity_code"], item["item_line_id"], item["item_group_id"],
+            item["item_type_id"], item["unit_purchase_quantity"], item["unit_order_quantity"],
+            item["pack_order_quantity"], item["supplier_id"], item["supplier_code"],
+            item["supplier_part_number"], item["created_at"], item["updated_at"]
+        ))
 
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "items.json"
