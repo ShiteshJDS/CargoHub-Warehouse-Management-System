@@ -14,6 +14,7 @@ with open(endpoints_file_path, 'r') as file:
 # File to store performance results
 output_file = "performance_results.csv"
 
+
 def test_endpoint_performance(method, url, headers, data=None):
     response = None
     try:
@@ -35,10 +36,11 @@ def test_endpoint_performance(method, url, headers, data=None):
     except requests.RequestException as e:
         start_time = time.time()
         return time.time() - start_time, f"Error: {e}"
-    
+
     end_time = time.time()
     elapsed_time = end_time - start_time
     return elapsed_time, response.status_code
+
 
 def save_results_to_csv(results, filename):
     with open(filename, mode='w', newline='') as file:
@@ -46,14 +48,17 @@ def save_results_to_csv(results, filename):
         writer.writerow(["Method", "URL", "Response Time (s)", "Status Code"])
         writer.writerows(results)
 
+
 def main():
-    json_file_names = ["clients.json", "inventories.json", "item_groups.json", "item_lines.json", "item_types.json", "items.json", "locations.json", "orders.json", "suppliers.json", "transfers.json", "warehouses.json", "shipments.json"]
+    json_file_names = ["clients.json", "inventories.json", "item_groups.json", "item_lines.json", "item_types.json",
+                       "items.json", "locations.json", "orders.json", "suppliers.json", "transfers.json", "warehouses.json", "shipments.json"]
     results = []  # Initialize results before the loop
 
     # Iterate over json_file_names and corresponding endpoints
     for i in range(len(json_file_names)):
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        json_file_path = os.path.join(current_dir, "../../data", json_file_names[i])
+        json_file_path = os.path.join(
+            current_dir, "../../../data", json_file_names[i])
 
         # Load the JSON file
         with open(json_file_path, 'r') as file:
@@ -67,7 +72,8 @@ def main():
             data = endpoint.get('data')
 
             print(f"Testing {method} {url}")
-            elapsed_time, status_code = test_endpoint_performance(method, url, headers, data)
+            elapsed_time, status_code = test_endpoint_performance(
+                method, url, headers, data)
             print(f"Time: {elapsed_time:.2f}s | Status Code: {status_code}")
 
             results.append([method, url, elapsed_time, status_code])
@@ -80,6 +86,7 @@ def main():
     output_file = "performance_results.csv"
     save_results_to_csv(results, output_file)
     print(f"Performance results saved to {output_file}")
+
 
 if __name__ == "__main__":
     main()

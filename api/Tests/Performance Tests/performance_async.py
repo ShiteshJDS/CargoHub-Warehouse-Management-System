@@ -15,6 +15,8 @@ with open(endpoints_file_path, 'r') as file:
 output_file = "performance_async_results.csv"
 
 # Asynchronous function to test endpoint performance
+
+
 async def test_endpoint_performance(session, method, url, headers, data=None):
     try:
         start_time = time.time()
@@ -47,6 +49,8 @@ async def test_endpoint_performance(session, method, url, headers, data=None):
         return time.time() - start_time, f"Error: {e}"
 
 # Asynchronous function to process each endpoint
+
+
 async def process_endpoint(session, endpoint):
     method = endpoint['method']
     url = endpoint['url']
@@ -59,14 +63,18 @@ async def process_endpoint(session, endpoint):
     return [method, url, elapsed_time, status_code]
 
 # Asynchronous function to handle the entire process
+
+
 async def main():
-    json_file_names = ["clients.json", "inventories.json", "item_groups.json", "item_lines.json", "item_types.json", "items.json", "locations.json", "orders.json", "suppliers.json", "transfers.json", "warehouses.json", "shipments.json"]
+    json_file_names = ["clients.json", "inventories.json", "item_groups.json", "item_lines.json", "item_types.json",
+                       "items.json", "locations.json", "orders.json", "suppliers.json", "transfers.json", "warehouses.json", "shipments.json"]
     results = []  # Initialize results before the loop
 
     async with aiohttp.ClientSession() as session:
         for i in range(len(json_file_names)):
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            json_file_path = os.path.join(current_dir, "../../data", json_file_names[i])
+            json_file_path = os.path.join(
+                current_dir, "../../../data", json_file_names[i])
 
             # Load the JSON file
             with open(json_file_path, 'r') as file:
@@ -89,11 +97,13 @@ async def main():
     save_results_to_csv(results, output_file)
     print(f"Performance results saved to {output_file}")
 
+
 def save_results_to_csv(results, filename):
     with open(filename, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["Method", "URL", "Response Time (s)", "Status Code"])
         writer.writerows(results)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
