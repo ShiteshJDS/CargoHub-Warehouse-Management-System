@@ -45,6 +45,24 @@ class Orders(Base):
         query = "SELECT * FROM orders WHERE ship_to = ? OR bill_to = ?"
         return self.execute_query(query, params=(client_id, client_id), fetch_all=True)
 
+    # Add a new order to the database.
+    def add_order(self, order):
+        query = """
+        INSERT INTO orders (id, source_id, order_date, request_date, reference, reference_extra, order_status, 
+                            notes, shipping_notes, picking_notes, warehouse_id, ship_to, bill_to, shipment_id, 
+                            total_amount, total_discount, total_tax, total_surcharge, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+        order["created_at"] = self.get_timestamp()
+        order["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            order["id"], order["source_id"], order["order_date"], order["request_date"], order["reference"],
+            order["reference_extra"], order["order_status"], order["notes"], order["shipping_notes"],
+            order["picking_notes"], order["warehouse_id"], order["ship_to"], order["bill_to"],
+            order["shipment_id"], order["total_amount"], order["total_discount"], order["total_tax"],
+            order["total_surcharge"], order["created_at"], order["updated_at"]
+        ))
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "orders.json"
     #     self.load(is_debug)
