@@ -1,0 +1,1509 @@
+[
+    [
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/clients",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/clients/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/clients/1/orders",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/clients/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "name": "Raymond Inc",
+                "address": "1296 Daniel Road Apt. 349",
+                "city": "Pierceview",
+                "zip_code": "28301",
+                "province": "Colorado",
+                "country": "United States",
+                "contact_name": "Bryan Clark",
+                "contact_phone": "242.732.3483x2573",
+                "contact_email": "robertcharles@example.net",
+                "created_at": "2010-04-28 02:22:53",
+                "updated_at": "2022-02-09 20:22:35"
+            }
+        },
+        {
+            "method": "POST",
+            "url": "http://localhost:3000/api/v1/clients",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "name": "Raymond Inc",
+                "address": "1296 Daniel Road Apt. 349",
+                "city": "Pierceview",
+                "zip_code": "28301",
+                "province": "Colorado",
+                "country": "United States",
+                "contact_name": "Bryan Clark",
+                "contact_phone": "242.732.3483x2573",
+                "contact_email": "robertcharles@example.net",
+                "created_at": "2010-04-28 02:22:53",
+                "updated_at": "2022-02-09 20:22:35"
+            }
+        },
+        {
+            "method": "DELETE",
+            "url": "http://localhost:3000/api/v1/clients/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5"
+            },
+            "data": null
+        }
+    ],
+    [
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/inventories",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/inventories/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/inventories/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "item_id": "P000001",
+                "description": "Face-to-face clear-thinking complexity",
+                "item_reference": "sjQ23408K",
+                "locations": [
+                    3211,
+                    24700,
+                    14123,
+                    19538,
+                    31071,
+                    24701,
+                    11606,
+                    11817
+                ],
+                "total_on_hand": 262,
+                "total_expected": 0,
+                "total_ordered": 80,
+                "total_allocated": 41,
+                "total_available": 141,
+                "created_at": "2015-02-19 16:08:24",
+                "updated_at": "2015-09-26 06:37:56"
+            }
+        },
+        {
+            "method": "POST",
+            "url": "http://localhost:3000/api/v1/inventories",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "item_id": "P000001",
+                "description": "Face-to-face clear-thinking complexity",
+                "item_reference": "sjQ23408K",
+                "locations": [
+                    3211,
+                    24700,
+                    14123,
+                    19538,
+                    31071,
+                    24701,
+                    11606,
+                    11817
+                ],
+                "total_on_hand": 262,
+                "total_expected": 0,
+                "total_ordered": 80,
+                "total_allocated": 41,
+                "total_available": 141,
+                "created_at": "2015-02-19 16:08:24",
+                "updated_at": "2015-09-26 06:37:56"
+            }
+        },
+        {
+            "method": "DELETE",
+            "url": "http://localhost:3000/api/v1/inventories/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5"
+            },
+            "data": null
+        }
+    ],
+    [
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/item_groups",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/item_groups/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/item_groups/1/items",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/item_groups/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "name": "Furniture",
+                "description": "",
+                "created_at": "2019-09-22 15:51:07",
+                "updated_at": "2022-05-18 13:49:28"
+            }
+        },
+        {
+            "method": "POST",
+            "url": "http://localhost:3000/api/v1/item_groups",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "name": "Furniture",
+                "description": "",
+                "created_at": "2019-09-22 15:51:07",
+                "updated_at": "2022-05-18 13:49:28"
+            }
+        },
+        {
+            "method": "DELETE",
+            "url": "http://localhost:3000/api/v1/item_groups/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5"
+            },
+            "data": null
+        }
+    ],
+    [
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/item_lines",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/item_lines/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/item_lines/1/items",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/item_lines/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "name": "Home Appliances",
+                "description": "",
+                "created_at": "1979-01-16 07:07:50",
+                "updated_at": "2024-01-05 23:53:25"
+            }
+        },
+        {
+            "method": "POST",
+            "url": "http://localhost:3000/api/v1/item_lines",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "name": "Home Appliances",
+                "description": "",
+                "created_at": "1979-01-16 07:07:50",
+                "updated_at": "2024-01-05 23:53:25"
+            }
+        },
+        {
+            "method": "DELETE",
+            "url": "http://localhost:3000/api/v1/item_lines/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5"
+            },
+            "data": null
+        }
+    ],
+    [
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/item_types",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/item_types/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/item_types/1/items",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/item_types/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "name": "Desktop",
+                "description": "",
+                "created_at": "1993-07-28 13:43:32",
+                "updated_at": "2022-05-12 08:54:35"
+            }
+        },
+        {
+            "method": "POST",
+            "url": "http://localhost:3000/api/v1/item_types",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "name": "Desktop",
+                "description": "",
+                "created_at": "1993-07-28 13:43:32",
+                "updated_at": "2022-05-12 08:54:35"
+            }
+        },
+        {
+            "method": "DELETE",
+            "url": "http://localhost:3000/api/v1/item_types/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5"
+            },
+            "data": null
+        }
+    ],
+    [
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/items",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/items/P000001",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/items/P000001/inventory",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/items/P000001/inventory/totals",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/items/P000001",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "uid": "P000001",
+                "code": "sjQ23408K",
+                "description": "Face-to-face clear-thinking complexity",
+                "short_description": "must",
+                "upc_code": "6523540947122",
+                "model_number": "63-OFFTq0T",
+                "commodity_code": "oTo304",
+                "item_line": 11,
+                "item_group": 73,
+                "item_type": 14,
+                "unit_purchase_quantity": 47,
+                "unit_order_quantity": 13,
+                "pack_order_quantity": 11,
+                "supplier_id": 34,
+                "supplier_code": "SUP423",
+                "supplier_part_number": "E-86805-uTM",
+                "created_at": "2015-02-19 16:08:24",
+                "updated_at": "2015-09-26 06:37:56"
+            }
+        },
+        {
+            "method": "POST",
+            "url": "http://localhost:3000/api/v1/items",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "uid": "P000001",
+                "code": "sjQ23408K",
+                "description": "Face-to-face clear-thinking complexity",
+                "short_description": "must",
+                "upc_code": "6523540947122",
+                "model_number": "63-OFFTq0T",
+                "commodity_code": "oTo304",
+                "item_line": 11,
+                "item_group": 73,
+                "item_type": 14,
+                "unit_purchase_quantity": 47,
+                "unit_order_quantity": 13,
+                "pack_order_quantity": 11,
+                "supplier_id": 34,
+                "supplier_code": "SUP423",
+                "supplier_part_number": "E-86805-uTM",
+                "created_at": "2015-02-19 16:08:24",
+                "updated_at": "2015-09-26 06:37:56"
+            }
+        },
+        {
+            "method": "DELETE",
+            "url": "http://localhost:3000/api/v1/items/P000001",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5"
+            },
+            "data": null
+        }
+    ],
+    [
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/locations",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/locations/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/locations/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "warehouse_id": 1,
+                "code": "A.1.0",
+                "name": "Row: A, Rack: 1, Shelf: 0",
+                "created_at": "1992-05-15 03:21:32",
+                "updated_at": "1992-05-15 03:21:32"
+            }
+        },
+        {
+            "method": "POST",
+            "url": "http://localhost:3000/api/v1/locations",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "warehouse_id": 1,
+                "code": "A.1.0",
+                "name": "Row: A, Rack: 1, Shelf: 0",
+                "created_at": "1992-05-15 03:21:32",
+                "updated_at": "1992-05-15 03:21:32"
+            }
+        },
+        {
+            "method": "DELETE",
+            "url": "http://localhost:3000/api/v1/locations/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5"
+            },
+            "data": null
+        }
+    ],
+    [
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/orders",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/orders/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/orders/1/items",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/orders/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "source_id": 33,
+                "order_date": "2019-04-03T11:33:15Z",
+                "request_date": "2019-04-07T11:33:15Z",
+                "reference": "ORD00001",
+                "reference_extra": "Bedreven arm straffen bureau.",
+                "order_status": "Delivered",
+                "notes": "Voedsel vijf vork heel.",
+                "shipping_notes": "Buurman betalen plaats bewolkt.",
+                "picking_notes": "Ademen fijn volgorde scherp aardappel op leren.",
+                "warehouse_id": 18,
+                "ship_to": null,
+                "bill_to": null,
+                "shipment_id": 1,
+                "total_amount": 9905.13,
+                "total_discount": 150.77,
+                "total_tax": 372.72,
+                "total_surcharge": 77.6,
+                "created_at": "2019-04-03T11:33:15Z",
+                "updated_at": "2019-04-05T07:33:15Z",
+                "items": [
+                    {
+                        "item_id": "P007435",
+                        "amount": 23
+                    },
+                    {
+                        "item_id": "P009557",
+                        "amount": 1
+                    },
+                    {
+                        "item_id": "P009553",
+                        "amount": 50
+                    },
+                    {
+                        "item_id": "P010015",
+                        "amount": 16
+                    },
+                    {
+                        "item_id": "P002084",
+                        "amount": 33
+                    },
+                    {
+                        "item_id": "P009663",
+                        "amount": 18
+                    },
+                    {
+                        "item_id": "P010125",
+                        "amount": 18
+                    },
+                    {
+                        "item_id": "P005768",
+                        "amount": 26
+                    },
+                    {
+                        "item_id": "P004051",
+                        "amount": 1
+                    },
+                    {
+                        "item_id": "P005026",
+                        "amount": 29
+                    },
+                    {
+                        "item_id": "P000726",
+                        "amount": 22
+                    },
+                    {
+                        "item_id": "P008107",
+                        "amount": 47
+                    },
+                    {
+                        "item_id": "P001598",
+                        "amount": 32
+                    },
+                    {
+                        "item_id": "P002855",
+                        "amount": 20
+                    },
+                    {
+                        "item_id": "P010404",
+                        "amount": 30
+                    },
+                    {
+                        "item_id": "P010446",
+                        "amount": 6
+                    },
+                    {
+                        "item_id": "P001517",
+                        "amount": 9
+                    },
+                    {
+                        "item_id": "P009265",
+                        "amount": 2
+                    },
+                    {
+                        "item_id": "P001108",
+                        "amount": 20
+                    },
+                    {
+                        "item_id": "P009110",
+                        "amount": 18
+                    },
+                    {
+                        "item_id": "P009686",
+                        "amount": 13
+                    }
+                ]
+            }
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/orders/1/items",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": [
+                {
+                    "item_id": "P007435",
+                    "amount": 23
+                },
+                {
+                    "item_id": "P009557",
+                    "amount": 1
+                },
+                {
+                    "item_id": "P009553",
+                    "amount": 50
+                },
+                {
+                    "item_id": "P010015",
+                    "amount": 16
+                },
+                {
+                    "item_id": "P002084",
+                    "amount": 33
+                },
+                {
+                    "item_id": "P009663",
+                    "amount": 18
+                },
+                {
+                    "item_id": "P010125",
+                    "amount": 18
+                },
+                {
+                    "item_id": "P005768",
+                    "amount": 26
+                },
+                {
+                    "item_id": "P004051",
+                    "amount": 1
+                },
+                {
+                    "item_id": "P005026",
+                    "amount": 29
+                },
+                {
+                    "item_id": "P000726",
+                    "amount": 22
+                },
+                {
+                    "item_id": "P008107",
+                    "amount": 47
+                },
+                {
+                    "item_id": "P001598",
+                    "amount": 32
+                },
+                {
+                    "item_id": "P002855",
+                    "amount": 20
+                },
+                {
+                    "item_id": "P010404",
+                    "amount": 30
+                },
+                {
+                    "item_id": "P010446",
+                    "amount": 6
+                },
+                {
+                    "item_id": "P001517",
+                    "amount": 9
+                },
+                {
+                    "item_id": "P009265",
+                    "amount": 2
+                },
+                {
+                    "item_id": "P001108",
+                    "amount": 20
+                },
+                {
+                    "item_id": "P009110",
+                    "amount": 18
+                },
+                {
+                    "item_id": "P009686",
+                    "amount": 13
+                }
+            ]
+        },
+        {
+            "method": "POST",
+            "url": "http://localhost:3000/api/v1/orders",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "source_id": 33,
+                "order_date": "2019-04-03T11:33:15Z",
+                "request_date": "2019-04-07T11:33:15Z",
+                "reference": "ORD00001",
+                "reference_extra": "Bedreven arm straffen bureau.",
+                "order_status": "Delivered",
+                "notes": "Voedsel vijf vork heel.",
+                "shipping_notes": "Buurman betalen plaats bewolkt.",
+                "picking_notes": "Ademen fijn volgorde scherp aardappel op leren.",
+                "warehouse_id": 18,
+                "ship_to": null,
+                "bill_to": null,
+                "shipment_id": 1,
+                "total_amount": 9905.13,
+                "total_discount": 150.77,
+                "total_tax": 372.72,
+                "total_surcharge": 77.6,
+                "created_at": "2019-04-03T11:33:15Z",
+                "updated_at": "2019-04-05T07:33:15Z",
+                "items": [
+                    {
+                        "item_id": "P007435",
+                        "amount": 23
+                    },
+                    {
+                        "item_id": "P009557",
+                        "amount": 1
+                    },
+                    {
+                        "item_id": "P009553",
+                        "amount": 50
+                    },
+                    {
+                        "item_id": "P010015",
+                        "amount": 16
+                    },
+                    {
+                        "item_id": "P002084",
+                        "amount": 33
+                    },
+                    {
+                        "item_id": "P009663",
+                        "amount": 18
+                    },
+                    {
+                        "item_id": "P010125",
+                        "amount": 18
+                    },
+                    {
+                        "item_id": "P005768",
+                        "amount": 26
+                    },
+                    {
+                        "item_id": "P004051",
+                        "amount": 1
+                    },
+                    {
+                        "item_id": "P005026",
+                        "amount": 29
+                    },
+                    {
+                        "item_id": "P000726",
+                        "amount": 22
+                    },
+                    {
+                        "item_id": "P008107",
+                        "amount": 47
+                    },
+                    {
+                        "item_id": "P001598",
+                        "amount": 32
+                    },
+                    {
+                        "item_id": "P002855",
+                        "amount": 20
+                    },
+                    {
+                        "item_id": "P010404",
+                        "amount": 30
+                    },
+                    {
+                        "item_id": "P010446",
+                        "amount": 6
+                    },
+                    {
+                        "item_id": "P001517",
+                        "amount": 9
+                    },
+                    {
+                        "item_id": "P009265",
+                        "amount": 2
+                    },
+                    {
+                        "item_id": "P001108",
+                        "amount": 20
+                    },
+                    {
+                        "item_id": "P009110",
+                        "amount": 18
+                    },
+                    {
+                        "item_id": "P009686",
+                        "amount": 13
+                    }
+                ]
+            }
+        },
+        {
+            "method": "DELETE",
+            "url": "http://localhost:3000/api/v1/orders/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5"
+            },
+            "data": null
+        }
+    ],
+    [
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/suppliers",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/suppliers/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/suppliers/1/items",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/suppliers/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "code": "SUP0001",
+                "name": "Lee, Parks and Johnson",
+                "address": "5989 Sullivan Drives",
+                "address_extra": "Apt. 996",
+                "city": "Port Anitaburgh",
+                "zip_code": "91688",
+                "province": "Illinois",
+                "country": "Czech Republic",
+                "contact_name": "Toni Barnett",
+                "phonenumber": "363.541.7282x36825",
+                "reference": "LPaJ-SUP0001",
+                "created_at": "1971-10-20 18:06:17",
+                "updated_at": "1985-06-08 00:13:46"
+            }
+        },
+        {
+            "method": "POST",
+            "url": "http://localhost:3000/api/v1/suppliers",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "code": "SUP0001",
+                "name": "Lee, Parks and Johnson",
+                "address": "5989 Sullivan Drives",
+                "address_extra": "Apt. 996",
+                "city": "Port Anitaburgh",
+                "zip_code": "91688",
+                "province": "Illinois",
+                "country": "Czech Republic",
+                "contact_name": "Toni Barnett",
+                "phonenumber": "363.541.7282x36825",
+                "reference": "LPaJ-SUP0001",
+                "created_at": "1971-10-20 18:06:17",
+                "updated_at": "1985-06-08 00:13:46"
+            }
+        },
+        {
+            "method": "DELETE",
+            "url": "http://localhost:3000/api/v1/suppliers/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5"
+            },
+            "data": null
+        }
+    ],
+    [
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/transfers",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/transfers/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/transfers/1/items",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/transfers/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "reference": "TR00001",
+                "transfer_from": null,
+                "transfer_to": 9229,
+                "transfer_status": "Completed",
+                "created_at": "2000-03-11T13:11:14Z",
+                "updated_at": "2000-03-12T16:11:14Z",
+                "items": [
+                    {
+                        "item_id": "P007435",
+                        "amount": 23
+                    }
+                ]
+            }
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/transfers/1/commit",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "POST",
+            "url": "http://localhost:3000/api/v1/transfers",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "reference": "TR00001",
+                "transfer_from": null,
+                "transfer_to": 9229,
+                "transfer_status": "Completed",
+                "created_at": "2000-03-11T13:11:14Z",
+                "updated_at": "2000-03-12T16:11:14Z",
+                "items": [
+                    {
+                        "item_id": "P007435",
+                        "amount": 23
+                    }
+                ]
+            }
+        },
+        {
+            "method": "DELETE",
+            "url": "http://localhost:3000/api/v1/transfers/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5"
+            },
+            "data": null
+        }
+    ],
+    [
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/warehouses",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/warehouses/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/warehouses/1/locations",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/warehouses/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "reference": "TR00001",
+                "transfer_from": null,
+                "transfer_to": 9229,
+                "transfer_status": "Completed",
+                "created_at": "2000-03-11T13:11:14Z",
+                "updated_at": "2000-03-12T16:11:14Z",
+                "items": [
+                    {
+                        "item_id": "P007435",
+                        "amount": 23
+                    }
+                ]
+            }
+        },
+        {
+            "method": "POST",
+            "url": "http://localhost:3000/api/v1/warehouses",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "code": "YQZZNL56",
+                "name": "Heemskerk cargo hub",
+                "address": "Karlijndreef 281",
+                "zip": "4002 AS",
+                "city": "Heemskerk",
+                "province": "Friesland",
+                "country": "NL",
+                "contact": {
+                    "name": "Fem Keijzer",
+                    "phone": "(078) 0013363",
+                    "email": "blamore@example.net"
+                },
+                "created_at": "1983-04-13 04:59:55",
+                "updated_at": "2007-02-08 20:11:00"
+            }
+        },
+        {
+            "method": "DELETE",
+            "url": "http://localhost:3000/api/v1/warehouses/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5"
+            },
+            "data": null
+        }
+    ],
+    [
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/shipments",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/shipments/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/shipments/1/orders",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "GET",
+            "url": "http://localhost:3000/api/v1/orders/1/items",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": null
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/shipments/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": [
+                {
+                    "item_id": "P007435",
+                    "amount": 23
+                },
+                {
+                    "item_id": "P009557",
+                    "amount": 1
+                },
+                {
+                    "item_id": "P009553",
+                    "amount": 50
+                },
+                {
+                    "item_id": "P010015",
+                    "amount": 16
+                },
+                {
+                    "item_id": "P002084",
+                    "amount": 33
+                },
+                {
+                    "item_id": "P009663",
+                    "amount": 18
+                },
+                {
+                    "item_id": "P010125",
+                    "amount": 18
+                },
+                {
+                    "item_id": "P005768",
+                    "amount": 26
+                },
+                {
+                    "item_id": "P004051",
+                    "amount": 1
+                },
+                {
+                    "item_id": "P005026",
+                    "amount": 29
+                },
+                {
+                    "item_id": "P000726",
+                    "amount": 22
+                },
+                {
+                    "item_id": "P008107",
+                    "amount": 47
+                },
+                {
+                    "item_id": "P001598",
+                    "amount": 32
+                },
+                {
+                    "item_id": "P002855",
+                    "amount": 20
+                },
+                {
+                    "item_id": "P010404",
+                    "amount": 30
+                },
+                {
+                    "item_id": "P010446",
+                    "amount": 6
+                },
+                {
+                    "item_id": "P001517",
+                    "amount": 9
+                },
+                {
+                    "item_id": "P009265",
+                    "amount": 2
+                },
+                {
+                    "item_id": "P001108",
+                    "amount": 20
+                },
+                {
+                    "item_id": "P009110",
+                    "amount": 18
+                },
+                {
+                    "item_id": "P009686",
+                    "amount": 13
+                }
+            ]
+        },
+        {
+            "method": "PUT",
+            "url": "http://localhost:3000/api/v1/shipments/1/items",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": [
+                {
+                    "item_id": "P007435",
+                    "amount": 23
+                },
+                {
+                    "item_id": "P009557",
+                    "amount": 1
+                },
+                {
+                    "item_id": "P009553",
+                    "amount": 50
+                },
+                {
+                    "item_id": "P010015",
+                    "amount": 16
+                },
+                {
+                    "item_id": "P002084",
+                    "amount": 33
+                },
+                {
+                    "item_id": "P009663",
+                    "amount": 18
+                },
+                {
+                    "item_id": "P010125",
+                    "amount": 18
+                },
+                {
+                    "item_id": "P005768",
+                    "amount": 26
+                },
+                {
+                    "item_id": "P004051",
+                    "amount": 1
+                },
+                {
+                    "item_id": "P005026",
+                    "amount": 29
+                },
+                {
+                    "item_id": "P000726",
+                    "amount": 22
+                },
+                {
+                    "item_id": "P008107",
+                    "amount": 47
+                },
+                {
+                    "item_id": "P001598",
+                    "amount": 32
+                },
+                {
+                    "item_id": "P002855",
+                    "amount": 20
+                },
+                {
+                    "item_id": "P010404",
+                    "amount": 30
+                },
+                {
+                    "item_id": "P010446",
+                    "amount": 6
+                },
+                {
+                    "item_id": "P001517",
+                    "amount": 9
+                },
+                {
+                    "item_id": "P009265",
+                    "amount": 2
+                },
+                {
+                    "item_id": "P001108",
+                    "amount": 20
+                },
+                {
+                    "item_id": "P009110",
+                    "amount": 18
+                },
+                {
+                    "item_id": "P009686",
+                    "amount": 13
+                }
+            ]
+        },
+        {
+            "method": "POST",
+            "url": "http://localhost:3000/api/v1/shipments",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5",
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "id": 1,
+                "order_id": 1,
+                "source_id": 33,
+                "order_date": "2000-03-09",
+                "request_date": "2000-03-11",
+                "shipment_date": "2000-03-13",
+                "shipment_type": "I",
+                "shipment_status": "Pending",
+                "notes": "Zee vertrouwen klas rots heet lachen oneven begrijpen.",
+                "carrier_code": "DPD",
+                "carrier_description": "Dynamic Parcel Distribution",
+                "service_code": "Fastest",
+                "payment_type": "Manual",
+                "transfer_mode": "Ground",
+                "total_package_count": 31,
+                "total_package_weight": 594.42,
+                "created_at": "2000-03-10T11:11:14Z",
+                "updated_at": "2000-03-11T13:11:14Z",
+                "items": [
+                    {
+                        "item_id": "P007435",
+                        "amount": 23
+                    },
+                    {
+                        "item_id": "P009557",
+                        "amount": 1
+                    },
+                    {
+                        "item_id": "P009553",
+                        "amount": 50
+                    },
+                    {
+                        "item_id": "P010015",
+                        "amount": 16
+                    },
+                    {
+                        "item_id": "P002084",
+                        "amount": 33
+                    },
+                    {
+                        "item_id": "P009663",
+                        "amount": 18
+                    },
+                    {
+                        "item_id": "P010125",
+                        "amount": 18
+                    },
+                    {
+                        "item_id": "P005768",
+                        "amount": 26
+                    },
+                    {
+                        "item_id": "P004051",
+                        "amount": 1
+                    },
+                    {
+                        "item_id": "P005026",
+                        "amount": 29
+                    },
+                    {
+                        "item_id": "P000726",
+                        "amount": 22
+                    },
+                    {
+                        "item_id": "P008107",
+                        "amount": 47
+                    },
+                    {
+                        "item_id": "P001598",
+                        "amount": 32
+                    },
+                    {
+                        "item_id": "P002855",
+                        "amount": 20
+                    },
+                    {
+                        "item_id": "P010404",
+                        "amount": 30
+                    },
+                    {
+                        "item_id": "P010446",
+                        "amount": 6
+                    },
+                    {
+                        "item_id": "P001517",
+                        "amount": 9
+                    },
+                    {
+                        "item_id": "P009265",
+                        "amount": 2
+                    },
+                    {
+                        "item_id": "P001108",
+                        "amount": 20
+                    },
+                    {
+                        "item_id": "P009110",
+                        "amount": 18
+                    },
+                    {
+                        "item_id": "P009686",
+                        "amount": 13
+                    }
+                ]
+            }
+        },
+        {
+            "method": "DELETE",
+            "url": "http://localhost:3000/api/v1/shipments/1",
+            "headers": {
+                "API_KEY": "a1b2c3d4e5"
+            },
+            "data": null
+        }
+    ]
+]
