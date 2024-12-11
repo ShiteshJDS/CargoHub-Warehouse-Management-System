@@ -82,6 +82,14 @@ class Shipments(Base):
         for item in items:
             self.execute_query(insert_query, params=(shipment_id, item["item_id"], item["amount"]))
 
+    # Delete a shipment and its associated items.
+    def remove_shipment(self, shipment_id):
+        delete_items_query = "DELETE FROM shipment_items WHERE shipment_id = ?"
+        delete_shipment_query = "DELETE FROM shipments WHERE id = ?"
+        self.execute_query(delete_items_query, params=(shipment_id,))
+        self.execute_query(delete_shipment_query, params=(shipment_id,))
+
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "shipments.json"
     #     self.load(is_debug)
