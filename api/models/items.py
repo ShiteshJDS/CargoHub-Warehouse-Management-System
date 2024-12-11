@@ -68,6 +68,28 @@ class Items(Base):
             item["supplier_part_number"], item["created_at"], item["updated_at"]
         ))
 
+    # Update an existing item.
+    def update_item(self, item_id, item):
+        query = """
+        UPDATE items SET code = ?, description = ?, short_description = ?, upc_code = ?, model_number = ?, 
+                         commodity_code = ?, item_line_id = ?, item_group_id = ?, item_type_id = ?, 
+                         unit_purchase_quantity = ?, unit_order_quantity = ?, pack_order_quantity = ?, 
+                         supplier_id = ?, supplier_code = ?, supplier_part_number = ?, updated_at = ? 
+        WHERE uid = ?
+        """
+        item["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            item["code"], item["description"], item["short_description"], item["upc_code"], item["model_number"],
+            item["commodity_code"], item["item_line_id"], item["item_group_id"], item["item_type_id"],
+            item["unit_purchase_quantity"], item["unit_order_quantity"], item["pack_order_quantity"],
+            item["supplier_id"], item["supplier_code"], item["supplier_part_number"], item["updated_at"], item_id
+        ))
+
+    # Delete an item by UID.
+    def remove_item(self, item_id):
+        query = "DELETE FROM items WHERE uid = ?"
+        self.execute_query(query, params=(item_id,))
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "items.json"
     #     self.load(is_debug)
