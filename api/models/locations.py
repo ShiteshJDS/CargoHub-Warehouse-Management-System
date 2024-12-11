@@ -35,6 +35,38 @@ class Locations(Base):
         query = "SELECT * FROM locations WHERE warehouse_id = ?"
         return self.execute_query(query, params=(warehouse_id,), fetch_all=True)
 
+    # Add a new location to the database.
+    def add_location(self, location):
+        """Add a new location to the database."""
+        query = """
+        INSERT INTO locations (id, warehouse_id, code, name, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, ?)
+        """
+        location["created_at"] = self.get_timestamp()
+        location["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            location["id"], location["warehouse_id"], location["code"], location["name"],
+            location["created_at"], location["updated_at"]
+        ))
+
+    # Update an existing location.
+    def update_location(self, location_id, location):
+        query = """
+        UPDATE locations SET warehouse_id = ?, code = ?, name = ?, updated_at = ? 
+        WHERE id = ?
+        """
+        location["updated_at"] = self.get_timestamp()
+        self.execute_query(query, params=(
+            location["warehouse_id"], location["code"], location["name"],
+            location["updated_at"], location_id
+        ))
+
+    # Delete a location by ID.
+    def remove_location(self, location_id):
+        query = "DELETE FROM locations WHERE id = ?"
+        self.execute_query(query, params=(location_id,))
+
+
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "locations.json"
     #     self.load(is_debug)
