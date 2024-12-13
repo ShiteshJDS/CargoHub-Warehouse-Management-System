@@ -44,8 +44,8 @@ def process_endpoint(endpoint):
     headers = endpoint['headers']
     data = endpoint.get('data')
 
-    # Random number of requests between 10 and 30
-    num_requests = random.randint(15, 25)
+    # Random number of requests between 5 and 10
+    num_requests = random.randint(5, 10)
 
     # Prepare a list to store futures (asynchronous results)
     successful_requests = 0
@@ -101,7 +101,7 @@ def main():
     # Iterate over endpoints to process each
     for endpoint_group in BackupJson:  # Use BackupJson here
         for endpoint in endpoint_group:
-            print(f"Testing endpoint {endpoint['url']} with a random number of concurrent requests.")
+            print(f"Testing endpoint {endpoint['url']}")
             result = process_endpoint(endpoint)
             results.append(result)
             print(f"Endpoint: {result['url']}")

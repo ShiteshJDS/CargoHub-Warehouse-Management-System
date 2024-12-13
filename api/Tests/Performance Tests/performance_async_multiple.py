@@ -52,8 +52,8 @@ async def test_endpoint_performance(session, method, url, headers, data=None):
         return None, "Error"
 
 async def process_endpoint(endpoint):
-    # Generate a random number of requests between 15 and 30
-    num_requests = random.randint(15, 30)
+    # Generate a random number of requests between 5 and 10
+    num_requests = random.randint(5, 10)
 
     async with aiohttp.ClientSession() as session:
         method = endpoint['method']
@@ -118,7 +118,7 @@ async def main():
     # Iterate over each group of endpoints and process them asynchronously
     for endpoint_group in BackupJson:  # Use BackupJson here
         for endpoint in endpoint_group:
-            print(f"Testing endpoint {endpoint['url']} with a random number of requests (between 15 and 30).")
+            print(f"Testing endpoint {endpoint['url']}")
             result = await process_endpoint(endpoint)
             results.append(result)
             print(f"Endpoint: {result['url']}")
