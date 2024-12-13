@@ -4,15 +4,14 @@ import json
 import csv
 import os
 import time
-import random  # Import random to generate a random number of requests
+import random
 
 # Load endpoints from Endpoints.json
 current_dir = os.path.dirname(os.path.abspath(__file__))
 endpoints_file_path = os.path.join(current_dir, "Endpoints.json")
 
-# Backup the original JSON content before any changes
 with open(endpoints_file_path, 'r') as file:
-    BackupJson = json.load(file)
+    endpoints = json.load(file)
 
 # File to store performance results
 output_file = "performance_async_multiple_results.csv"
@@ -107,19 +106,23 @@ def save_results_to_csv(results, filename):
                 f"{result['average_response_time']:.2f}"
             ])
 
-# Save BackupJson back to the original file after processing
-def save_backup_json(json_data, json_file_path):
-    with open(json_file_path, 'w') as file:
-        json.dump(json_data, file, indent=4)
-
 async def main():
+    json_file_names = ["clients.json", "inventories.json", "item_groups.json", "item_lines.json", "item_types.json",
+                       "items.json", "locations.json", "orders.json", "suppliers.json", "transfers.json", "warehouses.json", "shipments.json"]
     results = []
 
-    # Iterate over each group of endpoints and process them asynchronously
-    for endpoint_group in BackupJson:  # Use BackupJson here
-        for endpoint in endpoint_group:
+    # Itereren over json_file_names en bijbehorende endpoints
+    for i, json_file_name in enumerate(json_file_names):
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        json_file_path = os.path.join(current_dir, "../../../data", json_file_name)
+
+        # laad de JSON file
+        with open(json_file_path, 'r') as file:
+            BackupJson = json.load(file)
+
+        for endpoint in endpoints[i]:
             print(f"Testing endpoint {endpoint['url']}")
-            result = await process_endpoint(endpoint)
+            result = await process_endpoint(endpoint)  # Await the coroutine
             results.append(result)
             print(f"Endpoint: {result['url']}")
             print(f"Total Requests: {result['total_requests']}")
@@ -128,12 +131,13 @@ async def main():
             print(f"Average Response Time: {result['average_response_time']:.2f} seconds")
             print("-" * 50)
 
+        # Sla de originele JSON terug op in het bestand
+        with open(json_file_path, 'w') as file:
+            json.dump(BackupJson, file, indent=4)
+
+    # Save naar CSV
     save_results_to_csv(results, output_file)
     print(f"Performance results saved to {output_file}")
-
-    # Save the BackupJson back to the original JSON file after processing
-    save_backup_json(BackupJson, endpoints_file_path)
-    print(f"Backup JSON saved to {endpoints_file_path}")
 
 if __name__ == "__main__":
     asyncio.run(main())

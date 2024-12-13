@@ -14,7 +14,7 @@ with open(endpoints_file_path, 'r') as file:
     endpoints = json.load(file)
 
 # File to store performance results
-output_file = "performance_multiple_requests_results.csv"
+output_file = "performance_threads_multiple_results.csv"
 
 def test_endpoint_performance(method, url, headers, data=None):
     """Test a single endpoint and measure the response time."""
@@ -93,16 +93,15 @@ def main():
                        "items.json", "locations.json", "orders.json", "suppliers.json", "transfers.json", "warehouses.json", "shipments.json"]
     results = []
 
-    # Iterate over json_file_names and corresponding endpoints
+    # Itereren over json_file_names en bijbehorende endpoints
     for i, json_file_name in enumerate(json_file_names):
         current_dir = os.path.dirname(os.path.abspath(__file__))
         json_file_path = os.path.join(current_dir, "../../../data", json_file_name)
 
-        # Load the JSON file
+        # laad de JSON file
         with open(json_file_path, 'r') as file:
             BackupJson = json.load(file)
 
-        # Process each endpoint in the corresponding group
         for endpoint in endpoints[i]:
             print(f"Testing endpoint {endpoint['url']}")
             result = process_endpoint(endpoint)
@@ -114,11 +113,11 @@ def main():
             print(f"Average Response Time: {result['average_response_time']:.2f} seconds")
             print("-" * 50)
 
-        # Save the original JSON back to the file
+        # Sla de originele JSON terug op in het bestand
         with open(json_file_path, 'w') as file:
             json.dump(BackupJson, file, indent=4)
 
-    # Save results to CSV
+    # Save naar CSV
     save_results_to_csv(results, output_file)
     print(f"Performance results saved to {output_file}")
 
