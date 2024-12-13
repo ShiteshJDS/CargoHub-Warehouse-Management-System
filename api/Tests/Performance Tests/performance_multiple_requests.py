@@ -10,9 +10,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 current_dir = os.path.dirname(os.path.abspath(__file__))
 endpoints_file_path = os.path.join(current_dir, "Endpoints.json")
 
-# Backup the original JSON content
 with open(endpoints_file_path, 'r') as file:
-    BackupJson = json.load(file)
+    endpoints = json.load(file)
 
 # File to store performance results
 output_file = "performance_multiple_requests_results.csv"
@@ -89,18 +88,22 @@ def save_results_to_csv(results, filename):
             writer.writerow([result['url'], result['total_requests'], result['successful_requests'],
                              result['failed_requests'], f"{result['average_response_time']:.2f}"])
 
-# Save BackupJson back to the original file after processing
-def save_backup_json(json_data, json_file_path):
-    """Save the unchanged JSON data back to the file."""
-    with open(json_file_path, 'w') as file:
-        json.dump(json_data, file, indent=4)
-
 def main():
+    json_file_names = ["clients.json", "inventories.json", "item_groups.json", "item_lines.json", "item_types.json",
+                       "items.json", "locations.json", "orders.json", "suppliers.json", "transfers.json", "warehouses.json", "shipments.json"]
     results = []
 
-    # Iterate over endpoints to process each
-    for endpoint_group in BackupJson:  # Use BackupJson here
-        for endpoint in endpoint_group:
+    # Iterate over json_file_names and corresponding endpoints
+    for i, json_file_name in enumerate(json_file_names):
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        json_file_path = os.path.join(current_dir, "../../../data", json_file_name)
+
+        # Load the JSON file
+        with open(json_file_path, 'r') as file:
+            BackupJson = json.load(file)
+
+        # Process each endpoint in the corresponding group
+        for endpoint in endpoints[i]:
             print(f"Testing endpoint {endpoint['url']}")
             result = process_endpoint(endpoint)
             results.append(result)
@@ -111,13 +114,13 @@ def main():
             print(f"Average Response Time: {result['average_response_time']:.2f} seconds")
             print("-" * 50)
 
+        # Save the original JSON back to the file
+        with open(json_file_path, 'w') as file:
+            json.dump(BackupJson, file, indent=4)
+
     # Save results to CSV
     save_results_to_csv(results, output_file)
     print(f"Performance results saved to {output_file}")
-
-    # Save the unchanged BackupJson back to the original JSON file after processing
-    save_backup_json(BackupJson, endpoints_file_path)
-    print(f"Backup JSON saved to {endpoints_file_path}")
 
 if __name__ == "__main__":
     main()
