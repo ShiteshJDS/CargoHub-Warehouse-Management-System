@@ -1,13 +1,18 @@
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 USERS = [
     {
-        "api_key": "a1b2c3d4e5",
+        "api_key": os.getenv("API_KEY_1"),
         "app": "CargoHUB Dashboard 1",
         "endpoint_access": {
             "full": True
         }
     },
     {
-        "api_key": "f6g7h8i9j0",
+        "api_key": os.getenv("API_KEY_2"),
         "app": "CargoHUB Dashboard 2",
         "endpoint_access": {
             "full": False,
