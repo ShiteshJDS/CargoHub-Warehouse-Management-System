@@ -15,7 +15,6 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-
 class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
 
     def log_request(self, user):
@@ -81,8 +80,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             elif paths == 2:
                 identifier = int(path[1]) if path[0] != "items" else path[1]
                 if hasattr(pool, "get_" + path[0][:-1]):
-                    send_json_response(
-                        getattr(pool, "get_" + path[0][:-1])(identifier))
+                    send_json_response(getattr(pool, "get_" + path[0][:-1])(identifier))
                 else:
                     send_json_response(None, 404)
 
@@ -107,8 +105,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             # Verwerk een speciale case voor inventory-totals (bijv. "/items/123/inventory/totals").
             elif paths == 4 and path[2] == "inventory" and path[3] == "totals":
                 if hasattr(pool, "get_inventory_totals_for_item"):
-                    send_json_response(
-                        pool.get_inventory_totals_for_item(path[1]))
+                    send_json_response(pool.get_inventory_totals_for_item(path[1]))
                 else:
                     send_json_response(None, 404)
             else:
@@ -179,7 +176,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 pool = pools[path[0]]()
                 add_method = getattr(pool, f"add_{path[0][:-1]}")
                 add_method(new_data)
-                pool.save()
+                print("Client added to the database successfully.")
 
                 # Special case for "transfers" to handle notifications
                 if path[0] == "transfers":
@@ -214,13 +211,13 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
 
     def handle_put_version_1(self, path, user):
         self.log_request(user)
-
+        
         # Check for access authorization
         if not auth_provider.has_access(user, path, "put"):
             self.send_response(403)
             self.end_headers()
             return
-
+        
         # Define the entity pools and their respective update methods
         pools = {
             "warehouses": (data_provider.fetch_warehouse_pool(), "update_warehouse"),
@@ -235,7 +232,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             "orders": (data_provider.fetch_order_pool(), "update_order"),
             "shipments": (data_provider.fetch_shipment_pool(), "update_shipment")
         }
-
+        
         # Handle different entities with similar logic
         if path[0] in pools:
             entity_pool, update_method = pools[path[0]]
@@ -244,10 +241,9 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             post_data = self.rfile.read(content_length)
             updated_entity = json.loads(post_data.decode())
             getattr(entity_pool, update_method)(entity_id, updated_entity)
-            entity_pool.save()
             self.send_response(200)
             self.end_headers()
-
+        
         # Special case for "transfers" with nested logic
         elif path[0] == "transfers":
             paths = len(path)
@@ -258,7 +254,6 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                     post_data = self.rfile.read(content_length)
                     updated_transfer = json.loads(post_data.decode())
                     data_provider.fetch_transfer_pool().update_transfer(transfer_id, updated_transfer)
-                    data_provider.fetch_transfer_pool().save()
                     self.send_response(200)
                     self.end_headers()
                 case 3:
@@ -266,31 +261,21 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                         transfer_id = int(path[1])
                         transfer = data_provider.fetch_transfer_pool().get_transfer(transfer_id)
                         for x in transfer["items"]:
-                            inventories = data_provider.fetch_inventory_pool(
-                            ).get_inventories_for_item(x["item_id"])
+                            inventories = data_provider.fetch_inventory_pool().get_inventories_for_item(x["item_id"])
                             for y in inventories:
                                 if y["location_id"] == transfer["transfer_from"]:
                                     y["total_on_hand"] -= x["amount"]
-                                    y["total_expected"] = y["total_on_hand"] + \
-                                        y["total_ordered"]
-                                    y["total_available"] = y["total_on_hand"] - \
-                                        y["total_allocated"]
-                                    data_provider.fetch_inventory_pool(
-                                    ).update_inventory(y["id"], y)
+                                    y["total_expected"] = y["total_on_hand"] + y["total_ordered"]
+                                    y["total_available"] = y["total_on_hand"] - y["total_allocated"]
+                                    data_provider.fetch_inventory_pool().update_inventory(y["id"], y)
                                 elif y["location_id"] == transfer["transfer_to"]:
                                     y["total_on_hand"] += x["amount"]
-                                    y["total_expected"] = y["total_on_hand"] + \
-                                        y["total_ordered"]
-                                    y["total_available"] = y["total_on_hand"] - \
-                                        y["total_allocated"]
-                                    data_provider.fetch_inventory_pool(
-                                    ).update_inventory(y["id"], y)
+                                    y["total_expected"] = y["total_on_hand"] + y["total_ordered"]
+                                    y["total_available"] = y["total_on_hand"] - y["total_allocated"]
+                                    data_provider.fetch_inventory_pool().update_inventory(y["id"], y)
                         transfer["transfer_status"] = "Processed"
                         data_provider.fetch_transfer_pool().update_transfer(transfer_id, transfer)
-                        notification_processor.push(
-                            f"Processed batch transfer with id:{transfer['id']}")
-                        data_provider.fetch_transfer_pool().save()
-                        data_provider.fetch_inventory_pool().save()
+                        notification_processor.push(f"Processed batch transfer with id:{transfer['id']}")
                         self.send_response(200)
                         self.end_headers()
                     else:
@@ -299,7 +284,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 case _:
                     self.send_response(404)
                     self.end_headers()
-
+        
         # Handle "orders" with nested "items" update logic
         elif path[0] == "orders" and len(path) == 3 and path[2] == "items":
             order_id = int(path[1])
@@ -307,10 +292,9 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             post_data = self.rfile.read(content_length)
             updated_items = json.loads(post_data.decode())
             data_provider.fetch_order_pool().update_items_in_order(order_id, updated_items)
-            data_provider.fetch_order_pool().save()
             self.send_response(200)
             self.end_headers()
-
+        
         # Handle "shipments" with nested logic
         elif path[0] == "shipments":
             paths = len(path)
@@ -321,7 +305,6 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                     post_data = self.rfile.read(content_length)
                     updated_shipment = json.loads(post_data.decode())
                     data_provider.fetch_shipment_pool().update_shipment(shipment_id, updated_shipment)
-                    data_provider.fetch_shipment_pool().save()
                     self.send_response(200)
                     self.end_headers()
                 case 3:
@@ -330,9 +313,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                         content_length = int(self.headers["Content-Length"])
                         post_data = self.rfile.read(content_length)
                         updated_orders = json.loads(post_data.decode())
-                        data_provider.fetch_order_pool().update_orders_in_shipment(
-                            shipment_id, updated_orders)
-                        data_provider.fetch_order_pool().save()
+                        data_provider.fetch_order_pool().update_orders_in_shipment(shipment_id, updated_orders)
                         self.send_response(200)
                         self.end_headers()
                     elif path[2] == "items":
@@ -340,9 +321,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                         content_length = int(self.headers["Content-Length"])
                         post_data = self.rfile.read(content_length)
                         updated_items = json.loads(post_data.decode())
-                        data_provider.fetch_shipment_pool().update_items_in_shipment(
-                            shipment_id, updated_items)
-                        data_provider.fetch_shipment_pool().save()
+                        data_provider.fetch_shipment_pool().update_items_in_shipment(shipment_id, updated_items)
                         self.send_response(200)
                         self.end_headers()
                     elif path[2] == "commit":
@@ -354,7 +333,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 case _:
                     self.send_response(404)
                     self.end_headers()
-
+        
         else:
             self.send_response(404)
             self.end_headers()
@@ -412,7 +391,6 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             entity_id = int(path[1]) if path[0] != "items" else path[1]
             # Call the corresponding remove method dynamically
             getattr(pool, remove_method)(entity_id)
-            pool.save()  # Save after removal
             self.send_response(200)
             self.end_headers()
         else:

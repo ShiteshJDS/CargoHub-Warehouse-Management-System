@@ -395,7 +395,7 @@ def create_orders_table(db_name, json_relative_path):
 
         for order in data:
             cursor.execute(f"""
-                INSERT OR IGNORE INTO {orders_table} (id, source_id, order_date, request_date, reference, 
+                INSERT INTO {orders_table} (id, source_id, order_date, request_date, reference, 
                                                       reference_extra, order_status, notes, shipping_notes, 
                                                       picking_notes, warehouse_id, ship_to, bill_to, shipment_id, 
                                                       total_amount, total_discount, total_tax, total_surcharge, 
@@ -729,7 +729,7 @@ if __name__ == '__main__':
     create_item_types_table(db_name, 'data/item_types.json')
     create_items_table(db_name, 'data/items.json')
     create_locations_table(db_name, 'data/locations.json')
-    # create_orders_table(db_name, 'data/orders.json')
+    create_orders_table(db_name, 'data/orders.json')
     create_shipments_table(db_name, 'data/shipments.json')
     create_suppliers_table(db_name, 'data/suppliers.json')
     create_transfers_table(db_name, 'data/transfers.json')
