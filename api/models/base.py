@@ -1,5 +1,7 @@
 from datetime import datetime
 import sqlite3
+
+
 class Base:
     def __init__():
         pass
@@ -17,3 +19,12 @@ class Base:
                 return cursor.fetchone()
             if fetch_all:
                 return cursor.fetchall()
+
+    def query_to_dict(self, database_tuple):
+        rowquery = f"PRAGMA table_info({self.tablename})"
+        table_rows = [row[1]
+                      for row in self.execute_query(rowquery, fetch_all=True)]
+        result = [dict(zip(table_rows, value)) for value in database_tuple]
+        # if (database_tuple) == 1:
+        #     return result[0]
+        return result
