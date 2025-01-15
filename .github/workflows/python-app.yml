@@ -35,7 +35,7 @@ jobs:
     - name: Start server
       run: |
         nohup python api/main.py & 
-        sleep 10
+        sleep 30
       env:
         API_KEY_1: ${{ secrets.API_KEY_1 }}
         API_KEY_2: ${{ secrets.API_KEY_2 }}
