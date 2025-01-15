@@ -12,17 +12,46 @@ class Transfers(Base):
     # Retrieve all transfers from the database
     def get_transfers(self):
         query = "SELECT * FROM transfers"
-        return self.execute_query(query, fetch_all=True)
+        transfers = self.execute_query(query, fetch_all=True)
+        transfers_list = []
+        for transfer in transfers:
+            transfer_dict = {
+                "id": transfer[0],
+                "reference": transfer[1],
+                "transfer_from": transfer[2],
+                "transfer_to": transfer[3],
+                "transfer_status": transfer[4],
+                "created_at": transfer[5],
+                "updated_at": transfer[6],
+                "items": self.get_items_in_transfer(transfer[0])
+            }
+            transfers_list.append(transfer_dict)
+        return transfers_list
 
     # Retrieve a specific transfer by ID
     def get_transfer(self, transfer_id):
         query = "SELECT * FROM transfers WHERE id = ?"
-        return self.execute_query(query, params=(transfer_id,), fetch_one=True)
+        transfer = self.execute_query(query, params=(transfer_id,), fetch_one=True)
+        if transfer:
+            transfer_dict = {
+                "id": transfer[0],
+                "reference": transfer[1],
+                "transfer_from": transfer[2],
+                "transfer_to": transfer[3],
+                "transfer_status": transfer[4],
+                "created_at": transfer[5],
+                "updated_at": transfer[6],
+                "items": self.get_items_in_transfer(transfer_id)
+            }
+            return transfer_dict
+        return None
 
     # Retrieve all items in a specific transfer
     def get_items_in_transfer(self, transfer_id):
         query = "SELECT * FROM transfer_items WHERE transfer_id = ?"
-        return self.execute_query(query, params=(transfer_id,), fetch_all=True)
+        items = self.execute_query(query, params=(transfer_id,), fetch_all=True)
+        items_list = [{"item_id": item[2], "amount": item[3]} for item in items]
+        return items_list
 
     # Add a new item to a transfer
     def add_transfer(self, transfer):
