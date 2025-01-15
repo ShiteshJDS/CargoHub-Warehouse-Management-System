@@ -113,7 +113,9 @@ class Items(Base):
     # Retrieve items associated with a specific supplier
     def get_items_for_supplier(self, supplier_id):
         query = "SELECT * FROM items WHERE supplier_id = ?"
-        return self.execute_query(query, params=(supplier_id,), fetch_all=True)
+        result = self.execute_query(
+            query, params=(supplier_id,), fetch_all=True)
+        return self.query_to_dict(result)
 
     # Add a new item to the database.
     def add_item(self, item):
