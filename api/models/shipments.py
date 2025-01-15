@@ -9,20 +9,47 @@ class Shipments(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
+    def format_shipment(self, shipment):
+        return {
+            "id": shipment[0],
+            "order_id": shipment[1],
+            "source_id": shipment[2],
+            "shipment_date": shipment[3],
+            "shipment_type": shipment[4],
+            "shipment_status": shipment[5],
+            "notes": shipment[6],
+            "carrier_code": shipment[7],
+            "carrier_description": shipment[8],
+            "service_code": shipment[9],
+            "payment_type": shipment[10],
+            "transfer_mode": shipment[11],
+            "total_package_count": shipment[12],
+            "total_package_weight": shipment[13],
+            "created_at": shipment[14],
+            "updated_at": shipment[15]
+        }
+
     # Retrieve all shipments from the database.
     def get_shipments(self):
         query = "SELECT * FROM shipments"
-        return self.execute_query(query, fetch_all=True)
+        shipments = self.execute_query(query, fetch_all=True)
+        return [self.format_shipment(shipment) for shipment in shipments]
 
     # Retrieve a specific shipment by ID.
     def get_shipment(self, shipment_id):
         query = "SELECT * FROM shipments WHERE id = ?"
-        return self.execute_query(query, params=(shipment_id,), fetch_one=True)
+        shipment = self.execute_query(query, params=(shipment_id,), fetch_one=True)
+        if shipment:
+            shipment_dict = self.format_shipment(shipment)
+            shipment_dict["items"] = self.get_items_in_shipment(shipment_id)
+            return shipment_dict
+        return None
 
     # Retrieve all items in a specific shipment.
     def get_items_in_shipment(self, shipment_id):
-        query = "SELECT * FROM shipment_items WHERE shipment_id = ?"
-        return self.execute_query(query, params=(shipment_id,), fetch_all=True)
+        query = "SELECT item_id, amount FROM shipment_items WHERE shipment_id = ?"
+        items = self.execute_query(query, params=(shipment_id,), fetch_all=True)
+        return [{"item_id": item[0], "amount": item[1]} for item in items]
 
     # Add a new shipment to the database.
     def add_shipment(self, shipment):
@@ -76,7 +103,6 @@ class Shipments(Base):
         delete_shipment_query = "DELETE FROM shipments WHERE id = ?"
         self.execute_query(delete_items_query, params=(shipment_id,))
         self.execute_query(delete_shipment_query, params=(shipment_id,))
-
 
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "shipments.json"

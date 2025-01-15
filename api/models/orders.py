@@ -12,17 +12,49 @@ class Orders(Base):
     # Retrieve all orders from the database.
     def get_orders(self):
         query = "SELECT * FROM orders"
-        return self.execute_query(query, fetch_all=True)
+        orders = self.execute_query(query, fetch_all=True)
+        return [self.format_order(order) for order in orders]
 
     # Retrieve a specific order by ID.
     def get_order(self, order_id):
         query = "SELECT * FROM orders WHERE id = ?"
-        return self.execute_query(query, params=(order_id,), fetch_one=True)
+        order = self.execute_query(query, params=(order_id,), fetch_one=True)
+        if order:
+            order_dict = self.format_order(order)
+            order_dict["items"] = self.get_items_in_order(order_id)
+            return order_dict
+        return None
 
     # Retrieve all items in a specific order.
     def get_items_in_order(self, order_id):
-        query = "SELECT * FROM order_items WHERE order_id = ?"
-        return self.execute_query(query, params=(order_id,), fetch_all=True)
+        query = "SELECT item_id, amount FROM order_items WHERE order_id = ?"
+        items = self.execute_query(query, params=(order_id,), fetch_all=True)
+        return [{"item_id": item[0], "amount": item[1]} for item in items]
+
+    # Format order as a dictionary.
+    def format_order(self, order):
+        return {
+            "id": order[0],
+            "source_id": order[1],
+            "order_date": order[2],
+            "request_date": order[3],
+            "reference": order[4],
+            "reference_extra": order[5],
+            "order_status": order[6],
+            "notes": order[7],
+            "shipping_notes": order[8],
+            "picking_notes": order[9],
+            "warehouse_id": order[10],
+            "ship_to": order[11],
+            "bill_to": order[12],
+            "shipment_id": order[13],
+            "total_amount": order[14],
+            "total_discount": order[15],
+            "total_tax": order[16],
+            "total_surcharge": order[17],
+            "created_at": order[18],
+            "updated_at": order[19]
+        }
 
     # Retrieve all orders associated with a specific shipment.
     def get_orders_in_shipment(self, shipment_id):

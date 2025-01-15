@@ -9,15 +9,30 @@ class Locations(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
+    # Format location as a dictionary.
+    def format_location(self, location):
+        return {
+            "id": location[0],
+            "warehouse_id": location[1],
+            "code": location[2],
+            "name": location[3],
+            "created_at": location[4],
+            "updated_at": location[5]
+        }
+
     # Retrieve all locations from the database.
     def get_locations(self):
         query = "SELECT * FROM locations"
-        return self.execute_query(query, fetch_all=True)
+        locations = self.execute_query(query, fetch_all=True)
+        return [self.format_location(location) for location in locations]
 
     # Retrieve a specific location by ID.
     def get_location(self, location_id):
         query = "SELECT * FROM locations WHERE id = ?"
-        return self.execute_query(query, params=(location_id,), fetch_one=True)
+        location = self.execute_query(query, params=(location_id,), fetch_one=True)
+        if location:
+            return self.format_location(location)
+        return None
 
     # Retrieve all locations in a specific warehouse.
     def get_locations_in_warehouse(self, warehouse_id):

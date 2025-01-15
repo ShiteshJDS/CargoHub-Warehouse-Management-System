@@ -8,17 +8,20 @@ from models.base import Base
 class ItemTypes(Base):
     def __init__(self, db_path):
         self.db_path = db_path
+        self.tablename = "item_groups"
 
     # Retrieve all item types from the database.
     def get_item_types(self):
         query = "SELECT * FROM item_types"
-        return self.execute_query(query, fetch_all=True)
+        result = self.execute_query(query, fetch_all=True)
+        return self.query_to_dict(result)
 
     # Retrieve a single item type by ID.
     def get_item_type(self, item_type_id):
         query = "SELECT * FROM item_types WHERE id = ?"
-        return self.execute_query(query, params=(item_type_id,), fetch_one=True)
-
+        result = self.execute_query(
+            query, params=(item_type_id,), fetch_one=True)
+        return self.query_to_dict([result])
 
     # Add a new item type to the database.
     def add_item_type(self, item_type):

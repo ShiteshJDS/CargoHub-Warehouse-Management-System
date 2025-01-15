@@ -1,9 +1,5 @@
-# import json
 import sqlite3
 from models.base import Base
-
-# CLIENTS = []
-
 
 class Clients(Base):
     def __init__(self, db_path):
@@ -12,12 +8,14 @@ class Clients(Base):
     # Retrieve all clients from the database.
     def get_clients(self):
         query = "SELECT * FROM clients"
-        return self.execute_query(query, fetch_all=True)
+        rows = self.execute_query(query, fetch_all=True)
+        return [self.row_to_dict(row) for row in rows]
 
     # Retrieve a single client by ID.
     def get_client(self, client_id):
         query = "SELECT * FROM clients WHERE id = ?"
-        return self.execute_query(query, params=(client_id,), fetch_one=True)
+        row = self.execute_query(query, params=(client_id,), fetch_one=True)
+        return self.row_to_dict(row) if row else None
 
     # Add a new client to the database.
     def add_client(self, client):
@@ -53,45 +51,18 @@ class Clients(Base):
         query = "DELETE FROM clients WHERE id = ?"
         self.execute_query(query, params=(client_id,))
 
-    # def __init__(self, root_path, is_debug=False):
-    #     self.data_path = root_path + "clients.json"
-    #     self.load(is_debug)
-
-    # def get_clients(self):
-    #     return self.data
-
-    # def get_client(self, client_id):
-    #     for x in self.data:
-    #         if x["id"] == client_id:
-    #             return x
-    #     return None
-
-    # def add_client(self, client):
-    #     client["created_at"] = self.get_timestamp()
-    #     client["updated_at"] = self.get_timestamp()
-    #     self.data.append(client)
-
-    # def update_client(self, client_id, client):
-    #     client["updated_at"] = self.get_timestamp()
-    #     for i in range(len(self.data)):
-    #         if self.data[i]["id"] == client_id:
-    #             self.data[i] = client
-    #             break
-
-    # def remove_client(self, client_id):
-    #     for x in self.data:
-    #         if x["id"] == client_id:
-    #             self.data.remove(x)
-
-    # def load(self, is_debug):
-    #     if is_debug:
-    #         self.data = CLIENTS
-    #     else:
-    #         f = open(self.data_path, "r")
-    #         self.data = json.load(f)
-    #         f.close()
-
-    # def save(self):
-    #     f = open(self.data_path, "w")
-    #     json.dump(self.data, f)
-    #     f.close()
+    def row_to_dict(self, row):
+        return {
+            "id": row[0],
+            "name": row[1],
+            "address": row[2],
+            "city": row[3],
+            "zip_code": row[4],
+            "province": row[5],
+            "country": row[6],
+            "contact_name": row[7],
+            "contact_phone": row[8],
+            "contact_email": row[9],
+            "created_at": row[10],
+            "updated_at": row[11]
+        }

@@ -8,16 +8,20 @@ from models.base import Base
 class ItemLines(Base):
     def __init__(self, db_path):
         self.db_path = db_path
+        self.tablename = "item_lines"
 
     # Retrieve all item lines from the database.
     def get_item_lines(self):
         query = "SELECT * FROM item_lines"
-        return self.execute_query(query, fetch_all=True)
+        result = self.execute_query(query, fetch_all=True)
+        return self.query_to_dict(result)
 
     # Retrieve a single item line by ID.
     def get_item_line(self, item_line_id):
         query = "SELECT * FROM item_lines WHERE id = ?"
-        return self.execute_query(query, params=(item_line_id,), fetch_one=True)
+        result = self.execute_query(
+            query, params=(item_line_id,), fetch_one=True)
+        return self.query_to_dict([result])
 
     # Add a new item line to the database.
     def add_item_line(self, item_line):
@@ -48,7 +52,6 @@ class ItemLines(Base):
     def remove_item_line(self, item_line_id):
         query = "DELETE FROM item_lines WHERE id = ?"
         self.execute_query(query, params=(item_line_id,))
-
 
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "item_lines.json"
