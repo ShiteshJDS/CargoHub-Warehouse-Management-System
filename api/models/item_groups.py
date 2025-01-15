@@ -8,16 +8,20 @@ from models.base import Base
 class ItemGroups(Base):
     def __init__(self, db_path):
         self.db_path = db_path
+        self.tablename = "item_groups"
 
     # Retrieve all item groups from the database.
     def get_item_groups(self):
         query = "SELECT * FROM item_groups"
-        return self.execute_query(query, fetch_all=True)
+        result = self.execute_query(query, fetch_all=True)
+        return self.query_to_dict(result)
 
     # Retrieve all item groups from the database.
     def get_item_group(self, item_group_id):
         query = "SELECT * FROM item_groups WHERE id = ?"
-        return self.execute_query(query, params=(item_group_id,), fetch_one=True)
+        result = self.execute_query(
+            query, params=(item_group_id,), fetch_one=True)
+        return self.query_to_dict([result])
 
     # Add a new item group to the database.
     def add_item_group(self, item_group):
