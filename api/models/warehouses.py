@@ -16,8 +16,36 @@ class Warehouses(Base):
 
     # Retrieve a specific warehouse by ID
     def get_warehouse(self, warehouse_id):
-        query = "SELECT * FROM warehouses WHERE id = ?"
-        return self.execute_query(query, params=(warehouse_id,), fetch_one=True)
+        query = """
+        SELECT w.id, w.code, w.name, w.address, w.zip, w.city, w.province, w.country, w.created_at, w.updated_at,
+            c.contact_name, c.contact_phone, c.contact_email
+        FROM warehouses w
+        LEFT JOIN warehouse_contacts c ON w.id = c.warehouse_id
+        WHERE w.id = ?
+        """
+        result = self.execute_query(
+            query, params=(warehouse_id,), fetch_one=True)
+
+        if result:
+            warehouse = {
+                "id": result[0],
+                "code": result[1],
+                "name": result[2],
+                "address": result[3],
+                "zip": result[4],
+                "city": result[5],
+                "province": result[6],
+                "country": result[7],
+                "created_at": result[8],
+                "updated_at": result[9],
+                "contact": {
+                    "name": result[10],
+                    "phone": result[11],
+                    "email": result[12]
+                }
+            }
+            return warehouse
+        return None
 
     # Add a new warehouse to the database
     def add_warehouse(self, warehouse):
@@ -49,7 +77,6 @@ class Warehouses(Base):
     def remove_warehouse(self, warehouse_id):
         query = "DELETE FROM warehouses WHERE id = ?"
         self.execute_query(query, params=(warehouse_id,))
-
 
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "warehouses.json"
