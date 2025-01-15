@@ -33,10 +33,6 @@ jobs:
         fi
         ls api/Tests/Test_Data
 
-    - name: Lint with flake8
-      run: |
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
     - name: Start server
       run: |
         nohup python api/main.py &
