@@ -38,13 +38,13 @@ jobs:
         nohup python api/main.py &
         sleep 10
       env:
-        API_KEY_1: ${{ secrets.API_KEY_1 }}
-        API_KEY_2: ${{ secrets.API_KEY_2 }}
+        API_KEY_1: a1b2c3d4e5
+        API_KEY_2: f6g7h8i9j0
 
     - name: Run tests
       run: |
         cd api/Tests
         pytest
       env:
-        API_KEY_1: ${{ secrets.API_KEY_1 }}
-        API_KEY_2: ${{ secrets.API_KEY_2 }}
+        API_KEY_1: a1b2c3d4e5
+        API_KEY_2: f6g7h8i9j0
