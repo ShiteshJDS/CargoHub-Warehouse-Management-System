@@ -42,7 +42,7 @@ jobs:
     - name: Run tests
       run: |
         cd api/Tests
-        pytest Client_test.py
+        pytest Supplier_test.py
       env:
         API_KEY_1: ${{ secrets.API_KEY_1 }}
         API_KEY_2: ${{ secrets.API_KEY_2 }}
