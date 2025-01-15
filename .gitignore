@@ -1,5 +1,7 @@
 # database files
 Cargohub.db
+Cargohub_Test.db
+test_
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
