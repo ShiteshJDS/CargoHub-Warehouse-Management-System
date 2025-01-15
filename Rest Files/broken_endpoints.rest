@@ -41,3 +41,24 @@ Get http://localhost:3000/api/v1/inventories/731
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 #error 404; not found
+
+#item_groups.rest
+### gets all items in the item_group
+Get http://localhost:3000/api/v1/item_groups/1/items
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+#error 404; not found
+
+#item_lines.rest
+### gets all items in the item_line
+Get http://localhost:3000/api/v1/item_lines/1/items
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+#error 404; not found
+
+#item_types.rest
+### gets all items in the item_type
+Get http://localhost:3000/api/v1/item_types/1/items
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+#error 404; not found
