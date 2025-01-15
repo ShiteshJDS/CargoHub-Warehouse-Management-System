@@ -8,6 +8,7 @@ from models.base import Base
 class Items(Base):
     def __init__(self, db_path):
         self.db_path = db_path
+        self.tablename = "items"
 
     # Retrieve all items from the database
     def get_items(self):
@@ -43,11 +44,12 @@ class Items(Base):
             "created_at": item[16],
             "updated_at": item[17]
         }
-    
+
     # Retrieve all inventories for a specific item
     def get_inventories_for_item(self, item_id):
         query = "SELECT * FROM inventories WHERE item_id = ?"
-        inventories = self.execute_query(query, params=(item_id,), fetch_all=True)
+        inventories = self.execute_query(
+            query, params=(item_id,), fetch_all=True)
         return [self.format_inventory(inventory) for inventory in inventories]
 
     # Retrieve total inventory details for a specific item
@@ -76,7 +78,8 @@ class Items(Base):
             "item_id": inventory[1],
             "description": inventory[2],
             "item_reference": inventory[3],
-            "locations": inventory[4],  # Assuming locations are stored as a list in the database
+            # Assuming locations are stored as a list in the database
+            "locations": inventory[4],
             "total_on_hand": inventory[5],
             "total_expected": inventory[6],
             "total_ordered": inventory[7],
@@ -89,17 +92,23 @@ class Items(Base):
     # Retrieve items associated with a specific item line
     def get_items_for_item_line(self, item_line_id):
         query = "SELECT * FROM items WHERE item_line_id = ?"
-        return self.execute_query(query, params=(item_line_id,), fetch_all=True)
+        result = self.execute_query(
+            query, params=(item_line_id,), fetch_all=True)
+        return self.query_to_dict(result)
 
     # Retrieve items associated with a specific item group
     def get_items_for_item_group(self, item_group_id):
         query = "SELECT * FROM items WHERE item_group_id = ?"
-        return self.execute_query(query, params=(item_group_id,), fetch_all=True)
+        result = self.execute_query(
+            query, params=(item_group_id,), fetch_all=True)
+        return self.query_to_dict(result)
 
     # Retrieve items associated with a specific item type
     def get_items_for_item_type(self, item_type_id):
         query = "SELECT * FROM items WHERE item_type_id = ?"
-        return self.execute_query(query, params=(item_type_id,), fetch_all=True)
+        result = self.execute_query(
+            query, params=(item_type_id,), fetch_all=True)
+        return self.query_to_dict(result)
 
     # Retrieve items associated with a specific supplier
     def get_items_for_supplier(self, supplier_id):
