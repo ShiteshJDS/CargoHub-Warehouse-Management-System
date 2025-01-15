@@ -64,7 +64,13 @@ class Orders(Base):
     # Retrieve all orders for a specific client.
     def get_orders_for_client(self, client_id):
         query = "SELECT * FROM orders WHERE ship_to = ? OR bill_to = ?"
-        return self.execute_query(query, params=(client_id, client_id), fetch_all=True)
+        orders = self.execute_query(query, params=(client_id, client_id), fetch_all=True)
+        formatted_orders = []
+        for order in orders:
+            order_dict = self.format_order(order)
+            order_dict["items"] = self.get_items_in_order(order[0])
+            formatted_orders.append(order_dict)
+        return formatted_orders
 
     # Add a new order to the database.
     def add_order(self, order):
