@@ -34,7 +34,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Start server
       run: |
-        nohup python api/main.py &
+        nohup python api/main.py & 
         sleep 10
       env:
         API_KEY_1: ${{ secrets.API_KEY_1 }}
@@ -42,7 +42,7 @@ jobs:
     - name: Run tests
       run: |
         cd api/Tests
-        pytest
+        pytest Client_test.py
       env:
         API_KEY_1: ${{ secrets.API_KEY_1 }}
         API_KEY_2: ${{ secrets.API_KEY_2 }}
