@@ -706,31 +706,13 @@ def create_warehouses_table(db_name, json_relative_path):
         # Close the connection
         conn.close()
 
-
 def load_data_from_json(json_relative_path):
     # Determine the absolute path of the JSON file based on the script's location
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    json_file = os.path.join(script_dir, json_relative_path)
+    json_file = os.path.join(script_dir, '..', json_relative_path)
 
     # Open and read the JSON file
     with open(json_file, 'r') as f:
         data = json.load(f)
 
     return data
-
-
-if __name__ == '__main__':
-    db_name = 'data/Cargohub.db'
-
-    create_clients_table(db_name, 'data/clients.json')
-    create_inventories_table(db_name, 'data/inventories.json')
-    create_item_groups_table(db_name, 'data/item_groups.json')
-    create_item_lines_table(db_name, 'data/item_lines.json')
-    create_item_types_table(db_name, 'data/item_types.json')
-    create_items_table(db_name, 'data/items.json')
-    create_locations_table(db_name, 'data/locations.json')
-    create_orders_table(db_name, 'data/orders.json')
-    create_shipments_table(db_name, 'data/shipments.json')
-    create_suppliers_table(db_name, 'data/suppliers.json')
-    create_transfers_table(db_name, 'data/transfers.json')
-    create_warehouses_table(db_name, 'data/warehouses.json')

@@ -2,11 +2,14 @@ import socketserver
 import http.server
 import json
 import logging
+import os
 
 from providers import auth_provider
 from providers import data_provider
 
 from processors import notification_processor
+
+import cargohub_db
 
 # Configure logging
 logging.basicConfig(
@@ -414,6 +417,38 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
 
 
 def StartWebAPI():
+    # Create and populate the database if it doesn't exist
+    db_name = 'data/Cargohub.db'
+    if not os.path.exists(db_name):
+        cargohub_db.create_clients_table(db_name, 'data/clients.json')
+        cargohub_db.create_inventories_table(db_name, 'data/inventories.json')
+        cargohub_db.create_item_groups_table(db_name, 'data/item_groups.json')
+        cargohub_db.create_item_lines_table(db_name, 'data/item_lines.json')
+        cargohub_db.create_item_types_table(db_name, 'data/item_types.json')
+        cargohub_db.create_items_table(db_name, 'data/items.json')
+        cargohub_db.create_locations_table(db_name, 'data/locations.json')
+        cargohub_db.create_orders_table(db_name, 'data/orders.json')
+        cargohub_db.create_shipments_table(db_name, 'data/shipments.json')
+        cargohub_db.create_suppliers_table(db_name, 'data/suppliers.json')
+        cargohub_db.create_transfers_table(db_name, 'data/transfers.json')
+        cargohub_db.create_warehouses_table(db_name, 'data/warehouses.json')
+
+    # Create test database if it doesn't exist
+    test_db_name = 'api/Tests/Test_Data/Cargohub_Test.db'
+    if not os.path.exists(test_db_name):
+        cargohub_db.create_clients_table(test_db_name, 'data/clients.json')
+        cargohub_db.create_inventories_table(test_db_name, 'data/inventories.json')
+        cargohub_db.create_item_groups_table(test_db_name, 'data/item_groups.json')
+        cargohub_db.create_item_lines_table(test_db_name, 'data/item_lines.json')
+        cargohub_db.create_item_types_table(test_db_name, 'data/item_types.json')
+        cargohub_db.create_items_table(test_db_name, 'data/items.json')
+        cargohub_db.create_locations_table(test_db_name, 'data/locations.json')
+        cargohub_db.create_orders_table(test_db_name, 'data/orders.json')
+        cargohub_db.create_shipments_table(test_db_name, 'data/shipments.json')
+        cargohub_db.create_suppliers_table(test_db_name, 'data/suppliers.json')
+        cargohub_db.create_transfers_table(test_db_name, 'data/transfers.json')
+        cargohub_db.create_warehouses_table(test_db_name, 'data/warehouses.json')
+    
     PORT = 3000
     with socketserver.TCPServer(("", PORT), ApiRequestHandler) as httpd:
         auth_provider.init()
