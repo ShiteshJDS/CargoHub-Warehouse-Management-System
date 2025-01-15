@@ -7,7 +7,7 @@ class Base:
         pass
 
     def get_timestamp(self):
-        return datetime.utcnow().isoformat() + "Z"
+        return datetime.utcnow().isoformat(" ", "seconds")
 
     # Helper method to interact with the database
     def execute_query(self, query, params=None, fetch_one=False, fetch_all=False):
@@ -25,6 +25,6 @@ class Base:
         table_rows = [row[1]
                       for row in self.execute_query(rowquery, fetch_all=True)]
         result = [dict(zip(table_rows, value)) for value in database_tuple]
-        # if (database_tuple) == 1:
-        #     return result[0]
+        if len(database_tuple) == 1:
+            return result[0]
         return result
