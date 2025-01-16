@@ -4,3 +4,4 @@ aiohttp~=3.9.3
 pytest-mock~=3.14.0
 asyncmock~=0.4.2
 requests>=2.0.0
+python-dotenv
