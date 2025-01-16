@@ -20,25 +20,14 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Ensure test data is present
-      run: |
-        if [ ! -d "api/Tests/Test_Data" ]; then
-          echo "Test_Data folder is missing!"
-          exit 1
-        fi
-        ls api/Tests/Test_Data
+        pip install -r requirements.txt
     - name: Lint with flake8
       run: |
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Start server
+    - name: Run cargohub_db.py to create test database
       run: |
-        nohup python api/main.py & 
-        sleep 30
-      env:
-        API_KEY_1: ${{ secrets.API_KEY_1 }}
-        API_KEY_2: ${{ secrets.API_KEY_2 }}
+        python api/cargohub_db.py
+        sleep 20
     - name: Check cargohub_test.db existence
       run: |
         if [ ! -f "api/Tests/Test_Data/cargohub_test.db" ]; then
@@ -46,7 +35,13 @@ jobs:
           exit 1
         else
           echo "cargohub_test.db exists."
-        fi
+    - name: Start server
+      run: |
+        nohup python api/main.py & 
+        sleep 20
+      env:
+        API_KEY_1: ${{ secrets.API_KEY_1 }}
+        API_KEY_2: ${{ secrets.API_KEY_2 }}
     - name: Run tests
       run: |
         cd api/Tests
