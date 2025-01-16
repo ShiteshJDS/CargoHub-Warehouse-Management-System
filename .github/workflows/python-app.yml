@@ -27,7 +27,7 @@ jobs:
     - name: Run cargohub_db.py to create test database
       run: |
         python api/cargohub_db.py
-        sleep 20
+        sleep 5
     - name: Check cargohub_test.db existence
       run: |
         if [ ! -f "api/Tests/Test_Data/Cargohub_Test.db" ]; then
@@ -36,13 +36,13 @@ jobs:
         else
           echo "cargohub_test.db exists."
         fi
-    - name: Start server
-      run: |
-        nohup python api/main.py & 
-        sleep 20
-      env:
-        API_KEY_1: ${{ secrets.API_KEY_1 }}
-        API_KEY_2: ${{ secrets.API_KEY_2 }}
+    # - name: Start server
+    #   run: |
+    #     nohup python api/main.py & 
+    #     sleep 20
+    #   env:
+    #     API_KEY_1: ${{ secrets.API_KEY_1 }}
+    #     API_KEY_2: ${{ secrets.API_KEY_2 }}
     - name: Run tests
       run: |
         cd api/Tests/unit
