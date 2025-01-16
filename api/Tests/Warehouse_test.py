@@ -6,6 +6,9 @@ import requests
 import logging
 import shutil
 import copy
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Add the path to the CargoHub directory to sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -34,7 +37,7 @@ class Test_Warehouses_Endpoints():
 
     warehousesObject = Warehouses("api/Tests/Test_Data/cargohub_test.db")
     headers_full = {
-        "API_KEY": "a1b2c3d4e5",
+        "API_KEY": os.getenv("API_KEY_1"),
         "Content-Type": "application/json"
     }
 
