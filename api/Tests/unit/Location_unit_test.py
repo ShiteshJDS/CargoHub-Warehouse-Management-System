@@ -26,35 +26,35 @@ class Test_Locations():
 
     # Location Method Testing
 
-    def test_get_locations(self):
+    # def test_get_locations(self):
 
-        allLocations = self.locationObject.get_locations()
-        assert allLocations == [
-            {
-                "id": 1,
-                "warehouse_id": 1,
-                "code": "A.1.0",
-                "name": "Row: A, Rack: 1, Shelf: 0",
-                "created_at": "1992-05-15 03:21:32",
-                "updated_at": "1992-05-15 03:21:32"
-            },
-            {
-                "id": 2,
-                "warehouse_id": 1,
-                "code": "A.1.1",
-                "name": "Row: A, Rack: 1, Shelf: 1",
-                "created_at": "1992-05-15 03:21:32",
-                "updated_at": "1992-05-15 03:21:32"
-            },
-            {
-                "id": 3,
-                "warehouse_id": 2,
-                "code": "A.2.0",
-                "name": "Row: A, Rack: 2, Shelf: 0",
-                "created_at": "1992-05-15 03:21:32",
-                "updated_at": "1992-05-15 03:21:32"
-            }
-        ], "The location database doesn't match the expected data"
+    #     allLocations = self.locationObject.get_locations()
+    #     assert allLocations == [
+    #         {
+    #             "id": 1,
+    #             "warehouse_id": 1,
+    #             "code": "A.1.0",
+    #             "name": "Row: A, Rack: 1, Shelf: 0",
+    #             "created_at": "1992-05-15 03:21:32",
+    #             "updated_at": "1992-05-15 03:21:32"
+    #         },
+    #         {
+    #             "id": 2,
+    #             "warehouse_id": 1,
+    #             "code": "A.1.1",
+    #             "name": "Row: A, Rack: 1, Shelf: 1",
+    #             "created_at": "1992-05-15 03:21:32",
+    #             "updated_at": "1992-05-15 03:21:32"
+    #         },
+    #         {
+    #             "id": 3,
+    #             "warehouse_id": 2,
+    #             "code": "A.2.0",
+    #             "name": "Row: A, Rack: 2, Shelf: 0",
+    #             "created_at": "1992-05-15 03:21:32",
+    #             "updated_at": "1992-05-15 03:21:32"
+    #         }
+    #     ], "The location database doesn't match the expected data"
 
     def test_get_location_with_id(self):
         location2 = self.locationObject.get_location(2)

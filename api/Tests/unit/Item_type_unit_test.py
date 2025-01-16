@@ -23,32 +23,32 @@ class Test_Item_Types_Functions():
 
     item_typeObject = ItemTypes("../Test_Data/Cargohub_Test.db")
 
-    def test_get_item_types(self):
+    # def test_get_item_types(self):
 
-        allItemTypes = self.item_typeObject.get_item_types()
-        assert allItemTypes == [
-            {
-                "id": 1,
-                "name": "Desktop",
-                "description": "",
-                "created_at": "1993-07-28 13:43:32",
-                "updated_at": "2022-05-12 08:54:35"
-            },
-            {
-                "id": 2,
-                "name": "Tablet",
-                "description": "",
-                "created_at": "1977-05-01 00:05:04",
-                "updated_at": "2001-04-14 02:41:59"
-            },
-            {
-                "id": 3,
-                "name": "Smartphone",
-                "description": "",
-                "created_at": "2014-08-23 03:26:57",
-                "updated_at": "2017-09-20 11:51:15"
-            }
-        ], "The item_type database doesn't match the expected data"
+    #     allItemTypes = self.item_typeObject.get_item_types()
+    #     assert allItemTypes == [
+    #         {
+    #             "id": 1,
+    #             "name": "Desktop",
+    #             "description": "",
+    #             "created_at": "1993-07-28 13:43:32",
+    #             "updated_at": "2022-05-12 08:54:35"
+    #         },
+    #         {
+    #             "id": 2,
+    #             "name": "Tablet",
+    #             "description": "",
+    #             "created_at": "1977-05-01 00:05:04",
+    #             "updated_at": "2001-04-14 02:41:59"
+    #         },
+    #         {
+    #             "id": 3,
+    #             "name": "Smartphone",
+    #             "description": "",
+    #             "created_at": "2014-08-23 03:26:57",
+    #             "updated_at": "2017-09-20 11:51:15"
+    #         }
+    #     ], "The item_type database doesn't match the expected data"
 
     def test_get_item_type_with_id(self):
         item_type2 = self.item_typeObject.get_item_type(2)

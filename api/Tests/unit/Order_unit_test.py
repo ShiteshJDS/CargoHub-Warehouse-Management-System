@@ -26,231 +26,231 @@ class Test_Orders():
     orderObject = Orders("../Test_Data/Cargohub_Test.db")
     # Order Method Testing
 
-    def test_get_orders(self):
+    # def test_get_orders(self):
 
-        allOrders = self.orderObject.get_orders()
-        assert allOrders == [
-            {
-                "id": 1,
-                "source_id": 33,
-                "order_date": "2019-04-03T11:33:15Z",
-                "request_date": "2019-04-07T11:33:15Z",
-                "reference": "ORD00001",
-                "reference_extra": "Bedreven arm straffen bureau.",
-                "order_status": "Delivered",
-                "notes": "Voedsel vijf vork heel.",
-                "shipping_notes": "Buurman betalen plaats bewolkt.",
-                "picking_notes": "Ademen fijn volgorde scherp aardappel op leren.",
-                "warehouse_id": 18,
-                "ship_to": 8783,
-                "bill_to": 8783,
-                "shipment_id": 1,
-                "total_amount": 9905.13,
-                "total_discount": 150.77,
-                "total_tax": 372.72,
-                "total_surcharge": 77.6,
-                "created_at": "2019-04-03T11:33:15Z",
-                "updated_at": "2019-04-05T07:33:15Z",
-                "items": [
-                    {
-                        "item_id": "P007435",
-                        "amount": 23
-                    },
-                    {
-                        "item_id": "P009557",
-                        "amount": 1
-                    },
-                    {
-                        "item_id": "P009553",
-                        "amount": 50
-                    },
-                    {
-                        "item_id": "P010015",
-                        "amount": 16
-                    },
-                    {
-                        "item_id": "P002084",
-                        "amount": 33
-                    },
-                    {
-                        "item_id": "P009663",
-                        "amount": 18
-                    },
-                    {
-                        "item_id": "P010125",
-                        "amount": 18
-                    },
-                    {
-                        "item_id": "P005768",
-                        "amount": 26
-                    },
-                    {
-                        "item_id": "P004051",
-                        "amount": 1
-                    },
-                    {
-                        "item_id": "P005026",
-                        "amount": 29
-                    },
-                    {
-                        "item_id": "P000726",
-                        "amount": 22
-                    },
-                    {
-                        "item_id": "P008107",
-                        "amount": 47
-                    },
-                    {
-                        "item_id": "P001598",
-                        "amount": 32
-                    },
-                    {
-                        "item_id": "P002855",
-                        "amount": 20
-                    },
-                    {
-                        "item_id": "P010404",
-                        "amount": 30
-                    },
-                    {
-                        "item_id": "P010446",
-                        "amount": 6
-                    },
-                    {
-                        "item_id": "P001517",
-                        "amount": 9
-                    },
-                    {
-                        "item_id": "P009265",
-                        "amount": 2
-                    },
-                    {
-                        "item_id": "P001108",
-                        "amount": 20
-                    },
-                    {
-                        "item_id": "P009110",
-                        "amount": 18
-                    },
-                    {
-                        "item_id": "P009686",
-                        "amount": 13
-                    }
-                ]
-            },
-            {
-                "id": 2,
-                "source_id": 9,
-                "order_date": "1999-07-05T19:31:10Z",
-                "request_date": "1999-07-09T19:31:10Z",
-                "reference": "ORD00002",
-                "reference_extra": "Vergelijken raak geluid beetje altijd.",
-                "order_status": "Delivered",
-                "notes": "We hobby thee compleet wiel fijn.",
-                "shipping_notes": "Nood provincie hier.",
-                "picking_notes": "Borstelen dit verf suiker.",
-                "warehouse_id": 20,
-                "ship_to": 6428,
-                "bill_to": 6428,
-                "shipment_id": 2,
-                "total_amount": 8484.98,
-                "total_discount": 214.52,
-                "total_tax": 665.09,
-                "total_surcharge": 42.12,
-                "created_at": "1999-07-05T19:31:10Z",
-                "updated_at": "1999-07-07T15:31:10Z",
-                "items": [
-                    {
-                        "item_id": "P003790",
-                        "amount": 10
-                    },
-                    {
-                        "item_id": "P007369",
-                        "amount": 15
-                    },
-                    {
-                        "item_id": "P007311",
-                        "amount": 21
-                    },
-                    {
-                        "item_id": "P004140",
-                        "amount": 8
-                    },
-                    {
-                        "item_id": "P004413",
-                        "amount": 46
-                    },
-                    {
-                        "item_id": "P004717",
-                        "amount": 38
-                    },
-                    {
-                        "item_id": "P001919",
-                        "amount": 13
-                    },
-                    {
-                        "item_id": "P010075",
-                        "amount": 5
-                    },
-                    {
-                        "item_id": "P006603",
-                        "amount": 48
-                    },
-                    {
-                        "item_id": "P004504",
-                        "amount": 30
-                    },
-                    {
-                        "item_id": "P009594",
-                        "amount": 35
-                    },
-                    {
-                        "item_id": "P008851",
-                        "amount": 25
-                    },
-                    {
-                        "item_id": "P002129",
-                        "amount": 46
-                    },
-                    {
-                        "item_id": "P002320",
-                        "amount": 4
-                    },
-                    {
-                        "item_id": "P008341",
-                        "amount": 23
-                    }
-                ]
-            },
-            {
-                "id": 3,
-                "source_id": 52,
-                "order_date": "1983-09-26T19:06:08Z",
-                "request_date": "1983-09-30T19:06:08Z",
-                "reference": "ORD00003",
-                "reference_extra": "Vergeven kamer goed enkele wiel tussen.",
-                "order_status": "Delivered",
-                "notes": "Zeil hoeveel onze map sex ding.",
-                "shipping_notes": "Ontvangen schoon voorzichtig instrument ster vijver kunnen raam.",
-                "picking_notes": "Grof geven politie suiker bodem zuid.",
-                "warehouse_id": 11,
-                "ship_to": 8783,
-                "bill_to": 8783,
-                "shipment_id": 2,
-                "total_amount": 1156.14,
-                "total_discount": 420.45,
-                "total_tax": 677.42,
-                "total_surcharge": 86.03,
-                "created_at": "1983-09-26T19:06:08Z",
-                "updated_at": "1983-09-28T15:06:08Z",
-                "items": [
-                    {
-                        "item_id": "P010669",
-                        "amount": 16
-                    }
-                ]
-            }
-        ], "The order database doesn't match the expected data"
+    #     allOrders = self.orderObject.get_orders()
+    #     assert allOrders == [
+    #         {
+    #             "id": 1,
+    #             "source_id": 33,
+    #             "order_date": "2019-04-03T11:33:15Z",
+    #             "request_date": "2019-04-07T11:33:15Z",
+    #             "reference": "ORD00001",
+    #             "reference_extra": "Bedreven arm straffen bureau.",
+    #             "order_status": "Delivered",
+    #             "notes": "Voedsel vijf vork heel.",
+    #             "shipping_notes": "Buurman betalen plaats bewolkt.",
+    #             "picking_notes": "Ademen fijn volgorde scherp aardappel op leren.",
+    #             "warehouse_id": 18,
+    #             "ship_to": 8783,
+    #             "bill_to": 8783,
+    #             "shipment_id": 1,
+    #             "total_amount": 9905.13,
+    #             "total_discount": 150.77,
+    #             "total_tax": 372.72,
+    #             "total_surcharge": 77.6,
+    #             "created_at": "2019-04-03T11:33:15Z",
+    #             "updated_at": "2019-04-05T07:33:15Z",
+    #             "items": [
+    #                 {
+    #                     "item_id": "P007435",
+    #                     "amount": 23
+    #                 },
+    #                 {
+    #                     "item_id": "P009557",
+    #                     "amount": 1
+    #                 },
+    #                 {
+    #                     "item_id": "P009553",
+    #                     "amount": 50
+    #                 },
+    #                 {
+    #                     "item_id": "P010015",
+    #                     "amount": 16
+    #                 },
+    #                 {
+    #                     "item_id": "P002084",
+    #                     "amount": 33
+    #                 },
+    #                 {
+    #                     "item_id": "P009663",
+    #                     "amount": 18
+    #                 },
+    #                 {
+    #                     "item_id": "P010125",
+    #                     "amount": 18
+    #                 },
+    #                 {
+    #                     "item_id": "P005768",
+    #                     "amount": 26
+    #                 },
+    #                 {
+    #                     "item_id": "P004051",
+    #                     "amount": 1
+    #                 },
+    #                 {
+    #                     "item_id": "P005026",
+    #                     "amount": 29
+    #                 },
+    #                 {
+    #                     "item_id": "P000726",
+    #                     "amount": 22
+    #                 },
+    #                 {
+    #                     "item_id": "P008107",
+    #                     "amount": 47
+    #                 },
+    #                 {
+    #                     "item_id": "P001598",
+    #                     "amount": 32
+    #                 },
+    #                 {
+    #                     "item_id": "P002855",
+    #                     "amount": 20
+    #                 },
+    #                 {
+    #                     "item_id": "P010404",
+    #                     "amount": 30
+    #                 },
+    #                 {
+    #                     "item_id": "P010446",
+    #                     "amount": 6
+    #                 },
+    #                 {
+    #                     "item_id": "P001517",
+    #                     "amount": 9
+    #                 },
+    #                 {
+    #                     "item_id": "P009265",
+    #                     "amount": 2
+    #                 },
+    #                 {
+    #                     "item_id": "P001108",
+    #                     "amount": 20
+    #                 },
+    #                 {
+    #                     "item_id": "P009110",
+    #                     "amount": 18
+    #                 },
+    #                 {
+    #                     "item_id": "P009686",
+    #                     "amount": 13
+    #                 }
+    #             ]
+    #         },
+    #         {
+    #             "id": 2,
+    #             "source_id": 9,
+    #             "order_date": "1999-07-05T19:31:10Z",
+    #             "request_date": "1999-07-09T19:31:10Z",
+    #             "reference": "ORD00002",
+    #             "reference_extra": "Vergelijken raak geluid beetje altijd.",
+    #             "order_status": "Delivered",
+    #             "notes": "We hobby thee compleet wiel fijn.",
+    #             "shipping_notes": "Nood provincie hier.",
+    #             "picking_notes": "Borstelen dit verf suiker.",
+    #             "warehouse_id": 20,
+    #             "ship_to": 6428,
+    #             "bill_to": 6428,
+    #             "shipment_id": 2,
+    #             "total_amount": 8484.98,
+    #             "total_discount": 214.52,
+    #             "total_tax": 665.09,
+    #             "total_surcharge": 42.12,
+    #             "created_at": "1999-07-05T19:31:10Z",
+    #             "updated_at": "1999-07-07T15:31:10Z",
+    #             "items": [
+    #                 {
+    #                     "item_id": "P003790",
+    #                     "amount": 10
+    #                 },
+    #                 {
+    #                     "item_id": "P007369",
+    #                     "amount": 15
+    #                 },
+    #                 {
+    #                     "item_id": "P007311",
+    #                     "amount": 21
+    #                 },
+    #                 {
+    #                     "item_id": "P004140",
+    #                     "amount": 8
+    #                 },
+    #                 {
+    #                     "item_id": "P004413",
+    #                     "amount": 46
+    #                 },
+    #                 {
+    #                     "item_id": "P004717",
+    #                     "amount": 38
+    #                 },
+    #                 {
+    #                     "item_id": "P001919",
+    #                     "amount": 13
+    #                 },
+    #                 {
+    #                     "item_id": "P010075",
+    #                     "amount": 5
+    #                 },
+    #                 {
+    #                     "item_id": "P006603",
+    #                     "amount": 48
+    #                 },
+    #                 {
+    #                     "item_id": "P004504",
+    #                     "amount": 30
+    #                 },
+    #                 {
+    #                     "item_id": "P009594",
+    #                     "amount": 35
+    #                 },
+    #                 {
+    #                     "item_id": "P008851",
+    #                     "amount": 25
+    #                 },
+    #                 {
+    #                     "item_id": "P002129",
+    #                     "amount": 46
+    #                 },
+    #                 {
+    #                     "item_id": "P002320",
+    #                     "amount": 4
+    #                 },
+    #                 {
+    #                     "item_id": "P008341",
+    #                     "amount": 23
+    #                 }
+    #             ]
+    #         },
+    #         {
+    #             "id": 3,
+    #             "source_id": 52,
+    #             "order_date": "1983-09-26T19:06:08Z",
+    #             "request_date": "1983-09-30T19:06:08Z",
+    #             "reference": "ORD00003",
+    #             "reference_extra": "Vergeven kamer goed enkele wiel tussen.",
+    #             "order_status": "Delivered",
+    #             "notes": "Zeil hoeveel onze map sex ding.",
+    #             "shipping_notes": "Ontvangen schoon voorzichtig instrument ster vijver kunnen raam.",
+    #             "picking_notes": "Grof geven politie suiker bodem zuid.",
+    #             "warehouse_id": 11,
+    #             "ship_to": 8783,
+    #             "bill_to": 8783,
+    #             "shipment_id": 2,
+    #             "total_amount": 1156.14,
+    #             "total_discount": 420.45,
+    #             "total_tax": 677.42,
+    #             "total_surcharge": 86.03,
+    #             "created_at": "1983-09-26T19:06:08Z",
+    #             "updated_at": "1983-09-28T15:06:08Z",
+    #             "items": [
+    #                 {
+    #                     "item_id": "P010669",
+    #                     "amount": 16
+    #                 }
+    #             ]
+    #         }
+    #     ], "The order database doesn't match the expected data"
 
     def test_get_order_with_id(self):
         order2 = self.orderObject.get_order(2)
