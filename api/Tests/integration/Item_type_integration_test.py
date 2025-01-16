@@ -21,22 +21,6 @@ from models.item_types import ItemTypes  # noqa
 BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
 
 # Must run in test folder
-
-@pytest.fixture(scope="module", autouse=True)
-def manage_warehouse_json_state():
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    json_file_path = os.path.join(current_dir, "../../data/item_types.json")
-    backup_file_path = f"{json_file_path}.backup"
-
-    # Backup the JSON file
-    shutil.copyfile(json_file_path, backup_file_path)
-
-    yield  # Run the tests
-
-    # Restore the JSON file from backup
-    shutil.copyfile(backup_file_path, json_file_path)
-    os.remove(backup_file_path)  # Clean up the backup file
-
 class Test_ItemTypes():
 
     item_typeObject = ItemTypes("../Test_Data/Cargohub_Test.db")
