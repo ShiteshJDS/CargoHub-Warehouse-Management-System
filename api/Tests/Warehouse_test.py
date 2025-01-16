@@ -7,11 +7,8 @@ import logging
 import shutil
 import copy
 
-
 # Add the path to the CargoHub directory to sys.path
-# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from models.warehouses import Warehouses  # noqa
 
@@ -19,23 +16,23 @@ BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
 
 # Must run in test folder
 @pytest.fixture(scope="module", autouse=True)
-def manage_warehouse_json_state():
+def manage_warehouse_db_state():
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    json_file_path = os.path.join(current_dir, "../../data/warehouses.json")
-    backup_file_path = f"{json_file_path}.backup"
+    db_file_path = os.path.join(current_dir, "../Test_Data/cargohub_test.db")
+    backup_file_path = f"{db_file_path}.backup"
 
-    # Backup the JSON file
-    shutil.copyfile(json_file_path, backup_file_path)
+    # Backup the database file
+    shutil.copyfile(db_file_path, backup_file_path)
 
     yield  # Run the tests
 
-    # Restore the JSON file from backup
-    shutil.copyfile(backup_file_path, json_file_path)
+    # Restore the database file from backup
+    shutil.copyfile(backup_file_path, db_file_path)
     os.remove(backup_file_path)  # Clean up the backup file
 
 class Test_Warehouses_Endpoints():
 
-    warehousesObject = Warehouses("Test_Data/test_")
+    warehousesObject = Warehouses("api/Tests/Test_Data/cargohub_test.db")
     headers_full = {
         "API_KEY": "a1b2c3d4e5",
         "Content-Type": "application/json"
@@ -126,8 +123,7 @@ class Test_Warehouses_Endpoints():
 
             responsePut = requests.put(
                 f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=self.headers_full, json=self.newWarehouse)
-            self.newWarehouse["updated_at"] = self.warehousesObject.get_timestamp().split('T')[
-                0]
+            self.newWarehouse["updated_at"] = self.warehousesObject.get_timestamp().split('T')[0]
             assert responsePut.status_code == 200, "test_put_correct_endpoint"
 
         def test_put_nonexistent_id_endpoint():
@@ -183,10 +179,8 @@ class Test_Warehouses_Endpoints():
             responseGet = requests.get(
                 f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}", headers=self.headers_full)
             dict_response = responseGet.json()
-            dict_response["created_at"] = dict_response["created_at"].split('T')[
-                0]
-            dict_response["updated_at"] = dict_response["updated_at"].split('T')[
-                0]
+            dict_response["created_at"] = dict_response["created_at"].split('T')[0]
+            dict_response["updated_at"] = dict_response["updated_at"].split('T')[0]
             assert responseGet.status_code == 200, "test_get_by_id_correct_endpoint"
             assert dict_response == self.newWarehouse, "test_get_by_id_correct_endpoint"
 
@@ -194,15 +188,13 @@ class Test_Warehouses_Endpoints():
             responseGet = requests.get(
                 f"{BASE_URL}/api/v1/warehouses", headers=self.headers_full)
             assert responseGet.status_code == 200, "test_get_all_correct_endpoint"
-            assert self.newWarehouse["id"] in [w["id"]
-                                               for w in responseGet.json()], "test_get_all_correct_endpoint"
+            assert self.newWarehouse["id"] in [w["id"] for w in responseGet.json()], "test_get_all_correct_endpoint"
 
         def test_get_locations_correct_endpoint():
             responseGet = requests.get(
                 f"{BASE_URL}/api/v1/warehouses/{self.newWarehouse['id']}/locations", headers=self.headers_full)
             assert responseGet.status_code == 200, "test_get_locations_correct_endpoint"
-            assert len(responseGet.json()
-                       ) == 0, "test_get_locations_correct_endpoint"
+            assert len(responseGet.json()) == 0, "test_get_locations_correct_endpoint"
 
         def test_get_by_id_nonexistent_id_endpoint():
             responseGet = requests.get(
@@ -266,7 +258,7 @@ class Test_Warehouses_Endpoints():
 
 class Test_Warehouses_Functions():
 
-    warehousesObject = Warehouses("Test_Data/test_")
+    warehousesObject = Warehouses("api/Tests/Test_Data/cargohub_test.db")
 
     def test_get_warehouses(self):
 
@@ -400,5 +392,5 @@ class Test_Warehouses_Functions():
     def test_remove_warehouse(self):
 
         self.warehousesObject.remove_warehouse(4)
-        assert self.warehousesObject.get_warehouse(4) == None, \
+        assert self.warehousesObject.get_warehouse(4) is None, \
             "Warehouse with ID 4 wasn't removed correctly, or get_warehouse doesn't function properly."

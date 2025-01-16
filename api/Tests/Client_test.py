@@ -8,7 +8,9 @@ import os
 import pytest
 import requests
 import json
+from dotenv import load_dotenv
 
+load_dotenv()
 
 # Add the path to the CargoHub directory to sys.path
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -49,7 +51,7 @@ class Test_Clients():
     def test_clients_post_endpoint_success(self):
 
         headers = {
-            "API_KEY": "a1b2c3d4e5",
+            "API_KEY": os.getenv("API_KEY_1"),
             "Content-Type": "application/json"
         }
 
@@ -76,7 +78,7 @@ class Test_Clients():
         # should return bad request
 
         headers = {
-            "API_KEY": "a1b2c3d4e5",
+            "API_KEY": os.getenv("API_KEY_1"),
             "Content-Type": "application/json"
         }
 
@@ -105,7 +107,7 @@ class Test_Clients():
     def test_clients_post_endpoint_duplicate(self):
         # test if new warehouse could be created that already exists
         headers = {
-            "API_KEY": "a1b2c3d4e5",
+            "API_KEY": os.getenv("API_KEY_1"),
             "Content-Type": "application/json"
         }
 
@@ -131,7 +133,7 @@ class Test_Clients():
         
     def test_clients_get_endpoint(self):
         headers = {
-            "API_KEY": "a1b2c3d4e5",
+            "API_KEY": os.getenv("API_KEY_1"),
             "Content-Type": "application/json"
         }
         expectedJson = {
@@ -167,7 +169,7 @@ class Test_Clients():
         # test the get endpoint for an id that doesn't exist 
         # should return 404
         headers = {
-            "API_KEY": "a1b2c3d4e5",
+            "API_KEY": os.getenv("API_KEY_1"),
             "Content-Type": "application/json"
         }
         response = requests.get(
@@ -178,7 +180,7 @@ class Test_Clients():
     def test_clients_put_endpoint(self):
         
         headers = {
-            "API_KEY": "a1b2c3d4e5",
+            "API_KEY": os.getenv("API_KEY_1"),
             "Content-Type": "application/json"
         }
 
@@ -217,7 +219,7 @@ class Test_Clients():
     def test_clients_put_endpoint_non_existent(self):
         
         headers = {
-            "API_KEY": "a1b2c3d4e5",
+            "API_KEY": os.getenv("API_KEY_1"),
             "Content-Type": "application/json"
         }
 
@@ -243,7 +245,7 @@ class Test_Clients():
 
     def test_clients_delete_endpoint(self):
         headers = {
-            "API_KEY": "a1b2c3d4e5",
+            "API_KEY": os.getenv("API_KEY_1"),
             "Content-Type": "application/json"
         }
         response = requests.delete(
@@ -253,7 +255,7 @@ class Test_Clients():
 
     def test_clients_delete_endpoint_non_existent(self):
         headers = {
-            "API_KEY": "a1b2c3d4e5",
+            "API_KEY": os.getenv("API_KEY_1"),
             "Content-Type": "application/json"
         }
         response = requests.delete(
