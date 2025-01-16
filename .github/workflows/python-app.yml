@@ -30,11 +30,12 @@ jobs:
         sleep 20
     - name: Check cargohub_test.db existence
       run: |
-        if [ ! -f "api/Tests/Test_Data/cargohub_test.db" ]; then
+        if [ ! -f "api/Tests/Test_Data/Cargohub_Test.db" ]; then
           echo "cargohub_test.db is missing!"
           exit 1
         else
           echo "cargohub_test.db exists."
+        fi
     - name: Start server
       run: |
         nohup python api/main.py & 
