@@ -46,6 +46,7 @@ jobs:
           exit 1
         else
           echo "cargohub_test.db exists."
+        fi
     - name: Run tests
       run: |
         cd api/Tests
