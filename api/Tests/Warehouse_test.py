@@ -18,20 +18,6 @@ from models.warehouses import Warehouses  # noqa
 BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
 
 # Must run in test folder
-@pytest.fixture(scope="module", autouse=True)
-def manage_warehouse_db_state():
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    db_file_path = os.path.join(current_dir, "../Test_Data/cargohub_test.db")
-    backup_file_path = f"{db_file_path}.backup"
-
-    # Backup the database file
-    shutil.copyfile(db_file_path, backup_file_path)
-
-    yield  # Run the tests
-
-    # Restore the database file from backup
-    shutil.copyfile(backup_file_path, db_file_path)
-    os.remove(backup_file_path)  # Clean up the backup file
 
 class Test_Warehouses_Endpoints():
 
