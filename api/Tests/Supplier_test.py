@@ -38,7 +38,7 @@ def manage_warehouse_json_state():
 
 class Test_Suppliers():
 
-    suppliersObject = Suppliers("Test_Data/test_")
+    suppliersObject = Suppliers("Test_Data/Cargohub_Test.db")
     headers_full = {
         "API_KEY": os.getenv("API_KEY_1"),
         "Content-Type": "application/json"

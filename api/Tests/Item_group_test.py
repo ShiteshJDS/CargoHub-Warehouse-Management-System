@@ -38,7 +38,7 @@ def manage_warehouse_json_state():
 
 class Test_ItemGroups():
 
-    item_groupObject = ItemGroups("Test_Data/test_")
+    item_groupObject = ItemGroups("Test_Data/Cargohub_Test.db")
     headers_full = {
         "API_KEY": os.getenv("API_KEY_1"),
         "Content-Type": "application/json"
@@ -258,7 +258,7 @@ class Test_ItemGroups():
 
 class Test_Item_groups_Functions():
 
-    item_groupObject = ItemGroups("Test_Data/test_")
+    item_groupObject = ItemGroups("Test_Data/Cargohub_Test.db")
 
     def test_get_item_groups(self):
 

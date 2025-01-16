@@ -38,7 +38,7 @@ def manage_warehouse_json_state():
 
 class Test_Locations():
 
-    locationObject = Locations("Test_Data/test_")
+    locationObject = Locations("Test_Data/Cargohub_Test.db")
     headers_full = {
         "API_KEY": os.getenv("API_KEY_1"),
         "Content-Type": "application/json"
