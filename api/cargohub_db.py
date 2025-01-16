@@ -32,7 +32,7 @@ def create_clients_table(db_name, json_relative_path):
         # Insert data into the table
         for client in data:
             cursor.execute(f"""
-                INSERT INTO {table_name} (id, name, address, city, zip_code, province, country, 
+                INSERT OR REPLACE INTO {table_name} (id, name, address, city, zip_code, province, country, 
                                           contact_name, contact_phone, contact_email, created_at, updated_at) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
@@ -91,7 +91,7 @@ def create_inventories_table(db_name, json_relative_path):
         # Insert data into the inventories table
         for inventory in data:
             cursor.execute(f"""
-                INSERT INTO {inventory_table} (id, item_id, description, item_reference, 
+                INSERT OR REPLACE INTO {inventory_table} (id, item_id, description, item_reference, 
                                                total_on_hand, total_expected, total_ordered, 
                                                total_allocated, total_available, created_at, updated_at) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -109,7 +109,7 @@ def create_inventories_table(db_name, json_relative_path):
             # Insert locations into the locations table
             for location_id in inventory['locations']:
                 cursor.execute(f"""
-                    INSERT INTO {location_table} (inventory_id, location_id) 
+                    INSERT OR REPLACE INTO {location_table} (inventory_id, location_id) 
                     VALUES (?, ?)
                 """, (inventory_id, location_id))
         
@@ -147,7 +147,7 @@ def create_item_groups_table(db_name, json_relative_path):
         # Insert data into the table
         for item_group in data:
             cursor.execute(f"""
-                INSERT INTO {table_name} (id, name, description, created_at, updated_at) 
+                INSERT OR REPLACE INTO {table_name} (id, name, description, created_at, updated_at) 
                 VALUES (?, ?, ?, ?, ?)
             """, (
                 item_group['id'], item_group['name'], item_group['description'], 
@@ -189,7 +189,7 @@ def create_item_lines_table(db_name, json_relative_path):
         # Insert data into the table
         for item_group in data:
             cursor.execute(f"""
-                INSERT INTO {table_name} (id, name, description, created_at, updated_at) 
+                INSERT OR REPLACE INTO {table_name} (id, name, description, created_at, updated_at) 
                 VALUES (?, ?, ?, ?, ?)
             """, (
                 item_group['id'], item_group['name'], item_group['description'], 
@@ -231,7 +231,7 @@ def create_item_types_table(db_name, json_relative_path):
         # Insert data into the table
         for item_group in data:
             cursor.execute(f"""
-                INSERT INTO {table_name} (id, name, description, created_at, updated_at) 
+                INSERT OR REPLACE INTO {table_name} (id, name, description, created_at, updated_at) 
                 VALUES (?, ?, ?, ?, ?)
             """, (
                 item_group['id'], item_group['name'], item_group['description'], 
@@ -286,7 +286,7 @@ def create_items_table(db_name, json_relative_path):
         # Insert data into the table
         for item in data:
             cursor.execute(f"""
-                INSERT INTO {table_name} (uid, code, description, short_description, upc_code, model_number, 
+                INSERT OR REPLACE INTO {table_name} (uid, code, description, short_description, upc_code, model_number, 
                                           commodity_code, item_line_id, item_group_id, item_type_id, 
                                           unit_purchase_quantity, unit_order_quantity, pack_order_quantity, 
                                           supplier_id, supplier_code, supplier_part_number, created_at, updated_at) 
@@ -335,7 +335,7 @@ def create_locations_table(db_name, json_relative_path):
         # Insert data into the table
         for location in data:
             cursor.execute(f"""
-                INSERT INTO {table_name} (id, warehouse_id, code, name, created_at, updated_at) 
+                INSERT OR REPLACE INTO {table_name} (id, warehouse_id, code, name, created_at, updated_at) 
                 VALUES (?, ?, ?, ?, ?, ?)
             """, (
                 location['id'], location['warehouse_id'], location['code'], location['name'], 
@@ -395,7 +395,7 @@ def create_orders_table(db_name, json_relative_path):
 
         for order in data:
             cursor.execute(f"""
-                INSERT OR IGNORE INTO {orders_table} (id, source_id, order_date, request_date, reference, 
+                INSERT OR REPLACE INTO {orders_table} (id, source_id, order_date, request_date, reference, 
                                                       reference_extra, order_status, notes, shipping_notes, 
                                                       picking_notes, warehouse_id, ship_to, bill_to, shipment_id, 
                                                       total_amount, total_discount, total_tax, total_surcharge, 
@@ -411,7 +411,7 @@ def create_orders_table(db_name, json_relative_path):
 
             for item in order['items']:
                 cursor.execute(f"""
-                    INSERT INTO {order_items_table} (order_id, item_id, amount) 
+                    INSERT OR REPLACE INTO {order_items_table} (order_id, item_id, amount) 
                     VALUES (?, ?, ?)
                 """, (order['id'], item['item_id'], item['amount']))
 
@@ -471,7 +471,7 @@ def create_shipments_table(db_name, json_relative_path):
         # Insert data into the shipments table
         for shipment in data:
             cursor.execute(f"""
-                INSERT INTO {shipments_table} (id, order_id, source_id, order_date, request_date, 
+                INSERT OR REPLACE INTO {shipments_table} (id, order_id, source_id, order_date, request_date, 
                                                shipment_date, shipment_type, shipment_status, notes, 
                                                carrier_code, carrier_description, service_code, 
                                                payment_type, transfer_mode, total_package_count, 
@@ -493,7 +493,7 @@ def create_shipments_table(db_name, json_relative_path):
             # Insert items into the shipment_items table
             for item in shipment['items']:
                 cursor.execute(f"""
-                    INSERT INTO {shipment_items_table} (shipment_id, item_id, amount) 
+                    INSERT OR REPLACE INTO {shipment_items_table} (shipment_id, item_id, amount) 
                     VALUES (?, ?, ?)
                 """, (shipment_id, item['item_id'], item['amount']))
         
@@ -543,7 +543,7 @@ def create_suppliers_table(db_name, json_relative_path):
         # Insert data into the suppliers table
         for supplier in data:
             cursor.execute(f"""
-                INSERT INTO {suppliers_table} (id, code, name, address, address_extra, city, zip_code, 
+                INSERT OR REPLACE INTO {suppliers_table} (id, code, name, address, address_extra, city, zip_code, 
                                                province, country, contact_name, phonenumber, reference, 
                                                created_at, updated_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -606,7 +606,7 @@ def create_transfers_table(db_name, json_relative_path):
         for transfer in data:
             # Insert into transfers table
             cursor.execute(f"""
-                INSERT INTO {transfers_table} (id, reference, transfer_from, transfer_to, 
+                INSERT OR REPLACE INTO {transfers_table} (id, reference, transfer_from, transfer_to, 
                                                transfer_status, created_at, updated_at) 
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             """, (
@@ -617,7 +617,7 @@ def create_transfers_table(db_name, json_relative_path):
             # Insert into transfer_items table
             for item in transfer['items']:
                 cursor.execute(f"""
-                    INSERT INTO {transfer_items_table} (transfer_id, item_id, amount) 
+                    INSERT OR REPLACE INTO {transfer_items_table} (transfer_id, item_id, amount) 
                     VALUES (?, ?, ?)
                 """, (
                     transfer['id'], item['item_id'], item['amount']
@@ -677,7 +677,7 @@ def create_warehouses_table(db_name, json_relative_path):
         for warehouse in data:
             # Insert into warehouses table
             cursor.execute(f"""
-                INSERT INTO {warehouses_table} (id, code, name, address, zip, city, province, country, 
+                INSERT OR REPLACE INTO {warehouses_table} (id, code, name, address, zip, city, province, country, 
                                                 created_at, updated_at) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
@@ -689,7 +689,7 @@ def create_warehouses_table(db_name, json_relative_path):
             # Insert into warehouse_contacts table
             contact = warehouse['contact']
             cursor.execute(f"""
-                INSERT INTO {warehouse_contacts_table} (warehouse_id, contact_name, contact_phone, contact_email) 
+                INSERT OR REPLACE INTO {warehouse_contacts_table} (warehouse_id, contact_name, contact_phone, contact_email) 
                 VALUES (?, ?, ?, ?)
             """, (
                 warehouse['id'], contact['name'], contact['phone'], contact['email']
@@ -706,31 +706,13 @@ def create_warehouses_table(db_name, json_relative_path):
         # Close the connection
         conn.close()
 
-
 def load_data_from_json(json_relative_path):
     # Determine the absolute path of the JSON file based on the script's location
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    json_file = os.path.join(script_dir, json_relative_path)
+    json_file = os.path.join(script_dir, '..', json_relative_path)
 
     # Open and read the JSON file
     with open(json_file, 'r') as f:
         data = json.load(f)
 
     return data
-
-
-if __name__ == '__main__':
-    db_name = 'data/Cargohub.db'
-
-    create_clients_table(db_name, 'data/clients.json')
-    create_inventories_table(db_name, 'data/inventories.json')
-    create_item_groups_table(db_name, 'data/item_groups.json')
-    create_item_lines_table(db_name, 'data/item_lines.json')
-    create_item_types_table(db_name, 'data/item_types.json')
-    create_items_table(db_name, 'data/items.json')
-    create_locations_table(db_name, 'data/locations.json')
-    # create_orders_table(db_name, 'data/orders.json')
-    create_shipments_table(db_name, 'data/shipments.json')
-    create_suppliers_table(db_name, 'data/suppliers.json')
-    create_transfers_table(db_name, 'data/transfers.json')
-    create_warehouses_table(db_name, 'data/warehouses.json')
