@@ -45,7 +45,7 @@ jobs:
         API_KEY_2: ${{ secrets.API_KEY_2 }}
     - name: Run tests
       run: |
-        cd api/Tests
+        cd api/Tests/unit
         pytest
       env:
         API_KEY_1: ${{ secrets.API_KEY_1 }}
