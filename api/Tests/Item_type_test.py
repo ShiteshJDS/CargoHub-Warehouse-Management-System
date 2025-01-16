@@ -14,7 +14,7 @@ load_dotenv()
 # Add the path to the CargoHub directory to sys.path
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..')))
+    os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from models.item_types import ItemTypes  # noqa
 
@@ -39,7 +39,7 @@ def manage_warehouse_json_state():
 
 class Test_ItemTypes():
 
-    item_typeObject = ItemTypes("Test_Data/Cargohub_Test.db")
+    item_typeObject = ItemTypes("../Test_Data/Cargohub_Test.db")
     headers_full = {
         "API_KEY": os.getenv("API_KEY_1"),
         "Content-Type": "application/json"
@@ -259,7 +259,7 @@ class Test_ItemTypes():
 
 class Test_Item_Types_Functions():
 
-    item_typeObject = ItemTypes("Test_Data/Cargohub_Test.db")
+    item_typeObject = ItemTypes("../Test_Data/Cargohub_Test.db")
 
     def test_get_item_types(self):
 

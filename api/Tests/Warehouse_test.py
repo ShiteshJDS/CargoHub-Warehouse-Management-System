@@ -35,7 +35,7 @@ def manage_warehouse_db_state():
 
 class Test_Warehouses_Endpoints():
 
-    warehousesObject = Warehouses("Test_Data/Cargohub_Test.db")
+    warehousesObject = Warehouses("../Test_Data/Cargohub_Test.db")
     headers_full = {
         "API_KEY": os.getenv("API_KEY_1"),
         "Content-Type": "application/json"

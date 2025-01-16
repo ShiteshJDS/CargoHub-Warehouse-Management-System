@@ -42,7 +42,7 @@ def backup_and_restore_data():
 
 class Test_Clients():
 
-    ClientsObject = Clients("Test_Data/Cargohub_Test.db")
+    ClientsObject = Clients("../Test_Data/Cargohub_Test.db")
 
 
     ########## Test Endpoint ##########

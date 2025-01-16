@@ -12,7 +12,7 @@ load_dotenv()
 # Add the path to the CargoHub directory to sys.path
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..')))
+    os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from models.items import Items
 
@@ -35,7 +35,7 @@ def manage_warehouse_json_state():
 
 class Test_Items():
 
-    itemsObject = Items("Test_Data/Cargohub_Test.db")
+    itemsObject = Items("../Test_Data/Cargohub_Test.db")
     headers_full = {
         "API_KEY": os.getenv("API_KEY_1"),
         "Content-Type": "application/json"
