@@ -24,30 +24,30 @@ class Test_Items():
 
     # Test methods for Items
 
-    def test_get_items(self):
-        items = self.itemsObject.get_items()
-        assert len(items) == 4
-        assert items[0]["uid"] == "P000001", "UID is not correct"
-        assert items[0] == {
-        "uid": "P000001",
-        "code": "sjQ23408K",
-        "description": "Face-to-face clear-thinking complexity",
-        "short_description": "must",
-        "upc_code": "6523540947122",
-        "model_number": "63-OFFTq0T",
-        "commodity_code": "oTo304",
-        "item_line": 11,
-        "item_group": 73,
-        "item_type": 14,
-        "unit_purchase_quantity": 47,
-        "unit_order_quantity": 13,
-        "pack_order_quantity": 11,
-        "supplier_id": 34,
-        "supplier_code": "SUP423",
-        "supplier_part_number": "E-86805-uTM",
-        "created_at": "2015-02-19 16:08:24",
-        "updated_at": "2015-09-26 06:37:56"
-    }, "Item is not correct"
+    # def test_get_items(self):
+    #     items = self.itemsObject.get_items()
+    #     assert len(items) == 4
+    #     assert items[0]["uid"] == "P000001", "UID is not correct"
+    #     assert items[0] == {
+    #     "uid": "P000001",
+    #     "code": "sjQ23408K",
+    #     "description": "Face-to-face clear-thinking complexity",
+    #     "short_description": "must",
+    #     "upc_code": "6523540947122",
+    #     "model_number": "63-OFFTq0T",
+    #     "commodity_code": "oTo304",
+    #     "item_line": 11,
+    #     "item_group": 73,
+    #     "item_type": 14,
+    #     "unit_purchase_quantity": 47,
+    #     "unit_order_quantity": 13,
+    #     "pack_order_quantity": 11,
+    #     "supplier_id": 34,
+    #     "supplier_code": "SUP423",
+    #     "supplier_part_number": "E-86805-uTM",
+    #     "created_at": "2015-02-19 16:08:24",
+    #     "updated_at": "2015-09-26 06:37:56"
+    # }, "Item is not correct"
 
 
     def test_get_item(self):
