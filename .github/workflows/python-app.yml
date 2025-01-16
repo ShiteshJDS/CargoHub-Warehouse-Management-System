@@ -39,10 +39,17 @@ jobs:
       env:
         API_KEY_1: ${{ secrets.API_KEY_1 }}
         API_KEY_2: ${{ secrets.API_KEY_2 }}
+    - name: Check cargohub_test.db existence
+      run: |
+        if [ ! -f "api/Tests/Test_Data/cargohub_test.db" ]; then
+          echo "cargohub_test.db is missing!"
+          exit 1
+        else
+          echo "cargohub_test.db exists."
     - name: Run tests
       run: |
         cd api/Tests
-        pytest Supplier_test.py
+        pytest
       env:
         API_KEY_1: ${{ secrets.API_KEY_1 }}
         API_KEY_2: ${{ secrets.API_KEY_2 }}
