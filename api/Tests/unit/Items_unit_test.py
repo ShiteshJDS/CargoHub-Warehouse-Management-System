@@ -21,10 +21,6 @@ BASE_URL = "http://localhost:3000"
 class Test_Items():
 
     itemsObject = Items("../Test_Data/Cargohub_Test.db")
-    headers_full = {
-        "API_KEY": os.getenv("API_KEY_1"),
-        "Content-Type": "application/json"
-    }
 
     # Test methods for Items
 
