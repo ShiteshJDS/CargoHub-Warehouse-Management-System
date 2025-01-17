@@ -845,7 +845,9 @@ def StartWebAPI():
         cargohub_db.create_warehouses_table(db_name, 'data/warehouses.json')
 
     # Create test database if it doesn't exist
+
     test_db_name = 'api/Tests/Test_Data/Cargohub_Test.db'
+    cargohub_db.delete_test_db()
     cargohub_db.create_clients_table(test_db_name, 'data/clients.json')
     cargohub_db.create_inventories_table(test_db_name, 'data/inventories.json')
     cargohub_db.create_item_groups_table(test_db_name, 'data/item_groups.json')
