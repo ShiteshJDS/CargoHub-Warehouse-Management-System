@@ -1,44 +1,45 @@
 import sqlite3
 from models.base import Base
 
+
 class Inventories(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    def row_to_dict(self, row):
-        return {
-            "id": row[0],
-            "item_id": row[1],
-            "description": row[2],
-            "item_reference": row[3],
-            "total_on_hand": row[4],
-            "total_expected": row[5],
-            "total_ordered": row[6],
-            "total_allocated": row[7],
-            "total_available": row[8],
-            "created_at": row[9],
-            "updated_at": row[10]
-        }
-
-    # Retrieve all inventories from the database.
+    # Retrieve all inventories from the database.#!#1#!#
     def get_inventories(self):
         query = "SELECT * FROM inventories"
-        rows = self.execute_query(query, fetch_all=True)
-        return [self.row_to_dict(row) for row in rows]
+        inventories = self.execute_query(query, fetch_all=True)
+        for inventory in inventories:
+            inventory["location"] = self.get_locations_for_inventory(
+                inventory["id"])
+        return inventories
 
-    # Retrieve a single inventory by ID.
+    # Retrieve a single inventory by ID.#!#1#!#
     def get_inventory(self, inventory_id):
         query = "SELECT * FROM inventories WHERE id = ?"
-        row = self.execute_query(query, params=(inventory_id,), fetch_one=True)
-        return self.row_to_dict(row) if row else None
+        inventory = self.execute_query(
+            query, params=(inventory_id,), fetch_one=True)
+        inventory["locations"] = self.get_locations_for_inventory(inventory_id)
+        return inventory
 
-    # Retrieve all inventories associated with a specific item.
+    # Retrieve all inventories associated with a specific item.#!#1#!#
     def get_inventories_for_item(self, item_id):
         query = "SELECT * FROM inventories WHERE item_id = ?"
-        rows = self.execute_query(query, params=(item_id,), fetch_all=True)
-        return [self.row_to_dict(row) for row in rows]
+        inventories = self.execute_query(
+            query, params=(item_id,), fetch_all=True)
+        for inventory in inventories:
+            inventory["location"] = self.get_locations_for_inventory(
+                inventory["id"])
+        return inventories
 
-    # Retrieve total inventory details for a specific item.
+    # Retrieve all locations associated with a specific inventory.#!#1#!#
+    # This method is not an endpoint and is only used inside the class
+    def get_locations_for_inventory(self, inventory_id):
+        query = "SELECT * FROM inventory_locations WHERE inventory_id = ?"
+        return [location["location_id"] for location in self.execute_query(query, params=(inventory_id,), fetch_all=True)]
+
+    # Retrieve total inventory details for a specific item.#!#1#!#
     def get_inventory_totals_for_item(self, item_id):
         query = """
         SELECT SUM(total_expected) AS total_expected,
@@ -47,15 +48,7 @@ class Inventories(Base):
                SUM(total_available) AS total_available
         FROM inventories WHERE item_id = ?
         """
-        row = self.execute_query(query, params=(item_id,), fetch_one=True)
-        if row:
-            return {
-                "total_expected": row[0],
-                "total_ordered": row[1],
-                "total_allocated": row[2],
-                "total_available": row[3]
-            }
-        return None
+        return self.execute_query(query, params=(item_id,), fetch_one=True)
 
     # Add a new inventory entry.
     def add_inventory(self, inventory):
@@ -86,7 +79,7 @@ class Inventories(Base):
             inventory['total_expected'], inventory['total_ordered'], inventory['total_allocated'],
             inventory['total_available'], inventory['updated_at'], inventory_id
         ))
-    
+
     # Delete an existing inventory entry.
     def remove_inventory(self, inventory_id):
         query = "DELETE FROM inventories WHERE id = ?"

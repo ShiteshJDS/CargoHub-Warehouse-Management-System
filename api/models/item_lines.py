@@ -10,19 +10,15 @@ class ItemLines(Base):
         self.db_path = db_path
         self.tablename = "item_lines"
 
-    # Retrieve all item lines from the database.
+    # Retrieve all item lines from the database.#!#1#!#
     def get_item_lines(self):
         query = "SELECT * FROM item_lines"
-        result = self.execute_query(query, fetch_all=True)
-        return self.query_to_dict(result)
+        return self.execute_query(query, fetch_all=True)
 
-    # Retrieve a single item line by ID.
+    # Retrieve a single item line by ID.#!#1#!#
     def get_item_line(self, item_line_id):
         query = "SELECT * FROM item_lines WHERE id = ?"
-        result = self.execute_query(query, params=(item_line_id,), fetch_one=True)
-        if result is None:
-            return None
-        return self.query_to_dict([result])
+        return self.execute_query(query, params=(item_line_id,), fetch_one=True)
 
     # Add a new item line to the database.
     def add_item_line(self, item_line):

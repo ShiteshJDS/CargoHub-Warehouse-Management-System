@@ -9,68 +9,39 @@ class Orders(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Retrieve all orders from the database.
+    # Retrieve all orders from the database.#!#1#!#
     def get_orders(self):
         query = "SELECT * FROM orders"
         orders = self.execute_query(query, fetch_all=True)
-        return [self.format_order(order) for order in orders]
+        for order in orders:
+            order["items"] = self.get_items_in_order(order["id"])
+        return orders
 
-    # Retrieve a specific order by ID.
+    # Retrieve a specific order by ID.#!#1#!#
     def get_order(self, order_id):
         query = "SELECT * FROM orders WHERE id = ?"
         order = self.execute_query(query, params=(order_id,), fetch_one=True)
-        if order:
-            order_dict = self.format_order(order)
-            order_dict["items"] = self.get_items_in_order(order_id)
-            return order_dict
-        return None
+        order["items"] = self.get_items_in_order(order["id"])
+        return order
 
-    # Retrieve all items in a specific order.
+    # Retrieve all items in a specific order.#!#1#!#
     def get_items_in_order(self, order_id):
         query = "SELECT item_id, amount FROM order_items WHERE order_id = ?"
-        items = self.execute_query(query, params=(order_id,), fetch_all=True)
-        return [{"item_id": item[0], "amount": item[1]} for item in items]
+        return self.execute_query(query, params=(order_id,), fetch_all=True)
 
-    # Format order as a dictionary.
-    def format_order(self, order):
-        return {
-            "id": order[0],
-            "source_id": order[1],
-            "order_date": order[2],
-            "request_date": order[3],
-            "reference": order[4],
-            "reference_extra": order[5],
-            "order_status": order[6],
-            "notes": order[7],
-            "shipping_notes": order[8],
-            "picking_notes": order[9],
-            "warehouse_id": order[10],
-            "ship_to": order[11],
-            "bill_to": order[12],
-            "shipment_id": order[13],
-            "total_amount": order[14],
-            "total_discount": order[15],
-            "total_tax": order[16],
-            "total_surcharge": order[17],
-            "created_at": order[18],
-            "updated_at": order[19]
-        }
-
-    # Retrieve all orders associated with a specific shipment.
+    # Retrieve all orders associated with a specific shipment.#!#1#!#
     def get_orders_in_shipment(self, shipment_id):
         query = "SELECT id FROM orders WHERE shipment_id = ?"
-        return [row[0] for row in self.execute_query(query, params=(shipment_id,), fetch_all=True)]
+        return self.execute_query(query, params=(shipment_id,), fetch_all=True)
 
-    # Retrieve all orders for a specific client.
+    # Retrieve all orders for a specific client.#!#1#!#
     def get_orders_for_client(self, client_id):
         query = "SELECT * FROM orders WHERE ship_to = ? OR bill_to = ?"
-        orders = self.execute_query(query, params=(client_id, client_id), fetch_all=True)
-        formatted_orders = []
+        orders = self.execute_query(query, params=(
+            client_id, client_id), fetch_all=True)
         for order in orders:
-            order_dict = self.format_order(order)
-            order_dict["items"] = self.get_items_in_order(order[0])
-            formatted_orders.append(order_dict)
-        return formatted_orders
+            order["items"] = self.get_items_in_order(order["id"])
+        return orders
 
     # Add a new order to the database.
     def add_order(self, order):
@@ -115,8 +86,8 @@ class Orders(Base):
             # Insert updated items
             insert_items_query = "INSERT INTO order_items (order_id, item_id, amount) VALUES (?, ?, ?)"
             for item in order["items"]:
-                self.execute_query(insert_items_query, params=(order_id, item["item_id"], item["amount"]))
-
+                self.execute_query(insert_items_query, params=(
+                    order_id, item["item_id"], item["amount"]))
 
     # Update items in an existing order.
     def update_items_in_order(self, order_id, items):
@@ -126,13 +97,15 @@ class Orders(Base):
         """
         self.execute_query(delete_query, params=(order_id,))
         for item in items:
-            self.execute_query(insert_query, params=(order_id, item["item_id"], item["amount"]))
+            self.execute_query(insert_query, params=(
+                order_id, item["item_id"], item["amount"]))
 
     # Update orders associated with a shipment.
     def update_orders_in_shipment(self, shipment_id, orders):
         update_query = "UPDATE orders SET shipment_id = ?, order_status = ? WHERE id = ?"
         for order_id in orders:
-            self.execute_query(update_query, params=(shipment_id, "Packed", order_id))
+            self.execute_query(update_query, params=(
+                shipment_id, "Packed", order_id))
 
         reset_query = "UPDATE orders SET shipment_id = -1, order_status = 'Scheduled' WHERE shipment_id = ? AND id NOT IN ({})"
         if orders:
@@ -140,7 +113,8 @@ class Orders(Base):
             reset_query = reset_query.format(placeholders)
             self.execute_query(reset_query, params=(shipment_id, *orders))
         else:
-            self.execute_query(reset_query.format("NULL"), params=(shipment_id,))
+            self.execute_query(reset_query.format(
+                "NULL"), params=(shipment_id,))
 
     # Delete an order by ID.
     def remove_order(self, order_id):

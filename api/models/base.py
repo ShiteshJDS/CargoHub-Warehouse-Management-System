@@ -12,13 +12,15 @@ class Base:
     # Helper method to interact with the database
     def execute_query(self, query, params=None, fetch_one=False, fetch_all=False):
         with sqlite3.connect(self.db_path) as conn:
+            # Use sqlite3.Row to enable dictionary-like access
+            conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             cursor.execute(query, params or [])
             conn.commit()
             if fetch_one:
-                return cursor.fetchone()
+                return dict(cursor.fetchone())
             if fetch_all:
-                return cursor.fetchall()
+                return [dict(row) for row in cursor.fetchall()]
 
     def query_to_dict(self, database_tuple):
         rowquery = f"PRAGMA table_info({self.tablename})"
