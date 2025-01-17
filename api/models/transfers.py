@@ -55,29 +55,35 @@ class Transfers(Base):
 
     # Add a new item to a transfer
     def add_transfer(self, transfer):
-        query = """
-        INSERT INTO transfers (id, reference, transfer_from, transfer_to, transfer_status, created_at, updated_at) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-        """
         transfer["transfer_status"] = "Scheduled"
         transfer["created_at"] = self.get_timestamp()
         transfer["updated_at"] = self.get_timestamp()
-        self.execute_query(query, params=(
-            transfer["id"], transfer["reference"], transfer["transfer_from"], transfer["transfer_to"],
-            transfer["transfer_status"], transfer["created_at"], transfer["updated_at"]
-        ))
+        self.execute_query(
+            "INSERT INTO transfers (id, reference, transfer_from, transfer_to, transfer_status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (transfer["id"], transfer["reference"], transfer["transfer_from"], transfer["transfer_to"], transfer["transfer_status"], transfer["created_at"], transfer["updated_at"])
+        )
+        for item in transfer["items"]:
+            self.execute_query(
+                "INSERT INTO transfer_items (transfer_id, item_id, amount) VALUES (?, ?, ?)",
+                (transfer["id"], item["item_id"], item["amount"])
+            )
 
     # Update an existing transfer
     def update_transfer(self, transfer_id, transfer):
-        query = """
-        UPDATE transfers SET reference = ?, transfer_from = ?, transfer_to = ?, transfer_status = ?, 
-                             updated_at = ? WHERE id = ?
-        """
         transfer["updated_at"] = self.get_timestamp()
-        self.execute_query(query, params=(
-            transfer["reference"], transfer["transfer_from"], transfer["transfer_to"],
-            transfer["transfer_status"], transfer["updated_at"], transfer_id
-        ))
+        self.execute_query(
+            "UPDATE transfers SET reference = ?, transfer_from = ?, transfer_to = ?, transfer_status = ?, updated_at = ? WHERE id = ?",
+            (transfer["reference"], transfer["transfer_from"], transfer["transfer_to"], transfer["transfer_status"], transfer["updated_at"], transfer_id)
+        )
+        self.execute_query(
+            "DELETE FROM transfer_items WHERE transfer_id = ?",
+            (transfer_id,)
+        )
+        for item in transfer["items"]:
+            self.execute_query(
+                "INSERT INTO transfer_items (transfer_id, item_id, amount) VALUES (?, ?, ?)",
+                (transfer_id, item["item_id"], item["amount"])
+            )
 
     # Delete a transfer and its associated items
     def remove_transfer(self, transfer_id):
