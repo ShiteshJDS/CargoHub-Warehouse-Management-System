@@ -742,5 +742,5 @@ if __name__ == "__main__":
     create_orders_table(test_db_name, 'data/orders.json')
     create_shipments_table(test_db_name, 'data/shipments.json')
     create_suppliers_table(test_db_name, 'data/suppliers.json')
-    create_transfers_table(test_db_name, 'data/transfers.json')
     create_warehouses_table(test_db_name, 'data/warehouses.json')
+    create_transfers_table(test_db_name, 'data/transfers.json')
