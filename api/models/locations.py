@@ -37,7 +37,8 @@ class Locations(Base):
     # Retrieve all locations in a specific warehouse.
     def get_locations_in_warehouse(self, warehouse_id):
         query = "SELECT * FROM locations WHERE warehouse_id = ?"
-        return self.execute_query(query, params=(warehouse_id,), fetch_all=True)
+        locations = self.execute_query(query, params=(warehouse_id,), fetch_all=True)
+        return [self.format_location(location) for location in locations]
 
     # Add a new location to the database.
     def add_location(self, location):

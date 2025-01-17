@@ -14,19 +14,21 @@ class Shipments(Base):
             "id": shipment[0],
             "order_id": shipment[1],
             "source_id": shipment[2],
-            "shipment_date": shipment[3],
-            "shipment_type": shipment[4],
-            "shipment_status": shipment[5],
-            "notes": shipment[6],
-            "carrier_code": shipment[7],
-            "carrier_description": shipment[8],
-            "service_code": shipment[9],
-            "payment_type": shipment[10],
-            "transfer_mode": shipment[11],
-            "total_package_count": shipment[12],
-            "total_package_weight": shipment[13],
-            "created_at": shipment[14],
-            "updated_at": shipment[15]
+            "order_date": shipment[3],
+            "request_date": shipment[4],
+            "shipment_date": shipment[5],
+            "shipment_type": shipment[6],
+            "shipment_status": shipment[7],
+            "notes": shipment[8],
+            "carrier_code": shipment[9],
+            "carrier_description": shipment[10],
+            "service_code": shipment[11],
+            "payment_type": shipment[12],
+            "transfer_mode": shipment[13],
+            "total_package_count": shipment[14],
+            "total_package_weight": shipment[15],
+            "created_at": shipment[16],
+            "updated_at": shipment[17]
         }
 
     # Retrieve all shipments from the database.
@@ -54,36 +56,47 @@ class Shipments(Base):
     # Add a new shipment to the database.
     def add_shipment(self, shipment):
         query = """
-        INSERT INTO shipments (id, order_id, source_id, shipment_date, shipment_type, shipment_status, 
-                               notes, carrier_code, carrier_description, service_code, payment_type, 
-                               transfer_mode, total_package_count, total_package_weight, created_at, updated_at) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO shipments (id, order_id, source_id, order_date, request_date, shipment_date, shipment_type, shipment_status, 
+                            notes, carrier_code, carrier_description, service_code, payment_type, 
+                            transfer_mode, total_package_count, total_package_weight, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """
         shipment["created_at"] = self.get_timestamp()
         shipment["updated_at"] = self.get_timestamp()
         self.execute_query(query, params=(
-            shipment["id"], shipment["order_id"], shipment["source_id"], shipment["shipment_date"],
-            shipment["shipment_type"], shipment["shipment_status"], shipment["notes"], shipment["carrier_code"],
-            shipment["carrier_description"], shipment["service_code"], shipment["payment_type"],
+            shipment["id"], shipment["order_id"], shipment["source_id"], shipment["order_date"], shipment["request_date"],
+            shipment["shipment_date"], shipment["shipment_type"], shipment["shipment_status"], shipment["notes"], 
+            shipment["carrier_code"], shipment["carrier_description"], shipment["service_code"], shipment["payment_type"],
             shipment["transfer_mode"], shipment["total_package_count"], shipment["total_package_weight"],
             shipment["created_at"], shipment["updated_at"]
         ))
 
+        # Insert items into shipment_items table
+        for item in shipment["items"]:
+            self.execute_query(
+                "INSERT INTO shipment_items (shipment_id, item_id, amount) VALUES (?, ?, ?)",
+                params=(shipment["id"], item["item_id"], item["amount"])
+            )
+
     # Update an existing shipment.
     def update_shipment(self, shipment_id, shipment):
         query = """
-        UPDATE shipments SET order_id = ?, source_id = ?, shipment_date = ?, shipment_type = ?, 
-                             shipment_status = ?, notes = ?, carrier_code = ?, carrier_description = ?, 
-                             service_code = ?, payment_type = ?, transfer_mode = ?, total_package_count = ?, 
-                             total_package_weight = ?, updated_at = ? WHERE id = ?
+        UPDATE shipments SET order_id = ?, source_id = ?, order_date = ?, request_date = ?, shipment_date = ?, shipment_type = ?, 
+                            shipment_status = ?, notes = ?, carrier_code = ?, carrier_description = ?, 
+                            service_code = ?, payment_type = ?, transfer_mode = ?, total_package_count = ?, 
+                            total_package_weight = ?, updated_at = ? WHERE id = ?
         """
         shipment["updated_at"] = self.get_timestamp()
         self.execute_query(query, params=(
-            shipment["order_id"], shipment["source_id"], shipment["shipment_date"], shipment["shipment_type"],
-            shipment["shipment_status"], shipment["notes"], shipment["carrier_code"], shipment["carrier_description"],
-            shipment["service_code"], shipment["payment_type"], shipment["transfer_mode"],
-            shipment["total_package_count"], shipment["total_package_weight"], shipment["updated_at"], shipment_id
+            shipment["order_id"], shipment["source_id"], shipment["order_date"], shipment["request_date"],
+            shipment["shipment_date"], shipment["shipment_type"], shipment["shipment_status"], shipment["notes"], 
+            shipment["carrier_code"], shipment["carrier_description"], shipment["service_code"], shipment["payment_type"],
+            shipment["transfer_mode"], shipment["total_package_count"], shipment["total_package_weight"], 
+            shipment["updated_at"], shipment_id
         ))
+
+        # Update items in shipment_items table
+        self.update_items_in_shipment(shipment_id, shipment["items"])
 
     # Update items in a specific shipment.
     def update_items_in_shipment(self, shipment_id, items):

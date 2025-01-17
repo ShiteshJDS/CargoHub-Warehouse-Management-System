@@ -68,6 +68,13 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 case _:
                     self.send_response(404)
                     self.end_headers()
+        elif path[0] == "warehouses" and path[2] == "locations":
+            warehouse_id = int(path[1])
+            locations = data_provider.fetch_location_pool().get_locations_in_warehouse(warehouse_id)
+            self.send_response(200)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(locations).encode("utf-8"))
         elif path[0] == "locations":
             paths = len(path)
             match paths:
