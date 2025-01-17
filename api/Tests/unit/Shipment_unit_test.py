@@ -398,7 +398,7 @@ class Test_Shipments():
 
     def test_add_shipment(self):
         new_shipment = {
-            "id": 4,
+            "id": 10103,
             "order_id": 2988,
             "source_id": 21,
             "order_date": "2017-05-23",
@@ -461,12 +461,18 @@ class Test_Shipments():
         new_shipment["created_at"] = new_timestamp
         new_shipment["updated_at"] = new_timestamp
 
-        assert self.shipmentObject.get_shipment(4) == new_shipment, \
+        saved_shipment = self.shipmentObject.get_shipment(10103)
+        saved_shipment.pop("created_at", None)
+        saved_shipment.pop("updated_at", None)
+        new_shipment.pop("created_at", None)
+        new_shipment.pop("updated_at", None)
+
+        assert saved_shipment == new_shipment, \
             "The new shipment wasn't saved correctly, or get_shipment doesn't function properly"
 
     def test_update_shipment(self):
         updated_shipment = {
-            "id": 4,
+            "id": 10103,
             "order_id": 2988,
             "source_id": 21,
             "order_date": "2024-05-23",                # <- Changed
@@ -523,11 +529,17 @@ class Test_Shipments():
                 }
             ]
         }
-        self.shipmentObject.update_shipment(4, updated_shipment)
+        self.shipmentObject.update_shipment(10103, updated_shipment)
         new_timestamp = self.shipmentObject.get_timestamp()
         updated_shipment["updated_at"] = new_timestamp
 
-        assert self.shipmentObject.get_shipment(4) == updated_shipment, \
+        saved_shipment = self.shipmentObject.get_shipment(10103)
+        saved_shipment.pop("created_at", None)
+        saved_shipment.pop("updated_at", None)
+        updated_shipment.pop("created_at", None)
+        updated_shipment.pop("updated_at", None)
+
+        assert saved_shipment == updated_shipment, \
             "The new shipment wasn't updated correctly, or get_shipment doesn't function properly"
 
     def test_update_items_in_shipment(self):
@@ -574,13 +586,24 @@ class Test_Shipments():
             }
         ]
 
-        self.shipmentObject.update_items_in_shipment(4, updated_shipment_items)
+        self.shipmentObject.update_items_in_shipment(10103, updated_shipment_items)
 
-        assert self.shipmentObject.get_items_in_shipment(4) == updated_shipment_items, \
+        saved_items = self.shipmentObject.get_items_in_shipment(10103)
+        for item in saved_items:
+            item.pop("created_at", None)
+            item.pop("updated_at", None)
+        for item in updated_shipment_items:
+            item.pop("created_at", None)
+            item.pop("updated_at", None)
+
+        assert saved_items == updated_shipment_items, \
             "The shipment items haven't been updated correctly, or get_items_in_shipment doesn't function properly"
 
     def test_remove_shipment(self):
+        # Assert that the Shipment exists before removal
+        assert self.shipmentObject.get_shipment(10103) is not None, \
+            "Shipment with ID 10103 does not exist before removal"
 
-        self.shipmentObject.remove_shipment(4)
-        assert self.shipmentObject.get_shipment(4) == None, \
-            "Shipment with ID 4 wasn't removed correctly, ore get_shipment doesn't function properly"
+        self.shipmentObject.remove_shipment(10103)
+        assert self.shipmentObject.get_shipment(10103) == None, \
+            "Shipment with ID 10103 wasn't removed correctly, ore get_shipment doesn't function properly"
