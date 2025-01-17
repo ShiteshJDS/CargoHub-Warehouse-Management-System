@@ -600,9 +600,9 @@ class Test_Shipments():
             "The shipment items haven't been updated correctly, or get_items_in_shipment doesn't function properly"
 
     def test_remove_shipment(self):
-        # Assert that the Supplier exists before removal
+        # Assert that the Shipment exists before removal
         assert self.shipmentObject.get_shipment(10103) is not None, \
-            "Supplier with ID 10103 does not exist before removal"
+            "Shipment with ID 10103 does not exist before removal"
 
         self.shipmentObject.remove_shipment(10103)
         assert self.shipmentObject.get_shipment(10103) == None, \
