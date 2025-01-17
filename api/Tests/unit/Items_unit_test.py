@@ -193,7 +193,7 @@ class Test_Items():
     
     def test_add_item(self):
         item = {
-        "uid": "P011720",
+        "uid": "P011721",
         "code": "zdN19039A",
         "description": "Pre-emptive asynchronous throughput",
         "short_description": "take",
@@ -214,12 +214,12 @@ class Test_Items():
     }
         self.itemsObject.add_item(item)
         items = self.itemsObject.get_items()
-        assert len(items) == 11720
-        assert items[11719] == item
+        assert len(items) == 11721
+        assert items[11720] == item
     
     def test_update_item(self):
         item = {
-        "uid": "P011720",
+        "uid": "P011721",
         "code": "zdN19039A",
         "description": "Pre-emptive asynchronous throughput",
         "short_description": "take",
@@ -238,18 +238,18 @@ class Test_Items():
         "created_at": "2005-08-23 00:48:17",
         "updated_at": "2017-04-29 15:25:25"
     }
-        self.itemsObject.update_item("P011720", item)
+        self.itemsObject.update_item("P011721", item)
         items = self.itemsObject.get_items()
-        assert len(items) == 11720
-        assert items[11719] == item
+        assert len(items) == 11721
+        assert items[11720] == item
     
     def test_remove_item(self):
-        item = self.itemsObject.get_item("P011720")
-        assert item is not None, "Item with UID P011720 does not exist"
+        item = self.itemsObject.get_item("P011721")
+        assert item is not None, "Item with UID P011721 does not exist"
 
-        self.itemsObject.remove_item("P011720")
+        self.itemsObject.remove_item("P011721")
         items = self.itemsObject.get_items()
-        assert len(items) == 11719
+        assert len(items) == 11720
         assert items[0]["uid"] == "P000001"
         assert items[1]["uid"] == "P000002"
         assert items[2]["uid"] == "P000003"
