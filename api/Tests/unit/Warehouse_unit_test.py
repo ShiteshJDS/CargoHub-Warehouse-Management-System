@@ -21,7 +21,7 @@ BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
 
 class Test_Warehouses_Functions():
 
-    warehousesObject = Warehouses("../Test_Data/cargohub_test.db")
+    warehousesObject = Warehouses("../Test_Data/Cargohub_Test.db")
     
     def test_get_warehouse_with_id(self):
         warehouse2 = self.warehousesObject.get_warehouse(2)
