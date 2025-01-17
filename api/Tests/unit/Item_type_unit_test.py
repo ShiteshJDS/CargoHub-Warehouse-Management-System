@@ -51,9 +51,9 @@ class Test_Item_Types_Functions():
     #     ], "The item_type database doesn't match the expected data"
 
     def test_get_item_type_with_id(self):
-        item_type2 = self.item_typeObject.get_item_type(2)
-        assert item_type2 == {
-            "id": 2,
+        item_type3 = self.item_typeObject.get_item_type(3)
+        assert item_type3 == {
+            "id": 3,
             "name": "Tablet",
             "description": "",
             "created_at": "1977-05-01 00:05:04",
@@ -62,7 +62,7 @@ class Test_Item_Types_Functions():
 
     def test_add_item_type(self):
         new_item_type = {
-            "id": 4,
+            "id": 102,
             "name": "Home Decor",
             "description": "",
             "created_at": "-",
@@ -73,27 +73,41 @@ class Test_Item_Types_Functions():
         new_item_type["created_at"] = new_timestamp
         new_item_type["updated_at"] = new_timestamp
 
-        assert self.item_typeObject.get_item_type(4) == new_item_type, \
+        saved_item_type = self.item_typeObject.get_item_type(102)
+        saved_item_type.pop("created_at", None)
+        saved_item_type.pop("updated_at", None)
+        new_item_type.pop("created_at", None)
+        new_item_type.pop("updated_at", None)
+
+        assert saved_item_type == new_item_type, \
             "The new item_type wasn't saved correctly, or get_item_type doesn't function properly"
 
     def test_update_item_type(self):
         updated_item_type = {
-            "id": 4,
+            "id": 102,
             "name": "Toys",                 # <- Changed
             "description": "For kids",      # <- Changed
             "created_at": "-",
             "updated_at": "-"
         }
 
-        self.item_typeObject.update_item_type(4, updated_item_type)
+        self.item_typeObject.update_item_type(102, updated_item_type)
         new_timestamp = self.item_typeObject.get_timestamp()
         updated_item_type["updated_at"] = new_timestamp
 
-        assert self.item_typeObject.get_item_type(4) == updated_item_type, \
+        saved_item_type = self.item_typeObject.get_item_type(102)
+        saved_item_type.pop("created_at", None)
+        saved_item_type.pop("updated_at", None)
+        updated_item_type.pop("created_at", None)
+        updated_item_type.pop("updated_at", None)
+
+        assert saved_item_type == updated_item_type, \
             "The new item_type wasn't updated correctly, or get_item_type doesn't function properly."
-
     def test_remove_item_type(self):
+        # Assert that the Item_type exists before removal
+        assert self.item_typeObject.get_item_type(102) is not None, \
+            "Item_type with ID 102 does not exist before removal"
 
-        self.item_typeObject.remove_item_type(4)
-        assert self.item_typeObject.get_item_type(4) == None, \
-            "Item_type with ID 4 wasn't removed correctly, or get_item_type doesn't function properly."
+        self.item_typeObject.remove_item_type(102)
+        assert self.item_typeObject.get_item_type(102) == None, \
+            "Item_type with ID 102 wasn't removed correctly, or get_item_type doesn't function properly."

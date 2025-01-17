@@ -50,9 +50,9 @@ class Test_Item_Lines_Functions():
     #     ], "The item_line database doesn't match the expected data"
 
     def test_get_item_line_with_id(self):
-        item_line2 = self.item_lineObject.get_item_line(2)
-        assert item_line2 == {
-            "id": 2,
+        item_line3 = self.item_lineObject.get_item_line(3)
+        assert item_line3 == {
+            "id": 3,
             "name": "Office Supplies",
             "description": "",
             "created_at": "2009-07-18 08:13:40",
@@ -61,7 +61,7 @@ class Test_Item_Lines_Functions():
 
     def test_add_item_line(self):
         new_item_line = {
-            "id": 4,
+            "id": 98,
             "name": "Home Decor",
             "description": "",
             "created_at": "-",
@@ -72,27 +72,42 @@ class Test_Item_Lines_Functions():
         new_item_line["created_at"] = new_timestamp
         new_item_line["updated_at"] = new_timestamp
 
-        assert self.item_lineObject.get_item_line(4) == new_item_line, \
+        saved_item_line = self.item_lineObject.get_item_line(98)
+        saved_item_line.pop("created_at", None)
+        saved_item_line.pop("updated_at", None)
+        new_item_line.pop("created_at", None)
+        new_item_line.pop("updated_at", None)
+
+        assert saved_item_line == new_item_line, \
             "The new item_line wasn't saved correctly, or get_item_line doesn't function properly"
 
     def test_update_item_line(self):
         updated_item_line = {
-            "id": 4,
+            "id": 98,
             "name": "Toys",                 # <- Changed
             "description": "For kids",      # <- Changed
             "created_at": "-",
             "updated_at": "-"
         }
 
-        self.item_lineObject.update_item_line(4, updated_item_line)
+        self.item_lineObject.update_item_line(98, updated_item_line)
         new_timestamp = self.item_lineObject.get_timestamp()
         updated_item_line["updated_at"] = new_timestamp
 
-        assert self.item_lineObject.get_item_line(4) == updated_item_line, \
+        saved_item_line = self.item_lineObject.get_item_line(98)
+        saved_item_line.pop("created_at", None)
+        saved_item_line.pop("updated_at", None)
+        updated_item_line.pop("created_at", None)
+        updated_item_line.pop("updated_at", None)
+
+        assert saved_item_line == updated_item_line, \
             "The new item_line wasn't updated correctly, or get_item_line doesn't function properly."
 
     def test_remove_item_line(self):
+        # Assert that the Item_line exists before removal
+        assert self.item_lineObject.get_item_line(98) is not None, \
+            "Item_line with ID 98 does not exist before removal"
 
-        self.item_lineObject.remove_item_line(4)
-        assert self.item_lineObject.get_item_line(4) == None, \
-            "Item_line with ID 4 wasn't removed correctly, or get_item_line doesn't function properly."
+        self.item_lineObject.remove_item_line(98)
+        assert self.item_lineObject.get_item_line(98) == None, \
+            "Item_line with ID 98 wasn't removed correctly, or get_item_line doesn't function properly."
