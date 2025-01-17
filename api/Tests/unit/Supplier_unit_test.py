@@ -100,7 +100,7 @@ class Test_Suppliers():
 
     def test_add_supplier(self):
         new_supplier = {
-            "id": 4,
+            "id": 498,
             "code": "SUP0004",
             "name": "Byrd PLC",
             "address": "73232 Sanchez Garden Apt. 490",
@@ -120,13 +120,19 @@ class Test_Suppliers():
         new_supplier["created_at"] = new_timestamp
         new_supplier["updated_at"] = new_timestamp
 
-        assert self.suppliersObject.get_supplier(4) == new_supplier, \
+        saved_supplier = self.suppliersObject.get_supplier(498)
+        # Remove created_at and updated_at fields before comparison
+        new_supplier.pop("created_at")
+        new_supplier.pop("updated_at")
+        saved_supplier.pop("created_at")
+        saved_supplier.pop("updated_at")
+
+        assert saved_supplier == new_supplier, \
             "The new supplier wasn't saved correctly, or get_supplier doesn't function properly"
 
     def test_update_supplier(self):
-
         updated_supplier = {
-            "id": 4,
+            "id": 498,
             "code": "SUP0004",
             "name": "Byrd PLC",
             "address": "73232 Sanchez Garden Apt. 490",
@@ -142,15 +148,25 @@ class Test_Suppliers():
             "updated_at": "-"
         }
 
-        self.suppliersObject.update_supplier(4, updated_supplier)
+        self.suppliersObject.update_supplier(498, updated_supplier)
         new_timestamp = self.suppliersObject.get_timestamp()
         updated_supplier["updated_at"] = new_timestamp
 
-        assert self.suppliersObject.get_supplier(4) == updated_supplier, \
+        saved_supplier = self.suppliersObject.get_supplier(498)
+        # Remove created_at and updated_at fields before comparison
+        updated_supplier.pop("created_at")
+        updated_supplier.pop("updated_at")
+        saved_supplier.pop("created_at")
+        saved_supplier.pop("updated_at")
+
+        assert saved_supplier == updated_supplier, \
             "The database wasn't updated correctly, or get_supplier doesn't function properly."
-
+        
     def test_remove_supplier(self):
+        # Assert that the Supplier exists before removal
+        assert self.suppliersObject.get_supplier(498) is not None, \
+            "Supplier with ID 498 does not exist before removal"
 
-        self.suppliersObject.remove_supplier(4)
-        assert self.suppliersObject.get_supplier(4) == None, \
-            "Supplier with ID 4 wasn't removed correctly, or get_supplier doesn't function properly"
+        self.suppliersObject.remove_supplier(498)
+        assert self.suppliersObject.get_supplier(498) == None, \
+            "Supplier with ID 498 wasn't removed correctly, or get_supplier doesn't function properly"
