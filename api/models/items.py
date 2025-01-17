@@ -120,18 +120,19 @@ class Items(Base):
     # Add a new item to the database.
     def add_item(self, item):
         query = """
-        INSERT INTO items (uid, code, description, short_description, upc_code, model_number, commodity_code, 
-                           item_line_id, item_group_id, item_type_id, unit_purchase_quantity, unit_order_quantity, 
-                           pack_order_quantity, supplier_id, supplier_code, supplier_part_number, created_at, updated_at) 
+        INSERT INTO items (uid, code, description, short_description, upc_code, model_number, 
+                           commodity_code, item_line_id, item_group_id, item_type_id, 
+                           unit_purchase_quantity, unit_order_quantity, pack_order_quantity, 
+                           supplier_id, supplier_code, supplier_part_number, created_at, updated_at) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """
         item["created_at"] = self.get_timestamp()
         item["updated_at"] = self.get_timestamp()
         self.execute_query(query, params=(
-            item["uid"], item["code"], item["description"], item["short_description"], item["upc_code"],
-            item["model_number"], item["commodity_code"], item["item_line_id"], item["item_group_id"],
-            item["item_type_id"], item["unit_purchase_quantity"], item["unit_order_quantity"],
-            item["pack_order_quantity"], item["supplier_id"], item["supplier_code"],
+            item["uid"], item["code"], item["description"], item["short_description"], item["upc_code"], 
+            item["model_number"], item["commodity_code"], item["item_line"], item["item_group"], 
+            item["item_type"], item["unit_purchase_quantity"], item["unit_order_quantity"],
+            item["pack_order_quantity"], item["supplier_id"], item["supplier_code"], 
             item["supplier_part_number"], item["created_at"], item["updated_at"]
         ))
 
@@ -139,7 +140,7 @@ class Items(Base):
     def update_item(self, item_id, item):
         query = """
         UPDATE items SET code = ?, description = ?, short_description = ?, upc_code = ?, model_number = ?, 
-                         commodity_code = ?, item_line_id = ?, item_group_id = ?, item_type_id = ?, 
+                         commodity_code = ?, item_line = ?, item_group = ?, item_type = ?, 
                          unit_purchase_quantity = ?, unit_order_quantity = ?, pack_order_quantity = ?, 
                          supplier_id = ?, supplier_code = ?, supplier_part_number = ?, updated_at = ? 
         WHERE uid = ?
@@ -147,7 +148,7 @@ class Items(Base):
         item["updated_at"] = self.get_timestamp()
         self.execute_query(query, params=(
             item["code"], item["description"], item["short_description"], item["upc_code"], item["model_number"],
-            item["commodity_code"], item["item_line_id"], item["item_group_id"], item["item_type_id"],
+            item["commodity_code"], item["item_line"], item["item_group"], item["item_type"],
             item["unit_purchase_quantity"], item["unit_order_quantity"], item["pack_order_quantity"],
             item["supplier_id"], item["supplier_code"], item["supplier_part_number"], item["updated_at"], item_id
         ))
