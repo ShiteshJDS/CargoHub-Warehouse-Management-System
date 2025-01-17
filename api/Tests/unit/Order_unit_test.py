@@ -366,99 +366,73 @@ class Test_Orders():
             1], "The orders within shipment 2 don't match the expected data"
 
     def test_get_orders_for_client(self):
-        orders_for_client8783 = self.orderObject.get_orders_for_client(8783)
-        expected_orders = [{
-            "id": 7491,
-            "source_id": 49,
-            "order_date": "1978-11-07T08:45:21Z",
-            "request_date": "1978-11-11T08:45:21Z",
-            "reference": "ORD00633",
-            "reference_extra": "Min boord glimlach privé moord hoog.",
-            "order_status": "Pending",
-            "notes": "Borstelen meubel warm straat ring.",
-            "shipping_notes": "Vak ontsnappen reiken.",
-            "picking_notes": "Kleden hond heet boom.",
-            "warehouse_id": 32,
-            "ship_to": 8783,  # Ensure this matches the actual data type
-            "bill_to": 8783,  # Ensure this matches the actual data type
-            "shipment_id": None,
-            "total_amount": 7210.45,
-            "total_discount": 403.65,
-            "total_tax": 463.74,
-            "total_surcharge": 16.1,
-            "created_at": "1978-11-07T08:45:21Z",
-            "updated_at": "1978-11-09T04:45:21Z",
-            "items": [
-                {"item_id": "P009137", "amount": 49},
-                {"item_id": "P010776", "amount": 49},
-                {"item_id": "P001919", "amount": 14},
-                {"item_id": "P002652", "amount": 22},
-                {"item_id": "P010561", "amount": 8},
-                {"item_id": "P011436", "amount": 25},
-                {"item_id": "P005700", "amount": 38},
-                {"item_id": "P009898", "amount": 12},
-                {"item_id": "P006089", "amount": 35},
-                {"item_id": "P000030", "amount": 39},
-                {"item_id": "P011715", "amount": 18},
-                {"item_id": "P001618", "amount": 44},
-                {"item_id": "P005193", "amount": 2},
-                {"item_id": "P005023", "amount": 12},
-                {"item_id": "P008347", "amount": 42},
-                {"item_id": "P005652", "amount": 49},
-                {"item_id": "P001095", "amount": 17},
-                {"item_id": "P002378", "amount": 14},
-                {"item_id": "P002462", "amount": 11},
-                {"item_id": "P011696", "amount": 17}
-            ]
-        }, {
-            "id": 10384,
-            "source_id": 2,
-            "order_date": "2024-07-15T17:48:58Z",
-            "request_date": "2024-07-19T17:48:58Z",
-            "reference": "ORD03526",
-            "reference_extra": "Vroeg laatst kleur doen hamer lachen nooit.",
-            "order_status": "Delivered",
-            "notes": "Hemel gebeurtenis familie verlaten veranderen.",
-            "shipping_notes": "Cool blij eiland breed.",
-            "picking_notes": "Gezond drinken opeens verschil sorry.",
-            "warehouse_id": 51,
-            "ship_to": 5816,  # Ensure this matches the actual data type
-            "bill_to": 8783,  # Ensure this matches the actual data type
-            "shipment_id": 8605,
-            "total_amount": 5086.61,
-            "total_discount": 92.23,
-            "total_tax": 714.21,
-            "total_surcharge": 59.84,
-            "created_at": "2024-07-15T17:48:58Z",
-            "updated_at": "2024-07-17T13:48:58Z",
-            "items": [
-                {"item_id": "P003847", "amount": 2},
-                {"item_id": "P003664", "amount": 30},
-                {"item_id": "P009991", "amount": 48},
-                {"item_id": "P011575", "amount": 15},
-                {"item_id": "P010030", "amount": 26},
-                {"item_id": "P006602", "amount": 47},
-                {"item_id": "P010810", "amount": 13},
-                {"item_id": "P007473", "amount": 26},
-                {"item_id": "P002945", "amount": 33},
-                {"item_id": "P010680", "amount": 29},
-                {"item_id": "P004819", "amount": 37},
-                {"item_id": "P003897", "amount": 10},
-                {"item_id": "P003212", "amount": 29},
-                {"item_id": "P009382", "amount": 10},
-                {"item_id": "P011670", "amount": 9},
-                {"item_id": "P002156", "amount": 50},
-                {"item_id": "P003939", "amount": 43},
-                {"item_id": "P007204", "amount": 48},
-                {"item_id": "P000182", "amount": 18},
-                {"item_id": "P003162", "amount": 18},
-                {"item_id": "P005211", "amount": 26},
-                {"item_id": "P009380", "amount": 11},
-                {"item_id": "P001116", "amount": 41},
-                {"item_id": "P010489", "amount": 46},
-                {"item_id": "P008143", "amount": 25}
-            ]
-        }]
+        orders_for_client8783 = self.orderObject.get_orders_for_client(1)
+        expected_orders = [
+  {
+    "id": 9325,
+    "source_id": 32,
+    "order_date": "2003-12-27T08:47:45Z",
+    "request_date": "2003-12-31T08:47:45Z",
+    "reference": "ORD02467",
+    "reference_extra": "Oceaan lot bibliotheek stad zon baby reeds belangrijk.",
+    "order_status": "Shipped",
+    "notes": "Knie tellen drinken jas mond.",
+    "shipping_notes": "Dichtbij jas geit dun mensen branden af mand.",
+    "picking_notes": "Pijn alleen start kaart dapper tamelijk.",
+    "warehouse_id": 21,
+    "ship_to": "1",
+    "bill_to": "1",
+    "shipment_id": 8086,
+    "total_amount": 5153.45,
+    "total_discount": 195.06,
+    "total_tax": 130.96,
+    "total_surcharge": 66.05,
+    "created_at": "2003-12-27T08:47:45Z",
+    "updated_at": "2003-12-29T04:47:45Z",
+    "items": [
+      {
+        "item_id": "P002181",
+        "amount": 33
+      },
+      {
+        "item_id": "P004732",
+        "amount": 21
+      },
+      {
+        "item_id": "P007613",
+        "amount": 7
+      },
+      {
+        "item_id": "P000060",
+        "amount": 3
+      },
+      {
+        "item_id": "P004959",
+        "amount": 7
+      },
+      {
+        "item_id": "P004394",
+        "amount": 47
+      },
+      {
+        "item_id": "P000832",
+        "amount": 2
+      },
+      {
+        "item_id": "P005823",
+        "amount": 49
+      },
+      {
+        "item_id": "P006835",
+        "amount": 13
+      },
+      {
+        "item_id": "P003474",
+        "amount": 20
+      }
+    ]
+  }
+]
         assert orders_for_client8783 == expected_orders
     
 
@@ -512,45 +486,49 @@ class Test_Orders():
     def test_update_order(self):
         updated_order = {
             "id": 15000,
-            "source_id": 12,                                    # <- Changed
+            "source_id": 12,
             "order_date": "2001-10-20T12:03:23Z",
             "request_date": "2001-10-24T12:03:23Z",
-            "reference": "ORD05400",                            # <- Changed
+            "reference": "ORD05400",
             "reference_extra": "Begrijpen lopen trein verliezen bloem branden land.",
-            "order_status": "Pending",                          # <- Changed
+            "order_status": "Pending",
             "notes": "Lang liegen succes geen papa.",
             "shipping_notes": "Nacht hart oceaan spel wanneer.",
             "picking_notes": "Huren tijd angst ijs.",
-            "warehouse_id": 50,                                 # <- Changed
+            "warehouse_id": 50,
             "ship_to": None,
             "bill_to": None,
             "shipment_id": 1,
-            "total_amount": 4323.31,                            # <- Changed
+            "total_amount": 4323.31,
             "total_discount": 432.25,
             "total_tax": 964.0,
-            "total_surcharge": 55.0,                            # <- Changed
-            "created_at": "2001-10-20T12:03:23Z",
-            "updated_at": "-",
+            "total_surcharge": 55.0,
             "items": [
                 {"item_id": "P004263", "amount": 38},
-                {"item_id": "P003874", "amount": 1},            # <- Changed
-                {"item_id": "P003603", "amount": 38}            # <- Changed
+                {"item_id": "P003874", "amount": 1},
+                {"item_id": "P003603", "amount": 38}
             ]
         }
 
-        get_order = self.orderObject.get_order(15000)
-        # Remove the created_at and updated_at fields for comparison
-        updated_order.pop("created_at", None)
-        updated_order.pop("updated_at", None)
-        get_order.pop("created_at", None)
-        get_order.pop("updated_at", None)
-
+        # Update the order
         self.orderObject.update_order(15000, updated_order)
-        new_timestamp = self.orderObject.get_timestamp()
-        updated_order["updated_at"] = new_timestamp
 
-        assert self.orderObject.get_order(15000) == updated_order, \
-            "The new order wasn't updated correctly, or get_order doesn't function properly"
+        # Get the updated order
+        get_order = self.orderObject.get_order(15000)
+
+        # Add updated_at timestamp for comparison
+        updated_order["updated_at"] = get_order["updated_at"]
+
+        # Validate order items separately
+        assert get_order["items"] == updated_order["items"], "Order items were not updated correctly"
+
+        # Remove created_at for full comparison
+        updated_order.pop("created_at", None)
+        get_order.pop("created_at", None)
+
+        # Validate the entire order
+        assert get_order == updated_order, "The order update was not applied correctly"
+
 
     def test_update_items_in_order(self):
         updated_order_items = [

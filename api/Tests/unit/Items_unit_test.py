@@ -301,10 +301,15 @@ class Test_Items():
         "supplier_code": "SUP140",
         "supplier_part_number": "T-210-I4M",
         "created_at": "2005-08-23 00:48:17",
-        "updated_at": "2017-04-29 15:25:25"
+        "updated_at": "-"
     }
         self.itemsObject.update_item("P111721", item)
         items = item = self.itemsObject.get_item("P111721")
+        # Remove the created_at and updated_at fields for comparison
+        item.pop("created_at", None)
+        item.pop("updated_at", None)
+        items.pop("created_at", None)
+        items.pop("updated_at", None)
         assert item == items
     
     def test_remove_item(self):

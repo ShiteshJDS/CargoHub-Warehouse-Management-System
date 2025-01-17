@@ -90,13 +90,13 @@ class Orders(Base):
             order["total_surcharge"], order["created_at"], order["updated_at"]
         ))
 
-    # Update an existing order.
     def update_order(self, order_id, order):
+        # Update order details in the orders table
         query = """
         UPDATE orders SET source_id = ?, order_date = ?, request_date = ?, reference = ?, reference_extra = ?, 
-                         order_status = ?, notes = ?, shipping_notes = ?, picking_notes = ?, warehouse_id = ?, 
-                         ship_to = ?, bill_to = ?, shipment_id = ?, total_amount = ?, total_discount = ?, 
-                         total_tax = ?, total_surcharge = ?, updated_at = ? WHERE id = ?
+                        order_status = ?, notes = ?, shipping_notes = ?, picking_notes = ?, warehouse_id = ?, 
+                        ship_to = ?, bill_to = ?, shipment_id = ?, total_amount = ?, total_discount = ?, 
+                        total_tax = ?, total_surcharge = ?, updated_at = ? WHERE id = ?
         """
         order["updated_at"] = self.get_timestamp()
         self.execute_query(query, params=(
@@ -105,6 +105,18 @@ class Orders(Base):
             order["warehouse_id"], order["ship_to"], order["bill_to"], order["shipment_id"], order["total_amount"],
             order["total_discount"], order["total_tax"], order["total_surcharge"], order["updated_at"], order_id
         ))
+
+        # Update the items in the order_items table
+        if "items" in order:
+            # Delete existing items for the order
+            delete_items_query = "DELETE FROM order_items WHERE order_id = ?"
+            self.execute_query(delete_items_query, params=(order_id,))
+
+            # Insert updated items
+            insert_items_query = "INSERT INTO order_items (order_id, item_id, amount) VALUES (?, ?, ?)"
+            for item in order["items"]:
+                self.execute_query(insert_items_query, params=(order_id, item["item_id"], item["amount"]))
+
 
     # Update items in an existing order.
     def update_items_in_order(self, order_id, items):
