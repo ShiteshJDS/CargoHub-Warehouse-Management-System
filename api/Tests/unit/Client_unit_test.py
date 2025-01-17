@@ -140,7 +140,10 @@ class Test_Clients():
                "The JSON response doesn't match the updated newUpdatedclient dictionary, or get_client doesn't function properly."
 
     def test_remove_client(self):
+        # Assert that the Client with ID 10500 exists before removal
+        assert self.ClientsObject.get_client(10500) is not None, \
+            "Client with ID 10500 does not exist before removal"
 
         self.ClientsObject.remove_client(10500)
         assert self.ClientsObject.get_client(10500) == None, \
-        "Client with ID 3 still exists in the database, or get_client doesn't function properly."
+        "Client with ID 10500 still exists in the database, or get_client doesn't function properly."

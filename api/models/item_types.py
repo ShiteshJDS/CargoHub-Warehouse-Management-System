@@ -19,8 +19,9 @@ class ItemTypes(Base):
     # Retrieve a single item type by ID.
     def get_item_type(self, item_type_id):
         query = "SELECT * FROM item_types WHERE id = ?"
-        result = self.execute_query(
-            query, params=(item_type_id,), fetch_one=True)
+        result = self.execute_query(query, params=(item_type_id,), fetch_one=True)
+        if result is None:
+            return None
         return self.query_to_dict([result])
 
     # Add a new item type to the database.

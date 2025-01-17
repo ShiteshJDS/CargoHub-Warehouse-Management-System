@@ -706,6 +706,17 @@ def create_warehouses_table(db_name, json_relative_path):
         # Close the connection
         conn.close()
 
+def delete_test_db():
+    # Use a relative path
+    file_path = os.path.join('api', 'Tests', 'Test_Data', 'Cargohub_Test.db')
+    
+    # Check if file exists
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        print(f"{file_path} has been deleted.")
+    else:
+        print(f"{file_path} does not exist.")
+
 def load_data_from_json(json_relative_path):
     # Determine the absolute path of the JSON file based on the script's location
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -719,6 +730,7 @@ def load_data_from_json(json_relative_path):
 
 if __name__ == "__main__":
     # Create test database if it doesn't exist
+    delete_test_db()
     test_db_name = 'api/Tests/Test_Data/Cargohub_Test.db'
     create_clients_table(test_db_name, 'data/clients.json')
     create_inventories_table(test_db_name, 'data/inventories.json')

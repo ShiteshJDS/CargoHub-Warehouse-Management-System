@@ -19,8 +19,9 @@ class ItemLines(Base):
     # Retrieve a single item line by ID.
     def get_item_line(self, item_line_id):
         query = "SELECT * FROM item_lines WHERE id = ?"
-        result = self.execute_query(
-            query, params=(item_line_id,), fetch_one=True)
+        result = self.execute_query(query, params=(item_line_id,), fetch_one=True)
+        if result is None:
+            return None
         return self.query_to_dict([result])
 
     # Add a new item line to the database.
