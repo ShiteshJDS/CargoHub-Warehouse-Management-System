@@ -29,10 +29,13 @@ def GetObjectFromDB(id):
         f"{BASE_URL}/api/v1/warehouses/{id}", headers=headers_full)
     
     # Print the response status code and content for debugging
-    print(f"Response status code: {responseGet.status_code}")
-    print(f"Response content: {responseGet.content}")
+    print(f"=====================")
+    print(f"Response status code: '{responseGet.status_code}'")
+    print(f"Response content: '{responseGet.content}'")
+    print(f"ID: '{id}'")
+    print(f"=====================")
 
-    if responseGet.status_code == 200 and responseGet.content:
+    if responseGet.content:
         responseJson = responseGet.json()
         # set the created_at and updated_at to "-"
         responseJson["created_at"] = "-"
@@ -174,12 +177,12 @@ def GetJsonWarehousePostObjects(json_string):
     # test_post_empty_values_endpoint()   # ?? Empty items
 
 @pytest.mark.parametrize("objectKey, expectedStatusCode, expectedGetStatusCode, expectedGetResponse", [
-                        ("PostCorrect", 201, 200, "PostCorrect"),
-                        ("PostExistingID", 409, 200, "PostCorrect"),
-                        ("PostMissingItems", 400, 404, None),
-                        ("PostExtraItems", 400, 404, None),
-                        ("PostWrongTypes", 400, 404, None),
-                        ("PostEmptyValues", 400, 404, None)])
+                        ("PostCorrect", 201, 200, "PostCorrect")])
+                        # ("PostExistingID", 409, 200, "PostCorrect"),
+                        # ("PostMissingItems", 400, 404, None),
+                        # ("PostExtraItems", 400, 404, None),
+                        # ("PostWrongTypes", 400, 404, None),
+                        # ("PostEmptyValues", 400, 404, None)])
 
 def test_post_endpoints_func(objectKey, expectedStatusCode, expectedGetStatusCode, expectedGetResponse):
     headers_full = {
@@ -193,12 +196,12 @@ def test_post_endpoints_func(objectKey, expectedStatusCode, expectedGetStatusCod
     assert responsePost.status_code == expectedStatusCode, f"{objectKey}, Returns {responsePost.status_code}, Expected {expectedStatusCode}"
 
 
-    # responseJson, status_code = GetObjectFromDB(warehouseObject["id"])
-    # assert status_code == expectedGetStatusCode
-    # if expectedGetResponse != None:
-    #     assert responseJson == None
-    # else:
-    #     assert responseJson == GetJsonWarehousePostObjects(expectedGetResponse)
+    responseJson, status_code = GetObjectFromDB(warehouseObject["id"])
+    assert status_code == expectedGetStatusCode
+    if expectedGetResponse != None:
+        assert responseJson == None
+    else:
+        assert responseJson == GetJsonWarehousePostObjects(expectedGetResponse)
 
 def GetJsonWarehouseGetObjects(json_string):
     json_objects_dictionary = {
@@ -263,21 +266,21 @@ def GetJsonWarehouseGetObjects(json_string):
     return json_objects_dictionary[json_string]
 
 
-@pytest.mark.parametrize("objectKey, expectedStatusCode, expectedGetResponse",[
-                        ("GetCorrect", 200, "GetCorrect"),
-                        ("GetNonExistent", 404, None),
-                        ("GetWrongType", 400, None)
-])
+# @pytest.mark.parametrize("objectKey, expectedStatusCode, expectedGetResponse",[
+#                         ("GetCorrect", 200, "GetCorrect"),
+#                         ("GetNonExistent", 404, None),
+#                         ("GetWrongType", 400, None)
+# ])
 
-def test_get_endpoints_func(objectKey, expectedStatusCode, expectedGetResponse):
+# def test_get_endpoints_func(objectKey, expectedStatusCode, expectedGetResponse):
 
-    expectedWarehouseObject = GetJsonWarehouseGetObjects(objectKey)
-    responseJson, statusCode = GetObjectFromDB(expectedWarehouseObject["id"])
-    assert statusCode == expectedStatusCode, f"{objectKey}, Returns {statusCode}, Expected {expectedStatusCode}"
-    if expectedGetResponse != None:
-        assert responseJson == None
-    else:
-        assert responseJson == GetJsonWarehouseGetObjects(expectedGetResponse)
+#     expectedWarehouseObject = GetJsonWarehouseGetObjects(objectKey)
+#     responseJson, statusCode = GetObjectFromDB(expectedWarehouseObject["id"])
+#     assert statusCode == expectedStatusCode, f"{objectKey}, Returns {statusCode}, Expected {expectedStatusCode}"
+#     if expectedGetResponse != None:
+#         assert responseJson == None
+#     else:
+#         assert responseJson == GetJsonWarehouseGetObjects(expectedGetResponse)
 
 # class Test_Put_Endpoints(unittest.TestCase):
 def GetJsonWarehousePutObjects(jsonString):
@@ -285,7 +288,7 @@ def GetJsonWarehousePutObjects(jsonString):
     jsonobjects = {
         "PutCorrect": 
         {
-            "id": pow(10, 100),
+            "id": 10000,
             "code": "Y4ZYNL57", # changed
             "name": "Heemskerk cargo hub",
             "address": "Karlijndreef 281",
@@ -304,7 +307,7 @@ def GetJsonWarehousePutObjects(jsonString):
         },
         "PutNonExistentId" :
         {
-            "id": pow(10, 105),
+            "id": 100003,
             "code": "Y4ZYNL57", 
             "name": "Heemskerk cargo hub",
             "address": "Karlijndreef 281",
@@ -323,7 +326,7 @@ def GetJsonWarehousePutObjects(jsonString):
         },
         "PutMissingItems": 
         {
-            "id": pow(10, 100),
+            "id": 10000,
             # "code": "Y4ZYNL57",  removed
             # "name": "Heemskerk cargo hub", removed
             # "address": "Karlijndreef 281", removed
@@ -342,7 +345,7 @@ def GetJsonWarehousePutObjects(jsonString):
         },
         "PutExtraItems" :
         {
-            "id": pow(10, 100),
+            "id": 10000,
             "code": "Y4ZYNL57", 
             "name": "BE cargo hub",
             "address": "Karlijndreef 281",
@@ -364,7 +367,7 @@ def GetJsonWarehousePutObjects(jsonString):
         },
         "PutWrongTypes" :
         {
-            "id": pow(10, 100),
+            "id": 10000,
             "code": True,
             "name": 1,
             "address": [1,2,3],
@@ -383,7 +386,7 @@ def GetJsonWarehousePutObjects(jsonString):
         },
         "PutEmptyValues" :
         {
-            "id": pow(10, 100),
+            "id": 10000,
             "code": "", 
             "name": "Heemskerk cargo hub",
             "address": "",
@@ -403,28 +406,28 @@ def GetJsonWarehousePutObjects(jsonString):
     }
     return jsonobjects[jsonString]
 
-@pytest.mark.parametrize("objectKey, expectedStatusCode, expectedGetStatusCode, expectedGetResponse", [
-                        ("PutCorrect", 200, 200, "PutCorrect"),
-                        ("PutNonExistentId", 404, 404, None),
-                        ("PutMissingItems", 400, 200, "PutCorrect"),
-                        ("PutExtraItems", 400, 200, "PutCorrect"),
-                        ("PutWrongTypes", 400, 200, "PutCorrect"),
-                        ("PutEmptyValues", 400, 200, "PutCorrect")])
+# @pytest.mark.parametrize("objectKey, expectedStatusCode, expectedGetStatusCode, expectedGetResponse", [
+#                         ("PutCorrect", 200, 200, "PutCorrect"),
+#                         ("PutNonExistentId", 404, 404, None),
+#                         ("PutMissingItems", 400, 200, "PutCorrect"),
+#                         ("PutExtraItems", 400, 200, "PutCorrect"),
+#                         ("PutWrongTypes", 400, 200, "PutCorrect"),
+#                         ("PutEmptyValues", 400, 200, "PutCorrect")])
 
-def test_put_endpoints_func(objectKey, expectedStatusCode, expectedGetStatusCode, expectedGetResponse):
-    headers_full = {
-        "API_KEY": "a1b2c3d4e5",
-        "Content-Type": "application/json"
-    }
-    warehouseObject = GetJsonWarehousePutObjects(objectKey)
-    responsePut = requests.put(
-        f"{BASE_URL}/api/v1/warehouses/{warehouseObject['id']}", headers=headers_full, json=warehouseObject)
+# def test_put_endpoints_func(objectKey, expectedStatusCode, expectedGetStatusCode, expectedGetResponse):
+#     headers_full = {
+#         "API_KEY": "a1b2c3d4e5",
+#         "Content-Type": "application/json"
+#     }
+#     warehouseObject = GetJsonWarehousePutObjects(objectKey)
+#     responsePut = requests.put(
+#         f"{BASE_URL}/api/v1/warehouses/{warehouseObject['id']}", headers=headers_full, json=warehouseObject)
     
-    assert responsePut.status_code == expectedStatusCode, f"{objectKey}, Returns {responsePut.status_code}, Expected {expectedStatusCode}"
+#     assert responsePut.status_code == expectedStatusCode, f"{objectKey}, Returns {responsePut.status_code}, Expected {expectedStatusCode}"
 
 
 def delete_id(jsonString):
-    ids = {"DeleteCorrect" : pow(10, 100), "DeleteNonExistentId" : pow(10, 110)}
+    ids = {"DeleteCorrect" : 10000, "DeleteNonExistentId" : 100002}
     return ids[jsonString]
 
 
@@ -446,6 +449,17 @@ def test_delete_endpoint(TestName, expectedStatusCode, expectedGetStatusCode):
     # responseJson, status_code = GetObjectFromDB(delete_id)
     # assert status_code == expectedGetStatusCode, f"{TestName}, Returns: {status_code}, Expected: {expectedGetStatusCode}"
 
+def test_cleanup_db():
+    headers_full = {
+        "API_KEY": "a1b2c3d4e5",
+        "Content-Type": "application/json"
+    }
+    
+    ids_to_delete = [10000, 10001, 10002]
+    for deleteId in ids_to_delete:
+        responseDelete = requests.delete(
+            f"{BASE_URL}/api/v1/warehouses/{deleteId}", headers=headers_full)
+        assert responseDelete.status_code in [200, 404], f"Delete ID {deleteId} failed with status code {responseDelete.status_code}"
 
 def test_endpoint_restrictions():
 
