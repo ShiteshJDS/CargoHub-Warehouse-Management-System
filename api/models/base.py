@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 import sqlite3
 
 
@@ -7,7 +7,7 @@ class Base:
         pass
 
     def get_timestamp(self):
-        return datetime.utcnow().isoformat(" ", "seconds")
+        return datetime.datetime.now(datetime.UTC).isoformat(" ", "seconds")
 
     # Helper method to interact with the database
     def execute_query(self, query, params=None, fetch_one=False, fetch_all=False):

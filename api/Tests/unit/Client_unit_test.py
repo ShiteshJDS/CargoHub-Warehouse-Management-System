@@ -81,7 +81,7 @@ class Test_Clients():
 
     def test_add_client(self):
         newclient = {
-            "id": 3, 
+            "id": 10500,
             "name": "New name",
             "address": "New address",
             "city": "New city",
@@ -95,7 +95,7 @@ class Test_Clients():
             "updated_at": "2014-06-20 17:46:19"
         }
         self.ClientsObject.add_client(newclient)
-        clientFromDB = self.ClientsObject.get_client(3)
+        clientFromDB = self.ClientsObject.get_client(10500)
         assert clientFromDB["id"] == newclient["id"] and \
                clientFromDB["name"] ==  newclient["name"] and\
                clientFromDB["address"] == newclient["address"] and\
@@ -111,7 +111,7 @@ class Test_Clients():
         
 
         newUpdatedclient = {
-            "id": 3, 
+            "id": 10500,
             "name": "New name updated", # <- changed
             "address": "New address updated", # <- changed
             "city": "New city updated", # <- changed
@@ -125,8 +125,8 @@ class Test_Clients():
             "updated_at": "2014-06-20 17:46:19"
         }
 
-        self.ClientsObject.update_client(3, newUpdatedclient)
-        clientFromDB = self.ClientsObject.get_client(3)
+        self.ClientsObject.update_client(10500, newUpdatedclient)
+        clientFromDB = self.ClientsObject.get_client(10500)
         assert clientFromDB["id"] == newUpdatedclient["id"] and \
                clientFromDB["name"] ==  newUpdatedclient["name"] and\
                clientFromDB["address"] == newUpdatedclient["address"] and\
@@ -141,6 +141,6 @@ class Test_Clients():
 
     def test_remove_client(self):
 
-        self.ClientsObject.remove_client(3)
-        assert self.ClientsObject.get_client(3) == None, \
+        self.ClientsObject.remove_client(10500)
+        assert self.ClientsObject.get_client(10500) == None, \
         "Client with ID 3 still exists in the database, or get_client doesn't function properly."
