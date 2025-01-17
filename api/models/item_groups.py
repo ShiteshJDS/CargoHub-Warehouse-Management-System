@@ -19,8 +19,9 @@ class ItemGroups(Base):
     # Retrieve all item groups from the database.
     def get_item_group(self, item_group_id):
         query = "SELECT * FROM item_groups WHERE id = ?"
-        result = self.execute_query(
-            query, params=(item_group_id,), fetch_one=True)
+        result = self.execute_query(query, params=(item_group_id,), fetch_one=True)
+        if result is None:
+            return None
         return self.query_to_dict([result])
 
     # Add a new item group to the database.

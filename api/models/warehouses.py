@@ -89,6 +89,14 @@ class Warehouses(Base):
             warehouse["updated_at"]
         ))
 
+        contact_query = """
+        INSERT INTO warehouse_contacts (warehouse_id, contact_name, contact_phone, contact_email) 
+        VALUES (?, ?, ?, ?)
+        """
+        self.execute_query(contact_query, params=(
+            warehouse["id"], warehouse["contact"]["name"], warehouse["contact"]["phone"], warehouse["contact"]["email"]
+        ))
+
     # Update an existing warehouse
     def update_warehouse(self, warehouse_id, warehouse):
         query = """
@@ -99,6 +107,14 @@ class Warehouses(Base):
         self.execute_query(query, params=(
             warehouse["code"], warehouse["name"], warehouse["address"], warehouse["zip"],
             warehouse["city"], warehouse["province"], warehouse["country"], warehouse["updated_at"], warehouse_id
+        ))
+
+        contact_query = """
+        UPDATE warehouse_contacts SET contact_name = ?, contact_phone = ?, contact_email = ? 
+        WHERE warehouse_id = ?
+        """
+        self.execute_query(contact_query, params=(
+            warehouse["contact"]["name"], warehouse["contact"]["phone"], warehouse["contact"]["email"], warehouse_id
         ))
 
     # Delete a warehouse from the database by ID

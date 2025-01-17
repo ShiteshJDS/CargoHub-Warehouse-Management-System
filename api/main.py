@@ -68,6 +68,13 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 case _:
                     self.send_response(404)
                     self.end_headers()
+        elif path[0] == "warehouses" and path[2] == "locations":
+            warehouse_id = int(path[1])
+            locations = data_provider.fetch_location_pool().get_locations_in_warehouse(warehouse_id)
+            self.send_response(200)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(locations).encode("utf-8"))
         elif path[0] == "locations":
             paths = len(path)
             match paths:
@@ -845,7 +852,9 @@ def StartWebAPI():
         cargohub_db.create_warehouses_table(db_name, 'data/warehouses.json')
 
     # Create test database if it doesn't exist
+
     test_db_name = 'api/Tests/Test_Data/Cargohub_Test.db'
+    cargohub_db.delete_test_db()
     cargohub_db.create_clients_table(test_db_name, 'data/clients.json')
     cargohub_db.create_inventories_table(test_db_name, 'data/inventories.json')
     cargohub_db.create_item_groups_table(test_db_name, 'data/item_groups.json')

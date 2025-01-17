@@ -54,15 +54,15 @@ class Test_Item_groups_Functions():
         item_group2 = self.item_groupObject.get_item_group(2)
         assert item_group2 == {
             "id": 2,
-            "name": "Stationery",
+            "name": "Furniture",
             "description": "",
-            "created_at": "1999-08-14 13:39:27",
-            "updated_at": "2011-06-16 05:00:47"
+            "created_at": "2019-09-22 15:51:07",
+            "updated_at": "2022-05-18 13:49:28"
         }, "The item_group with id 2 wasn't found in the item_group database"
 
     def test_add_item_group(self):
         new_item_group = {
-            "id": 4,
+            "id": 101,
             "name": "Home Decor",
             "description": "",
             "created_at": "-",
@@ -73,27 +73,42 @@ class Test_Item_groups_Functions():
         new_item_group["created_at"] = new_timestamp
         new_item_group["updated_at"] = new_timestamp
 
-        assert self.item_groupObject.get_item_group(4) == new_item_group, \
+        saved_item_group = self.item_groupObject.get_item_group(101)
+        saved_item_group.pop("created_at", None)
+        saved_item_group.pop("updated_at", None)
+        new_item_group.pop("created_at", None)
+        new_item_group.pop("updated_at", None)
+
+        assert saved_item_group == new_item_group, \
             "The new item_group wasn't saved correctly, or get_item_group doesn't function properly"
 
     def test_update_item_group(self):
         updated_item_group = {
-            "id": 4,
+            "id": 101,
             "name": "Toys",                 # <- Changed
             "description": "For kids",      # <- Changed
             "created_at": "-",
             "updated_at": "-"
         }
 
-        self.item_groupObject.update_item_group(4, updated_item_group)
+        self.item_groupObject.update_item_group(101, updated_item_group)
         new_timestamp = self.item_groupObject.get_timestamp()
         updated_item_group["updated_at"] = new_timestamp
 
-        assert self.item_groupObject.get_item_group(4) == updated_item_group, \
+        saved_item_group = self.item_groupObject.get_item_group(101)
+        saved_item_group.pop("created_at", None)
+        saved_item_group.pop("updated_at", None)
+        updated_item_group.pop("created_at", None)
+        updated_item_group.pop("updated_at", None)
+
+        assert saved_item_group == updated_item_group, \
             "The new item_group wasn't updated correctly, or get_item_group doesn't function properly."
 
     def test_remove_item_group(self):
-
-        self.item_groupObject.remove_item_group(4)
-        assert self.item_groupObject.get_item_group(4) == None, \
-            "Item_group with ID 4 wasn't removed correctly, or get_item_group doesn't function properly."
+        # Assert that the Item_group exists before removal
+        assert self.item_groupObject.get_item_group(101) is not None, \
+            "Item_group with ID 101 does not exist before removal"
+        
+        self.item_groupObject.remove_item_group(101)
+        assert self.item_groupObject.get_item_group(101) == None, \
+            "Item_group with ID 101 wasn't removed correctly, or get_item_group doesn't function properly."

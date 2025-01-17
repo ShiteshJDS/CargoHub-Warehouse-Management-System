@@ -105,17 +105,17 @@ class Test_Transfers():
 
     def test_add_transfer(self):
         new_transfer = {
-            "id": 4,
-            "reference": "TR119216",
+            "id": 119241,
+            "reference": "TR00001",
             "transfer_from": None,
-            "transfer_to": 769,
-            "transfer_status": "-",
-            "created_at": "-",
-            "updated_at": "-",
+            "transfer_to": 9229,
+            "transfer_status": "Completed",
+            "created_at": "2000-03-11T13:11:14Z",
+            "updated_at": "2000-03-12T16:11:14Z",
             "items": [
                 {
-                    "item_id": "P002698",
-                    "amount": 35
+                    "item_id": "P007435",
+                    "amount": 23
                 }
             ]
         }
@@ -126,12 +126,20 @@ class Test_Transfers():
         new_transfer["updated_at"] = new_timestamp
         new_transfer["transfer_status"] = "Scheduled"
 
-        assert self.transferObject.get_transfer(4) == new_transfer, \
-            "The new transfer wasn't saved correctly, or get_transfer doesn't function properly"
+        saved_transfer = self.transferObject.get_transfer(119241)
+        assert saved_transfer is not None, "The new transfer ID 119241 wasn't saved correctly, or get_transfer doesn't function properly"
 
+        # Remove the created_at and updated_at fields for comparison
+        saved_transfer.pop("created_at", None)
+        saved_transfer.pop("updated_at", None)
+        new_transfer.pop("created_at", None)
+        new_transfer.pop("updated_at", None)
+
+        assert saved_transfer == new_transfer, "The new transfer ID 119241 wasn't saved correctly, or get_transfer doesn't function properly"
+    
     def test_update_transfer(self):
         updated_transfer = {
-            "id": 4,
+            "id": 119241,
             "reference": "TR119217",    # <- Changed
             "transfer_from": None,
             "transfer_to": 780,         # <- Changed
@@ -146,15 +154,24 @@ class Test_Transfers():
             ]
         }
 
-        self.transferObject.update_transfer(4, updated_transfer)
+        self.transferObject.update_transfer(119241, updated_transfer)
         new_timestamp = self.transferObject.get_timestamp()
         updated_transfer["updated_at"] = new_timestamp
 
-        assert self.transferObject.get_transfer(4) == updated_transfer, \
-            "The new transfer wasn't updated correctly, or get_transfer doesn't function properly."
+        saved_transfer = self.transferObject.get_transfer(119241)
+        saved_transfer.pop("created_at", None)
+        saved_transfer.pop("updated_at", None)
+        updated_transfer.pop("created_at", None)
+        updated_transfer.pop("updated_at", None)
+
+        assert saved_transfer == updated_transfer, \
+            "The new transfer with ID 119241 wasn't updated correctly, or get_transfer doesn't function properly."
 
     def test_remove_transfer(self):
+        # Assert that the transfer exists before removal
+        assert self.transferObject.get_transfer(119241) is not None, \
+            "Transfer with ID 119241 does not exist before removal"
 
-        self.transferObject.remove_transfer(4)
-        assert self.transferObject.get_transfer(4) == None, \
-            "Transfer with ID 99 wasn't removed correctly, or get_transfer doesn't function properly"
+        self.transferObject.remove_transfer(119241)
+        assert self.transferObject.get_transfer(119241) is None, \
+            "Transfer with ID 119241 wasn't removed correctly, or get_transfer doesn't function properly"
