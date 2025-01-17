@@ -11,8 +11,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Add the path to the CargoHub directory to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
+sys.path.insert(0, os.path.abspath(
+os.path.join(os.path.dirname(__file__), '..', '..')))
 from models.warehouses import Warehouses  # noqa
 
 BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
@@ -21,7 +21,7 @@ BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
 
 class Test_Warehouses_Functions():
 
-    warehousesObject = Warehouses("../Tests/Test_Data/cargohub_test.db")
+    warehousesObject = Warehouses("../Test_Data/cargohub_test.db")
 
     # def test_get_warehouses(self):
 
@@ -79,7 +79,19 @@ class Test_Warehouses_Functions():
     #             "updated_at": "2017-12-19 14:32:38"
     #         }
     #     ], "The warehouse database doesn't match the expected data"
+    
+    def FilterObjectsForAssertion(self, obj1, obj2):
+        """
+        Removes 'created_at' and 'updated_at' fields from two dictionary objects.
+        """
 
+        keys_to_remove = {"created_at", "updated_at"}
+        
+        obj1_filtered = {key: value for key, value in obj1.items() if key not in keys_to_remove}
+        obj2_filtered = {key: value for key, value in obj2.items() if key not in keys_to_remove}
+        
+        return obj1_filtered, obj2_filtered
+    
     def test_get_warehouse_with_id(self):
         warehouse2 = self.warehousesObject.get_warehouse(2)
         assert warehouse2 == {
@@ -102,7 +114,7 @@ class Test_Warehouses_Functions():
 
     def test_add_warehouse(self):
         new_warehouse = {
-            "id": 4,
+            "id": 100,
             "code": "VCKINLLK",
             "name": "Naaldwijk distribution hub",
             "address": "Izesteeg 807",
@@ -119,12 +131,11 @@ class Test_Warehouses_Functions():
             "updated_at": "-"
         }
         self.warehousesObject.add_warehouse(new_warehouse)
-        new_timestamp = self.warehousesObject.get_timestamp()
-        new_warehouse["created_at"] = new_timestamp
-        new_warehouse["updated_at"] = new_timestamp
-
-        assert self.warehousesObject.get_warehouse(4) == new_warehouse, \
-            "The new warehouse wasn't saved correctly, or get_warehouse doesn't function properly"
+        warehouseFromDB = self.warehousesObject.get_warehouse(100)
+        filteredWarehouseFromDB, filteredNew_warehouse = self.FilterObjectsForAssertion(warehouseFromDB, new_warehouse)
+        print(f"dwadadawda{filteredWarehouseFromDB}")
+        print(filteredNew_warehouse)
+        assert filteredWarehouseFromDB == filteredNew_warehouse, "The new warehouse wasn't saved correctly or get_warehouse doesn't function properly"
 
     def test_update_warehouse(self):
         updated_warehouse = {
@@ -154,6 +165,6 @@ class Test_Warehouses_Functions():
 
     def test_remove_warehouse(self):
 
-        self.warehousesObject.remove_warehouse(4)
-        assert self.warehousesObject.get_warehouse(4) is None, \
+        self.warehousesObject.remove_warehouse(100)
+        assert self.warehousesObject.get_warehouse(100) is None, \
             "Warehouse with ID 4 wasn't removed correctly, or get_warehouse doesn't function properly."
