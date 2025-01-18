@@ -9,49 +9,26 @@ class Shipments(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    def format_shipment(self, shipment):
-        return {
-            "id": shipment[0],
-            "order_id": shipment[1],
-            "source_id": shipment[2],
-            "order_date": shipment[3],
-            "request_date": shipment[4],
-            "shipment_date": shipment[5],
-            "shipment_type": shipment[6],
-            "shipment_status": shipment[7],
-            "notes": shipment[8],
-            "carrier_code": shipment[9],
-            "carrier_description": shipment[10],
-            "service_code": shipment[11],
-            "payment_type": shipment[12],
-            "transfer_mode": shipment[13],
-            "total_package_count": shipment[14],
-            "total_package_weight": shipment[15],
-            "created_at": shipment[16],
-            "updated_at": shipment[17]
-        }
-
-    # Retrieve all shipments from the database.
+    # Retrieve all shipments from the database.#!#1#!#
     def get_shipments(self):
         query = "SELECT * FROM shipments"
         shipments = self.execute_query(query, fetch_all=True)
-        return [self.format_shipment(shipment) for shipment in shipments]
+        for shipment in shipments:
+            shipment["items"] = self.get_items_in_shipment(shipment["id"])
+        return shipments
 
-    # Retrieve a specific shipment by ID.
+    # Retrieve a specific shipment by ID.#!#1#!#
     def get_shipment(self, shipment_id):
         query = "SELECT * FROM shipments WHERE id = ?"
-        shipment = self.execute_query(query, params=(shipment_id,), fetch_one=True)
-        if shipment:
-            shipment_dict = self.format_shipment(shipment)
-            shipment_dict["items"] = self.get_items_in_shipment(shipment_id)
-            return shipment_dict
-        return None
+        shipment = self.execute_query(
+            query, params=(shipment_id,), fetch_one=True)
+        shipment["items"] = self.get_items_in_shipment(shipment_id)
+        return shipment
 
     # Retrieve all items in a specific shipment.
     def get_items_in_shipment(self, shipment_id):
         query = "SELECT item_id, amount FROM shipment_items WHERE shipment_id = ?"
-        items = self.execute_query(query, params=(shipment_id,), fetch_all=True)
-        return [{"item_id": item[0], "amount": item[1]} for item in items]
+        return self.execute_query(query, params=(shipment_id,), fetch_all=True)
 
     # Add a new shipment to the database.
     def add_shipment(self, shipment):
@@ -65,7 +42,7 @@ class Shipments(Base):
         shipment["updated_at"] = self.get_timestamp()
         self.execute_query(query, params=(
             shipment["id"], shipment["order_id"], shipment["source_id"], shipment["order_date"], shipment["request_date"],
-            shipment["shipment_date"], shipment["shipment_type"], shipment["shipment_status"], shipment["notes"], 
+            shipment["shipment_date"], shipment["shipment_type"], shipment["shipment_status"], shipment["notes"],
             shipment["carrier_code"], shipment["carrier_description"], shipment["service_code"], shipment["payment_type"],
             shipment["transfer_mode"], shipment["total_package_count"], shipment["total_package_weight"],
             shipment["created_at"], shipment["updated_at"]
@@ -89,9 +66,9 @@ class Shipments(Base):
         shipment["updated_at"] = self.get_timestamp()
         self.execute_query(query, params=(
             shipment["order_id"], shipment["source_id"], shipment["order_date"], shipment["request_date"],
-            shipment["shipment_date"], shipment["shipment_type"], shipment["shipment_status"], shipment["notes"], 
+            shipment["shipment_date"], shipment["shipment_type"], shipment["shipment_status"], shipment["notes"],
             shipment["carrier_code"], shipment["carrier_description"], shipment["service_code"], shipment["payment_type"],
-            shipment["transfer_mode"], shipment["total_package_count"], shipment["total_package_weight"], 
+            shipment["transfer_mode"], shipment["total_package_count"], shipment["total_package_weight"],
             shipment["updated_at"], shipment_id
         ))
 
@@ -108,7 +85,8 @@ class Shipments(Base):
         self.execute_query(delete_query, params=(shipment_id,))
         # Add new items to the shipment
         for item in items:
-            self.execute_query(insert_query, params=(shipment_id, item["item_id"], item["amount"]))
+            self.execute_query(insert_query, params=(
+                shipment_id, item["item_id"], item["amount"]))
 
     # Delete a shipment and its associated items.
     def remove_shipment(self, shipment_id):
