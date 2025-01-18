@@ -6,12 +6,12 @@ class Clients(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Retrieve all clients from the database.#!#1#!#
+    # Retrieve all clients from the database.
     def get_clients(self):
         query = "SELECT * FROM clients"
         return self.execute_query(query, fetch_all=True)
 
-    # Retrieve a single client by ID.#!#1#!#
+    # Retrieve a single client by ID.
     def get_client(self, client_id):
         query = "SELECT * FROM clients WHERE id = ?"
         return self.execute_query(query, params=(client_id,), fetch_one=True)

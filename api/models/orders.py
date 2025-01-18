@@ -6,7 +6,7 @@ class Orders(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Retrieve all orders from the database.#!#1#!#
+    # Retrieve all orders from the database.
     def get_orders(self):
         query = "SELECT * FROM orders"
         orders = self.execute_query(query, fetch_all=True)
@@ -14,24 +14,24 @@ class Orders(Base):
             order["items"] = self.get_items_in_order(order["id"])
         return orders
 
-    # Retrieve a specific order by ID.#!#1#!#
+    # Retrieve a specific order by ID.
     def get_order(self, order_id):
         query = "SELECT * FROM orders WHERE id = ?"
         order = self.execute_query(query, params=(order_id,), fetch_one=True)
         order["items"] = self.get_items_in_order(order_id)
         return order
 
-    # Retrieve all items in a specific order.#!#1#!#
+    # Retrieve all items in a specific order.
     def get_items_in_order(self, order_id):
         query = "SELECT item_id, amount FROM order_items WHERE order_id = ?"
         return self.execute_query(query, params=(order_id,), fetch_all=True)
 
-    # Retrieve all orders associated with a specific shipment.#!#1#!#
+    # Retrieve all orders associated with a specific shipment.
     def get_orders_in_shipment(self, shipment_id):
         query = "SELECT id FROM orders WHERE shipment_id = ?"
         return self.execute_query(query, params=(shipment_id,), fetch_all=True)
 
-    # Retrieve all orders for a specific client.#!#1#!#
+    # Retrieve all orders for a specific client.
     def get_orders_for_client(self, client_id):
         query = "SELECT * FROM orders WHERE ship_to = ? OR bill_to = ?"
         orders = self.execute_query(query, params=(

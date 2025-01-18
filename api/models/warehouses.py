@@ -19,7 +19,7 @@ class Warehouses(Base):
     def get_warehouse(self, warehouse_id):
         query = "SELECT * FROM warehouses WHERE id = ?"
         warehouse = self.execute_query(
-            query, params=(warehouse_id,), fetch_all=True)
+            query, params=(warehouse_id,), fetch_one=True)
         warehouse["contact"] = self.get_contact_for_warehouse(warehouse_id)
         return warehouse
 

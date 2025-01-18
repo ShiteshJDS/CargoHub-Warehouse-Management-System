@@ -6,7 +6,7 @@ class Inventories(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Retrieve all inventories from the database.#!#1#!#
+    # Retrieve all inventories from the database.
     def get_inventories(self):
         query = "SELECT * FROM inventories"
         inventories = self.execute_query(query, fetch_all=True)
@@ -15,7 +15,7 @@ class Inventories(Base):
                 inventory["id"])
         return inventories
 
-    # Retrieve a single inventory by ID.#!#1#!#
+    # Retrieve a single inventory by ID.
     def get_inventory(self, inventory_id):
         query = "SELECT * FROM inventories WHERE id = ?"
         inventory = self.execute_query(
@@ -23,7 +23,7 @@ class Inventories(Base):
         inventory["locations"] = self.get_locations_for_inventory(inventory_id)
         return inventory
 
-    # Retrieve all inventories associated with a specific item.#!#1#!#
+    # Retrieve all inventories associated with a specific item.
     def get_inventories_for_item(self, item_id):
         query = "SELECT * FROM inventories WHERE item_id = ?"
         inventories = self.execute_query(
@@ -33,13 +33,13 @@ class Inventories(Base):
                 inventory["id"])
         return inventories
 
-    # Retrieve all locations associated with a specific inventory.#!#1#!#
+    # Retrieve all locations associated with a specific inventory.
     # This method is not an endpoint and is only used inside the class
     def get_locations_for_inventory(self, inventory_id):
         query = "SELECT location_id FROM inventory_locations WHERE inventory_id = ?"
         return [location["location_id"] for location in self.execute_query(query, params=(inventory_id,), fetch_all=True)]
 
-    # Retrieve total inventory details for a specific item.#!#1#!#
+    # Retrieve total inventory details for a specific item.
     def get_inventory_totals_for_item(self, item_id):
         query = """
         SELECT SUM(total_expected) AS total_expected,

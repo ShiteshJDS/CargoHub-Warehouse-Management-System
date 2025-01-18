@@ -6,17 +6,17 @@ class Locations(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Retrieve all locations from the database.#!#1#!#
+    # Retrieve all locations from the database.
     def get_locations(self):
         query = "SELECT * FROM locations"
         return self.execute_query(query, fetch_all=True)
 
-    # Retrieve a specific location by ID.#!#1#!#
+    # Retrieve a specific location by ID.
     def get_location(self, location_id):
         query = "SELECT * FROM locations WHERE id = ?"
         return self.execute_query(query, params=(location_id,), fetch_one=True)
 
-    # Retrieve all locations in a specific warehouse.#!#1#!#
+    # Retrieve all locations in a specific warehouse.
     def get_locations_in_warehouse(self, warehouse_id):
         query = "SELECT * FROM locations WHERE warehouse_id = ?"
         return self.execute_query(query, params=(warehouse_id,), fetch_all=True)

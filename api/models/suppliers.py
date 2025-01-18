@@ -6,12 +6,12 @@ class Suppliers(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Retrieve all suppliers from the database#!#1#!#
+    # Retrieve all suppliers from the database
     def get_suppliers(self):
         query = "SELECT * FROM suppliers"
         return self.execute_query(query, fetch_all=True)
 
-    # Retrieve a specific supplier by ID#!#1#!#
+    # Retrieve a specific supplier by ID
     def get_supplier(self, supplier_id):
         query = "SELECT * FROM suppliers WHERE id = ?"
         return self.execute_query(query, params=(supplier_id,), fetch_one=True)

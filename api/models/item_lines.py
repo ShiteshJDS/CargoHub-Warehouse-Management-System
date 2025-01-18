@@ -6,12 +6,12 @@ class ItemLines(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Retrieve all item lines from the database.#!#1#!#
+    # Retrieve all item lines from the database.
     def get_item_lines(self):
         query = "SELECT * FROM item_lines"
         return self.execute_query(query, fetch_all=True)
 
-    # Retrieve a single item line by ID.#!#1#!#
+    # Retrieve a single item line by ID.
     def get_item_line(self, item_line_id):
         query = "SELECT * FROM item_lines WHERE id = ?"
         return self.execute_query(query, params=(item_line_id,), fetch_one=True)

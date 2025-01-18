@@ -6,12 +6,12 @@ class ItemGroups(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Retrieve all item groups from the database.#!#1#!#
+    # Retrieve all item groups from the database.
     def get_item_groups(self):
         query = "SELECT * FROM item_groups"
         return self.execute_query(query, fetch_all=True)
 
-    # Retrieve all item groups from the database.#!#1#!#
+    # Retrieve all item groups from the database.
     def get_item_group(self, item_group_id):
         query = "SELECT * FROM item_groups WHERE id = ?"
         return self.execute_query(query, params=(item_group_id,), fetch_one=True)

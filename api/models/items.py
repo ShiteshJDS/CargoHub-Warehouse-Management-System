@@ -6,35 +6,35 @@ class Items(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Retrieve all items from the database#!#1#!#
+    # Retrieve all items from the database
     def get_items(self):
         query = "SELECT * FROM items"
         return self.execute_query(query, fetch_all=True)
 
-    # Retrieve a single item by UID#!#1#!#
+    # Retrieve a single item by UID
     def get_item(self, item_id):
         query = "SELECT * FROM items WHERE uid = ?"
         return self.execute_query(query, params=(item_id,), fetch_one=True)
 
-    # Retrieve items associated with a specific item line#!#1#!#
+    # Retrieve items associated with a specific item line
     def get_items_for_item_line(self, item_line_id):
         query = "SELECT * FROM items WHERE item_line_id = ?"
         return self.execute_query(
             query, params=(item_line_id,), fetch_all=True)
 
-    # Retrieve items associated with a specific item group#!#1#!#
+    # Retrieve items associated with a specific item group
     def get_items_for_item_group(self, item_group_id):
         query = "SELECT * FROM items WHERE item_group_id = ?"
         return self.execute_query(
             query, params=(item_group_id,), fetch_all=True)
 
-    # Retrieve items associated with a specific item type#!#1#!#
+    # Retrieve items associated with a specific item type
     def get_items_for_item_type(self, item_type_id):
         query = "SELECT * FROM items WHERE item_type_id = ?"
         return self.execute_query(
             query, params=(item_type_id,), fetch_all=True)
 
-    # Retrieve items associated with a specific supplier#!#1#!#
+    # Retrieve items associated with a specific supplier
     def get_items_for_supplier(self, supplier_id):
         query = "SELECT * FROM items WHERE supplier_id = ?"
         return self.execute_query(

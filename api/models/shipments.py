@@ -6,7 +6,7 @@ class Shipments(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Retrieve all shipments from the database.#!#1#!#
+    # Retrieve all shipments from the database.
     def get_shipments(self):
         query = "SELECT * FROM shipments"
         shipments = self.execute_query(query, fetch_all=True)
@@ -14,7 +14,7 @@ class Shipments(Base):
             shipment["items"] = self.get_items_in_shipment(shipment["id"])
         return shipments
 
-    # Retrieve a specific shipment by ID.#!#1#!#
+    # Retrieve a specific shipment by ID.
     def get_shipment(self, shipment_id):
         query = "SELECT * FROM shipments WHERE id = ?"
         shipment = self.execute_query(
@@ -22,7 +22,7 @@ class Shipments(Base):
         shipment["items"] = self.get_items_in_shipment(shipment_id)
         return shipment
 
-    # Retrieve all items in a specific shipment.#!#1#!#
+    # Retrieve all items in a specific shipment.
     def get_items_in_shipment(self, shipment_id):
         query = "SELECT item_id, amount FROM shipment_items WHERE shipment_id = ?"
         return self.execute_query(query, params=(shipment_id,), fetch_all=True)

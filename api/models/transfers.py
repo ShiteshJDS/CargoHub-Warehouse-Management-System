@@ -6,7 +6,7 @@ class Transfers(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Retrieve all transfers from the database#!#1#!#
+    # Retrieve all transfers from the database
     def get_transfers(self):
         query = "SELECT * FROM transfers"
         transfers = self.execute_query(query, fetch_all=True)
@@ -14,7 +14,7 @@ class Transfers(Base):
             transfer["items"] = self.get_items_in_transfer(transfer["id"])
         return transfers
 
-    # Retrieve a specific transfer by ID#!#1#!#
+    # Retrieve a specific transfer by ID
     def get_transfer(self, transfer_id):
         query = "SELECT * FROM transfers WHERE id = ?"
         transfer = self.execute_query(
@@ -22,7 +22,7 @@ class Transfers(Base):
         transfer["items"] = self.get_items_in_transfer(transfer_id)
         return transfer
 
-    # Retrieve all items in a specific transfer#!#1#!#
+    # Retrieve all items in a specific transfer
     def get_items_in_transfer(self, transfer_id):
         query = "SELECT item_id, amount FROM transfer_items WHERE transfer_id = ?"
         return self.execute_query(

@@ -6,12 +6,12 @@ class ItemTypes(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Retrieve all item types from the database.#!#1#!#
+    # Retrieve all item types from the database.
     def get_item_types(self):
         query = "SELECT * FROM item_types"
         return self.execute_query(query, fetch_all=True)
 
-    # Retrieve a single item type by ID.#!#1#!#
+    # Retrieve a single item type by ID.
     def get_item_type(self, item_type_id):
         query = "SELECT * FROM item_types WHERE id = ?"
         return self.execute_query(query, params=(item_type_id,), fetch_one=True)
