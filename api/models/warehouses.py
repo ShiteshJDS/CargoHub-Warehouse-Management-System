@@ -75,8 +75,10 @@ class Warehouses(Base):
 
     # Delete a warehouse from the database by ID
     def remove_warehouse(self, warehouse_id):
-        query = "DELETE FROM warehouses WHERE id = ?"
-        self.execute_query(query, params=(warehouse_id,))
+        warehouses_query = "DELETE FROM warehouses WHERE id = ?"
+        contacts_query = "DELETE FROM warehouse_contacts WHERE warehouse_id = ?"
+        self.execute_query(warehouses_query, params=(warehouse_id,))
+        self.execute_query(contacts_query, params=(warehouse_id,))
 
     # def __init__(self, root_path, is_debug=False):
     #     self.data_path = root_path + "warehouses.json"
