@@ -1,28 +1,20 @@
-# import json
 import sqlite3
 from models.base import Base
-
-# ITEM_GROUPS = []
 
 
 class ItemGroups(Base):
     def __init__(self, db_path):
         self.db_path = db_path
-        self.tablename = "item_groups"
 
     # Retrieve all item groups from the database.
     def get_item_groups(self):
         query = "SELECT * FROM item_groups"
-        result = self.execute_query(query, fetch_all=True)
-        return self.query_to_dict(result)
+        return self.execute_query(query, fetch_all=True)
 
     # Retrieve all item groups from the database.
     def get_item_group(self, item_group_id):
         query = "SELECT * FROM item_groups WHERE id = ?"
-        result = self.execute_query(query, params=(item_group_id,), fetch_one=True)
-        if result is None:
-            return None
-        return self.query_to_dict([result])
+        return self.execute_query(query, params=(item_group_id,), fetch_one=True)
 
     # Add a new item group to the database.
     def add_item_group(self, item_group):

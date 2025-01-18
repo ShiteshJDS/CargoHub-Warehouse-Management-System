@@ -21,6 +21,7 @@ BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
 
 # Must run in test folder
 
+
 class Test_Orders():
 
     orderObject = Orders("../Test_Data/Cargohub_Test.db")
@@ -294,7 +295,7 @@ class Test_Orders():
             ]
         }
         assert order2 == expected_order, "The order with id 2 wasn't found in the order database"
-    
+
     def test_get_items_in_order(self):
         items_in_order2 = self.orderObject.get_items_in_order(2)
         assert items_in_order2 == [
@@ -368,73 +369,72 @@ class Test_Orders():
     def test_get_orders_for_client(self):
         orders_for_client8783 = self.orderObject.get_orders_for_client(1)
         expected_orders = [
-  {
-    "id": 9325,
-    "source_id": 32,
-    "order_date": "2003-12-27T08:47:45Z",
-    "request_date": "2003-12-31T08:47:45Z",
-    "reference": "ORD02467",
-    "reference_extra": "Oceaan lot bibliotheek stad zon baby reeds belangrijk.",
-    "order_status": "Shipped",
-    "notes": "Knie tellen drinken jas mond.",
-    "shipping_notes": "Dichtbij jas geit dun mensen branden af mand.",
-    "picking_notes": "Pijn alleen start kaart dapper tamelijk.",
-    "warehouse_id": 21,
-    "ship_to": "1",
-    "bill_to": "1",
-    "shipment_id": 8086,
-    "total_amount": 5153.45,
-    "total_discount": 195.06,
-    "total_tax": 130.96,
-    "total_surcharge": 66.05,
-    "created_at": "2003-12-27T08:47:45Z",
-    "updated_at": "2003-12-29T04:47:45Z",
-    "items": [
-      {
-        "item_id": "P002181",
-        "amount": 33
-      },
-      {
-        "item_id": "P004732",
-        "amount": 21
-      },
-      {
-        "item_id": "P007613",
-        "amount": 7
-      },
-      {
-        "item_id": "P000060",
-        "amount": 3
-      },
-      {
-        "item_id": "P004959",
-        "amount": 7
-      },
-      {
-        "item_id": "P004394",
-        "amount": 47
-      },
-      {
-        "item_id": "P000832",
-        "amount": 2
-      },
-      {
-        "item_id": "P005823",
-        "amount": 49
-      },
-      {
-        "item_id": "P006835",
-        "amount": 13
-      },
-      {
-        "item_id": "P003474",
-        "amount": 20
-      }
-    ]
-  }
-]
+            {
+                "id": 9325,
+                "source_id": 32,
+                "order_date": "2003-12-27T08:47:45Z",
+                "request_date": "2003-12-31T08:47:45Z",
+                "reference": "ORD02467",
+                "reference_extra": "Oceaan lot bibliotheek stad zon baby reeds belangrijk.",
+                "order_status": "Shipped",
+                "notes": "Knie tellen drinken jas mond.",
+                "shipping_notes": "Dichtbij jas geit dun mensen branden af mand.",
+                "picking_notes": "Pijn alleen start kaart dapper tamelijk.",
+                "warehouse_id": 21,
+                "ship_to": "1",
+                "bill_to": "1",
+                "shipment_id": 8086,
+                "total_amount": 5153.45,
+                "total_discount": 195.06,
+                "total_tax": 130.96,
+                "total_surcharge": 66.05,
+                "created_at": "2003-12-27T08:47:45Z",
+                "updated_at": "2003-12-29T04:47:45Z",
+                "items": [
+                    {
+                        "item_id": "P002181",
+                        "amount": 33
+                    },
+                    {
+                        "item_id": "P004732",
+                        "amount": 21
+                    },
+                    {
+                        "item_id": "P007613",
+                        "amount": 7
+                    },
+                    {
+                        "item_id": "P000060",
+                        "amount": 3
+                    },
+                    {
+                        "item_id": "P004959",
+                        "amount": 7
+                    },
+                    {
+                        "item_id": "P004394",
+                        "amount": 47
+                    },
+                    {
+                        "item_id": "P000832",
+                        "amount": 2
+                    },
+                    {
+                        "item_id": "P005823",
+                        "amount": 49
+                    },
+                    {
+                        "item_id": "P006835",
+                        "amount": 13
+                    },
+                    {
+                        "item_id": "P003474",
+                        "amount": 20
+                    }
+                ]
+            }
+        ]
         assert orders_for_client8783 == expected_orders
-    
 
     def test_add_order(self):
         new_order = {
@@ -471,7 +471,8 @@ class Test_Orders():
         new_order["updated_at"] = new_timestamp
 
         # Add items to the order_items table
-        self.orderObject.update_items_in_order(new_order["id"], new_order["items"])
+        self.orderObject.update_items_in_order(
+            new_order["id"], new_order["items"])
 
         get_order = self.orderObject.get_order(15000)
         # Remove the created_at and updated_at fields for comparison
@@ -529,7 +530,6 @@ class Test_Orders():
         # Validate the entire order
         assert get_order == updated_order, "The order update was not applied correctly"
 
-
     def test_update_items_in_order(self):
         updated_order_items = [
             {
@@ -558,13 +558,17 @@ class Test_Orders():
     def test_update_orders_in_shipment(self):
         updated_shipment_orders = [1, 4]
 
-        self.orderObject.update_orders_in_shipment(15000, updated_shipment_orders)
+        self.orderObject.update_orders_in_shipment(
+            15000, updated_shipment_orders)
 
         assert self.orderObject.get_orders_in_shipment(15000) == updated_shipment_orders, \
             "The orders in this shipment haven't been updated correctly, or get_orders_in_shipment doesn't function properly"
 
+        self.orderObject.update_orders_in_shipment(1, [1])
+        self.orderObject.update_orders_in_shipment(4, [4])
+
     def test_remove_order(self):
 
         self.orderObject.remove_order(15000)
-        assert self.orderObject.get_order(15000) == None, \
-            "Order with ID 4 wasn't removed correctly, ore get_order doesn't function properly"
+        assert self.orderObject.get_order(
+            15000) == None, "Order with ID 4 wasn't removed correctly, ore get_order doesn't function properly"

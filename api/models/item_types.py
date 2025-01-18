@@ -1,28 +1,20 @@
-# import json
 import sqlite3
 from models.base import Base
-
-# ITEM_TYPES = []
 
 
 class ItemTypes(Base):
     def __init__(self, db_path):
         self.db_path = db_path
-        self.tablename = "item_groups"
 
     # Retrieve all item types from the database.
     def get_item_types(self):
         query = "SELECT * FROM item_types"
-        result = self.execute_query(query, fetch_all=True)
-        return self.query_to_dict(result)
+        return self.execute_query(query, fetch_all=True)
 
     # Retrieve a single item type by ID.
     def get_item_type(self, item_type_id):
         query = "SELECT * FROM item_types WHERE id = ?"
-        result = self.execute_query(query, params=(item_type_id,), fetch_one=True)
-        if result is None:
-            return None
-        return self.query_to_dict([result])
+        return self.execute_query(query, params=(item_type_id,), fetch_one=True)
 
     # Add a new item type to the database.
     def add_item_type(self, item_type):
