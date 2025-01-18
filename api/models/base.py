@@ -17,7 +17,15 @@ class Base:
             cursor = conn.cursor()
             cursor.execute(query, params or [])
             conn.commit()
+
             if fetch_one:
-                return dict(cursor.fetchone())
+                row = cursor.fetchone()
+                # Return None if no row is found
+                return dict(row) if row else None
+
             if fetch_all:
-                return [dict(row) for row in cursor.fetchall()]
+                rows = cursor.fetchall()
+                # Return an empty list if no rows are found
+                return [dict(row) for row in rows] if rows else []
+
+            return None
