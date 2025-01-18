@@ -19,7 +19,8 @@ class Transfers(Base):
         query = "SELECT * FROM transfers WHERE id = ?"
         transfer = self.execute_query(
             query, params=(transfer_id,), fetch_one=True)
-        transfer["items"] = self.get_items_in_transfer(transfer_id)
+        if transfer != None:
+            transfer["items"] = self.get_items_in_transfer(transfer_id)
         return transfer
 
     # Retrieve all items in a specific transfer

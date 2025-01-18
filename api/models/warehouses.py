@@ -20,7 +20,9 @@ class Warehouses(Base):
         query = "SELECT * FROM warehouses WHERE id = ?"
         warehouse = self.execute_query(
             query, params=(warehouse_id,), fetch_one=True)
-        warehouse["contact"] = self.get_contact_for_warehouse(warehouse_id)
+        if warehouse != None:
+            warehouse["contact"] = self.get_contact_for_warehouse(
+                warehouse_id)
         return warehouse
 
     # Retrieve all contact inforamation associated with a specific warehouse.

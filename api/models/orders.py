@@ -18,7 +18,8 @@ class Orders(Base):
     def get_order(self, order_id):
         query = "SELECT * FROM orders WHERE id = ?"
         order = self.execute_query(query, params=(order_id,), fetch_one=True)
-        order["items"] = self.get_items_in_order(order_id)
+        if order != None:
+            order["items"] = self.get_items_in_order(order_id)
         return order
 
     # Retrieve all items in a specific order.

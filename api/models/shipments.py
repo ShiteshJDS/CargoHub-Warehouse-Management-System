@@ -19,7 +19,8 @@ class Shipments(Base):
         query = "SELECT * FROM shipments WHERE id = ?"
         shipment = self.execute_query(
             query, params=(shipment_id,), fetch_one=True)
-        shipment["items"] = self.get_items_in_shipment(shipment_id)
+        if shipment != None:
+            shipment["items"] = self.get_items_in_shipment(shipment_id)
         return shipment
 
     # Retrieve all items in a specific shipment.

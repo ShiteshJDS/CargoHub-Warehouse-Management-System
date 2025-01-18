@@ -53,8 +53,8 @@ class Items(Base):
         item["updated_at"] = self.get_timestamp()
         self.execute_query(query, params=(
             item["uid"], item["code"], item["description"], item["short_description"], item["upc_code"],
-            item["model_number"], item["commodity_code"], item["item_line"], item["item_group"],
-            item["item_type"], item["unit_purchase_quantity"], item["unit_order_quantity"],
+            item["model_number"], item["commodity_code"], item["item_line_id"], item["item_group_id"],
+            item["item_type_id"], item["unit_purchase_quantity"], item["unit_order_quantity"],
             item["pack_order_quantity"], item["supplier_id"], item["supplier_code"],
             item["supplier_part_number"], item["created_at"], item["updated_at"]
         ))
