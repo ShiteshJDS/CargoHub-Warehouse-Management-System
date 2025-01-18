@@ -1,14 +1,10 @@
-# import json
 import sqlite3
 from models.base import Base
-
-# ITEM_GROUPS = []
 
 
 class ItemGroups(Base):
     def __init__(self, db_path):
         self.db_path = db_path
-        self.tablename = "item_groups"
 
     # Retrieve all item groups from the database.#!#1#!#
     def get_item_groups(self):

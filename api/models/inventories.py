@@ -36,7 +36,7 @@ class Inventories(Base):
     # Retrieve all locations associated with a specific inventory.#!#1#!#
     # This method is not an endpoint and is only used inside the class
     def get_locations_for_inventory(self, inventory_id):
-        query = "SELECT * FROM inventory_locations WHERE inventory_id = ?"
+        query = "SELECT location_id FROM inventory_locations WHERE inventory_id = ?"
         return [location["location_id"] for location in self.execute_query(query, params=(inventory_id,), fetch_all=True)]
 
     # Retrieve total inventory details for a specific item.#!#1#!#

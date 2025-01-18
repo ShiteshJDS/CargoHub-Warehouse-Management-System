@@ -1,8 +1,5 @@
-# import json
 import sqlite3
 from models.base import Base
-
-# WAREHOUSES = []
 
 
 class Warehouses(Base):
@@ -11,69 +8,26 @@ class Warehouses(Base):
 
     # Retrieve all warehouses from the database
     def get_warehouses(self):
-        query = """
-        SELECT w.id, w.code, w.name, w.address, w.zip, w.city, w.province, w.country, w.created_at, w.updated_at,
-            c.contact_name, c.contact_phone, c.contact_email
-        FROM warehouses w
-        LEFT JOIN warehouse_contacts c ON w.id = c.warehouse_id
-        """
-        results = self.execute_query(query, fetch_all=True)
-        
-        warehouses = []
-        for result in results:
-            warehouse = {
-                "id": result[0],
-                "code": result[1],
-                "name": result[2],
-                "address": result[3],
-                "zip": result[4],
-                "city": result[5],
-                "province": result[6],
-                "country": result[7],
-                "created_at": result[8],
-                "updated_at": result[9],
-                "contact": {
-                    "name": result[10],
-                    "phone": result[11],
-                    "email": result[12]
-                }
-            }
-            warehouses.append(warehouse)
-        
+        query = "SELECT * FROM warehouses"
+        warehouses = self.execute_query(query, fetch_all=True)
+        for warehouse in warehouses:
+            warehouse["contact"] = self.get_contact_for_warehouse(
+                warehouse["id"])
         return warehouses
 
     # Retrieve a specific warehouse by ID
     def get_warehouse(self, warehouse_id):
-        query = """
-        SELECT w.id, w.code, w.name, w.address, w.zip, w.city, w.province, w.country, w.created_at, w.updated_at,
-            c.contact_name, c.contact_phone, c.contact_email
-        FROM warehouses w
-        LEFT JOIN warehouse_contacts c ON w.id = c.warehouse_id
-        WHERE w.id = ?
-        """
-        result = self.execute_query(
-            query, params=(warehouse_id,), fetch_one=True)
+        query = "SELECT * FROM warehouses WHERE id = ?"
+        warehouse = self.execute_query(
+            query, params=(warehouse_id,), fetch_all=True)
+        warehouse["contact"] = self.get_contact_for_warehouse(warehouse_id)
+        return warehouse
 
-        if result:
-            warehouse = {
-                "id": result[0],
-                "code": result[1],
-                "name": result[2],
-                "address": result[3],
-                "zip": result[4],
-                "city": result[5],
-                "province": result[6],
-                "country": result[7],
-                "created_at": result[8],
-                "updated_at": result[9],
-                "contact": {
-                    "name": result[10],
-                    "phone": result[11],
-                    "email": result[12]
-                }
-            }
-            return warehouse
-        return None
+    # Retrieve all contact inforamation associated with a specific warehouse.
+    # This method is not an endpoint and is only used inside the class
+    def get_contact_for_warehouse(self, warehouse_id):
+        query = "SELECT contact_name AS name, contact_phone AS phone, contact_email AS email FROM warehouse_contacts WHERE warehouse_id = ?"
+        return self.execute_query(query, params=(warehouse_id,), fetch_one=True)
 
     # Add a new warehouse to the database
     def add_warehouse(self, warehouse):

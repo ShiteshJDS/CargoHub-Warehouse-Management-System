@@ -1,8 +1,5 @@
-# import json
 import sqlite3
 from models.base import Base
-
-# SHIPMENTS = []
 
 
 class Shipments(Base):
@@ -25,7 +22,7 @@ class Shipments(Base):
         shipment["items"] = self.get_items_in_shipment(shipment_id)
         return shipment
 
-    # Retrieve all items in a specific shipment.
+    # Retrieve all items in a specific shipment.#!#1#!#
     def get_items_in_shipment(self, shipment_id):
         query = "SELECT item_id, amount FROM shipment_items WHERE shipment_id = ?"
         return self.execute_query(query, params=(shipment_id,), fetch_all=True)

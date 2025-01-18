@@ -1,62 +1,20 @@
-# import json
 import sqlite3
 from models.base import Base
-
-# SUPPLIERS = []
 
 
 class Suppliers(Base):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    # Retrieve all suppliers from the database
+    # Retrieve all suppliers from the database#!#1#!#
     def get_suppliers(self):
         query = "SELECT * FROM suppliers"
-        suppliers = self.execute_query(query, fetch_all=True)
-        suppliers_list = []
-        for supplier in suppliers:
-            supplier_dict = {
-                "id": supplier[0],
-                "code": supplier[1],
-                "name": supplier[2],
-                "address": supplier[3],
-                "address_extra": supplier[4],
-                "city": supplier[5],
-                "zip_code": supplier[6],
-                "province": supplier[7],
-                "country": supplier[8],
-                "contact_name": supplier[9],
-                "phonenumber": supplier[10],
-                "reference": supplier[11],
-                "created_at": supplier[12],
-                "updated_at": supplier[13]
-            }
-            suppliers_list.append(supplier_dict)
-        return suppliers_list
+        return self.execute_query(query, fetch_all=True)
 
-    # Retrieve a specific supplier by ID
+    # Retrieve a specific supplier by ID#!#1#!#
     def get_supplier(self, supplier_id):
         query = "SELECT * FROM suppliers WHERE id = ?"
-        supplier = self.execute_query(query, params=(supplier_id,), fetch_one=True)
-        if supplier:
-            supplier_dict = {
-                "id": supplier[0],
-                "code": supplier[1],
-                "name": supplier[2],
-                "address": supplier[3],
-                "address_extra": supplier[4],
-                "city": supplier[5],
-                "zip_code": supplier[6],
-                "province": supplier[7],
-                "country": supplier[8],
-                "contact_name": supplier[9],
-                "phonenumber": supplier[10],
-                "reference": supplier[11],
-                "created_at": supplier[12],
-                "updated_at": supplier[13]
-            }
-            return supplier_dict
-        return None
+        return self.execute_query(query, params=(supplier_id,), fetch_one=True)
 
     # Add a new supplier to the database
     def add_supplier(self, supplier):
@@ -68,7 +26,8 @@ class Suppliers(Base):
         supplier["created_at"] = self.get_timestamp()
         supplier["updated_at"] = self.get_timestamp()
         self.execute_query(query, params=(
-            supplier["id"], supplier["code"], supplier["name"], supplier["address"], supplier.get("address_extra", ""),
+            supplier["id"], supplier["code"], supplier["name"], supplier["address"], supplier.get(
+                "address_extra", ""),
             supplier["city"], supplier["zip_code"], supplier["province"], supplier["country"],
             supplier["contact_name"], supplier["phonenumber"], supplier["reference"],
             supplier["created_at"], supplier["updated_at"]
@@ -83,7 +42,8 @@ class Suppliers(Base):
         """
         supplier["updated_at"] = self.get_timestamp()
         self.execute_query(query, params=(
-            supplier["code"], supplier["name"], supplier["address"], supplier.get("address_extra", ""),
+            supplier["code"], supplier["name"], supplier["address"], supplier.get(
+                "address_extra", ""),
             supplier["city"], supplier["zip_code"], supplier["province"], supplier["country"],
             supplier["contact_name"], supplier["phonenumber"], supplier["reference"],
             supplier["updated_at"], supplier_id

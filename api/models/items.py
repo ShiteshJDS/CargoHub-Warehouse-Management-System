@@ -1,14 +1,10 @@
-# import json
 import sqlite3
 from models.base import Base
-
-# ITEMS = []
 
 
 class Items(Base):
     def __init__(self, db_path):
         self.db_path = db_path
-        self.tablename = "items"
 
     # Retrieve all items from the database#!#1#!#
     def get_items(self):

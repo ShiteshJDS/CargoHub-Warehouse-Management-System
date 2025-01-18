@@ -1,8 +1,5 @@
-# import json
 import sqlite3
 from models.base import Base
-
-# LOCATIONS = []
 
 
 class Locations(Base):
