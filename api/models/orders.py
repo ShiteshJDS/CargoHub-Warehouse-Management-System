@@ -80,6 +80,8 @@ class Orders(Base):
                             total_amount, total_discount, total_tax, total_surcharge, created_at, updated_at) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """
+        query2 = "INSERT INTO order_items (order_id, item_id, amount) VALUES (?, ?, ?)"
+
         order["created_at"] = self.get_timestamp()
         order["updated_at"] = self.get_timestamp()
         self.execute_query(query, params=(
@@ -89,6 +91,9 @@ class Orders(Base):
             order["shipment_id"], order["total_amount"], order["total_discount"], order["total_tax"],
             order["total_surcharge"], order["created_at"], order["updated_at"]
         ))
+
+        for item in order["items"]:
+            self.execute_query(query2, params=(order["id"], item["item_id"], item["amount"]))
 
     def update_order(self, order_id, order):
         # Update order details in the orders table
