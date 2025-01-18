@@ -30,7 +30,7 @@ class Orders(Base):
     # Retrieve all orders associated with a specific shipment.
     def get_orders_in_shipment(self, shipment_id):
         query = "SELECT id FROM orders WHERE shipment_id = ?"
-        return self.execute_query(query, params=(shipment_id,), fetch_all=True)
+        return [order["id"] for order in self.execute_query(query, params=(shipment_id,), fetch_all=True)]
 
     # Retrieve all orders for a specific client.
     def get_orders_for_client(self, client_id):
