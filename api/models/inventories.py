@@ -11,7 +11,7 @@ class Inventories(Base):
         query = "SELECT * FROM inventories"
         inventories = self.execute_query(query, fetch_all=True)
         for inventory in inventories:
-            inventory["location"] = self.get_locations_for_inventory(
+            inventory["locations"] = self.get_locations_for_inventory(
                 inventory["id"])
         return inventories
 
@@ -20,7 +20,9 @@ class Inventories(Base):
         query = "SELECT * FROM inventories WHERE id = ?"
         inventory = self.execute_query(
             query, params=(inventory_id,), fetch_one=True)
-        inventory["locations"] = self.get_locations_for_inventory(inventory_id)
+        if inventory != None:
+            inventory["locations"] = self.get_locations_for_inventory(
+                inventory_id)
         return inventory
 
     # Retrieve all inventories associated with a specific item.
@@ -29,7 +31,7 @@ class Inventories(Base):
         inventories = self.execute_query(
             query, params=(item_id,), fetch_all=True)
         for inventory in inventories:
-            inventory["location"] = self.get_locations_for_inventory(
+            inventory["locations"] = self.get_locations_for_inventory(
                 inventory["id"])
         return inventories
 
@@ -52,35 +54,49 @@ class Inventories(Base):
 
     # Add a new inventory entry.
     def add_inventory(self, inventory):
-        query = """
-        INSERT INTO inventories (id, item_id, description, item_reference, total_on_hand, total_expected, 
-                                 total_ordered, total_allocated, total_available, created_at, updated_at) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """
+        inventory_query = """
+        INSERT INTO inventories (id, item_id, description, item_reference, total_on_hand, total_expected,
+                                 total_ordered, total_allocated, total_available, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) """
+
         inventory['created_at'] = self.get_timestamp()
         inventory['updated_at'] = self.get_timestamp()
-        self.execute_query(query, params=(
+        self.execute_query(inventory_query, params=(
             inventory['id'], inventory['item_id'], inventory['description'], inventory['item_reference'],
             inventory['total_on_hand'], inventory['total_expected'], inventory['total_ordered'],
             inventory['total_allocated'], inventory['total_available'], inventory['created_at'],
             inventory['updated_at']
         ))
 
+        location_query = "INSERT INTO inventory_locations (inventory_id, location_id) VALUES (?, ?)"
+        for location in inventory["locations"]:
+            self.execute_query(location_query, params=(
+                inventory["id"], location))
+
     # Update an existing inventory entry.
     def update_inventory(self, inventory_id, inventory):
-        query = """
-        UPDATE inventories SET item_id = ?, description = ?, item_reference = ?, total_on_hand = ?, 
-                               total_expected = ?, total_ordered = ?, total_allocated = ?, total_available = ?, 
-                               updated_at = ? WHERE id = ?
-        """
+        inventory_query = """
+        UPDATE inventories SET item_id = ?, description = ?, item_reference = ?, total_on_hand = ?,
+                               total_expected = ?, total_ordered = ?, total_allocated = ?, total_available = ?,
+                               updated_at = ? WHERE id = ? """
+
         inventory['updated_at'] = self.get_timestamp()
-        self.execute_query(query, params=(
+        self.execute_query(inventory_query, params=(
             inventory['item_id'], inventory['description'], inventory['item_reference'], inventory['total_on_hand'],
             inventory['total_expected'], inventory['total_ordered'], inventory['total_allocated'],
             inventory['total_available'], inventory['updated_at'], inventory_id
         ))
 
+        delete_locations_query = "DELETE FROM inventory_locations WHERE inventory_id = ?"
+        location_query = "INSERT INTO inventory_locations (inventory_id, location_id) VALUES (?, ?)"
+        self.execute_query(delete_locations_query, params=(inventory_id,))
+        for location in inventory["locations"]:
+            self.execute_query(location_query, params=(
+                inventory_id, location))
+
     # Delete an existing inventory entry.
     def remove_inventory(self, inventory_id):
-        query = "DELETE FROM inventories WHERE id = ?"
-        self.execute_query(query, params=(inventory_id,))
+        inventory_query = "DELETE FROM inventories WHERE id = ?"
+        location_query = "DELETE FROM inventory_locations WHERE inventory_id = ?"
+        self.execute_query(inventory_query, params=(inventory_id,))
+        self.execute_query(location_query, params=(inventory_id,))
