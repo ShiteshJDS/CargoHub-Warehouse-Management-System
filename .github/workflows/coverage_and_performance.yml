@@ -27,10 +27,12 @@ jobs:
 
       - name: Run performance tests with coverage
         run: |
-          pytest --cov=api/Tests/performance_async_multiple
-          pytest --cov=api/Tests/performance_async
-          pytest --cov=api/Tests/performance_threads_multiple
-          pytest --cov=api/Tests/performance
+          cd api/Tests
+          cd "performance tests"
+          python performance_async_multiple
+          python performance_async
+          python performance_threads_multiple
+          python performance
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
