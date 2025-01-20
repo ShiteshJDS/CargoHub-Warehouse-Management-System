@@ -37,6 +37,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(403)
             self.end_headers()
             return
+        if not path[-1].isdigit():
+            self.send_response(400)
+            self.end_headers()
+            return
         if path[0] == "warehouses":
             paths = len(path)
             match paths:
@@ -497,7 +501,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
         api_key = self.headers.get("API_KEY")
         user = auth_provider.get_user(api_key)
         self.log_request(user)
-        if user == None:
+        if user is None:
             self.send_response(401)
             self.end_headers()
         else:
@@ -961,6 +965,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(403)
             self.end_headers()
             return
+        if not path[-1].isdigit():
+            self.send_response(400)
+            self.end_headers()
+            return
         if path[0] == "warehouses":
             warehouse_id = int(path[1])
             warehouse = data_provider.fetch_warehouse_pool().get_warehouse(warehouse_id)
@@ -1089,7 +1097,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
         api_key = self.headers.get("API_KEY")
         user = auth_provider.get_user(api_key)
         self.log_request(user)
-        if user == None:
+        if user is None:
             self.send_response(401)
             self.end_headers()
         else:
