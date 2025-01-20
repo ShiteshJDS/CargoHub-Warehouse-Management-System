@@ -32,7 +32,7 @@ jobs:
           nohup python api/main.py &
           sleep 5
       - run: | 
-          python api/Tests/Performance Tests/performance.py
+          python "api/Tests/Performance Tests/performance.py"
       - run: | 
           pkill -f "python api/main.py"
         env:
@@ -46,7 +46,7 @@ jobs:
           nohup python api/main.py &
           sleep 5
       - run: | 
-          python api/Tests/Performance Tests/performance_async.py
+          python "api/Tests/Performance Tests/performance_async.py"
       - run: | 
           pkill -f "python api/main.py"
         env:
@@ -60,7 +60,7 @@ jobs:
           nohup python api/main.py &
           sleep 5
       - run: | 
-          python api/Tests/Performance Tests/performance_async_multiple.py
+          python "api/Tests/Performance Tests/performance_async_multiple.py"
       - run: | 
           pkill -f "python api/main.py"
         env:
@@ -74,7 +74,7 @@ jobs:
           nohup python api/main.py &
           sleep 5
       - run: | 
-          python api/Tests/Performance Tests/performance_threads_multiple.py
+          python "api/Tests/Performance Tests/performance_threads_multiple.py"
       - run: | 
           pkill -f "python api/main.py"
         env:
