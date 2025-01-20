@@ -285,7 +285,7 @@ def GetJsonWarehousePutObjects(jsonString):
     jsonobjects = {
         "PutCorrect": 
         {
-            "id": pow(10, 100),
+            "id": 10000,
             "code": "Y4ZYNL57", # changed
             "name": "Heemskerk cargo hub",
             "address": "Karlijndreef 281",
@@ -304,7 +304,7 @@ def GetJsonWarehousePutObjects(jsonString):
         },
         "PutNonExistentId" :
         {
-            "id": pow(10, 105),
+            "id": 10000,
             "code": "Y4ZYNL57", 
             "name": "Heemskerk cargo hub",
             "address": "Karlijndreef 281",
@@ -323,7 +323,7 @@ def GetJsonWarehousePutObjects(jsonString):
         },
         "PutMissingItems": 
         {
-            "id": pow(10, 100),
+            "id": 10000,
             # "code": "Y4ZYNL57",  removed
             # "name": "Heemskerk cargo hub", removed
             # "address": "Karlijndreef 281", removed
@@ -342,7 +342,7 @@ def GetJsonWarehousePutObjects(jsonString):
         },
         "PutExtraItems" :
         {
-            "id": pow(10, 100),
+            "id": 10000,
             "code": "Y4ZYNL57", 
             "name": "BE cargo hub",
             "address": "Karlijndreef 281",
@@ -364,7 +364,7 @@ def GetJsonWarehousePutObjects(jsonString):
         },
         "PutWrongTypes" :
         {
-            "id": pow(10, 100),
+            "id": 10000,
             "code": True,
             "name": 1,
             "address": [1,2,3],
@@ -383,7 +383,7 @@ def GetJsonWarehousePutObjects(jsonString):
         },
         "PutEmptyValues" :
         {
-            "id": pow(10, 100),
+            "id": 10000,
             "code": "", 
             "name": "Heemskerk cargo hub",
             "address": "",
@@ -424,9 +424,8 @@ def test_put_endpoints_func(objectKey, expectedStatusCode, expectedGetStatusCode
 
 
 def delete_id(jsonString):
-    ids = {"DeleteCorrect" : pow(10, 100), "DeleteNonExistentId" : pow(10, 110)}
+    ids = {"DeleteCorrect" : 10000, "DeleteNonExistentId" : 100004}
     return ids[jsonString]
-
 
 @pytest.mark.parametrize("TestName, expectedStatusCode, expectedGetStatusCode", [
                         ("DeleteCorrect", 200, 404),
