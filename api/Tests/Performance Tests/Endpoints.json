@@ -73,7 +73,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/clients/1",
+            "url": "http://localhost:3000/api/v1/clients/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -154,7 +154,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/inventories/1",
+            "url": "http://localhost:3000/api/v1/inventories/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -221,7 +221,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/item_groups/1",
+            "url": "http://localhost:3000/api/v1/item_groups/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -288,7 +288,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/item_lines/1",
+            "url": "http://localhost:3000/api/v1/item_lines/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -355,7 +355,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/item_types/1",
+            "url": "http://localhost:3000/api/v1/item_types/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -457,7 +457,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/items/P000001",
+            "url": "http://localhost:3000/api/v1/items/P000002",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -517,7 +517,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/locations/1",
+            "url": "http://localhost:3000/api/v1/locations/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -871,7 +871,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/orders/1",
+            "url": "http://localhost:3000/api/v1/orders/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -956,7 +956,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/suppliers/1",
+            "url": "http://localhost:3000/api/v1/suppliers/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -1039,7 +1039,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/transfers/1",
+            "url": "http://localhost:3000/api/v1/transfers/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -1124,7 +1124,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/warehouses/1",
+            "url": "http://localhost:3000/api/v1/warehouses/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -1463,7 +1463,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/shipments/1",
+            "url": "http://localhost:3000/api/v1/shipments/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },

@@ -29,9 +29,7 @@ jobs:
         run: |
           nohup python api/main.py &
           sleep 5
-      - run: | 
           python "api/Tests/Performance Tests/performance.py"
-      - run: | 
           pkill -f "python api/main.py" || true
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
@@ -40,12 +38,9 @@ jobs:
       - name: Run performance_async.py
         run: |
           python api/cargohub_db.py
-      - run: |
           nohup python api/main.py &
           sleep 5
-      - run: | 
           python "api/Tests/Performance Tests/performance_async.py"
-      - run: | 
           pkill -f "python api/main.py" || true
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
@@ -54,12 +49,9 @@ jobs:
       - name: Run performance_async_multiple.py
         run: |
           python api/cargohub_db.py
-      - run: |
           nohup python api/main.py &
           sleep 5
-      - run: | 
           python "api/Tests/Performance Tests/performance_async_multiple.py"
-      - run: | 
           pkill -f "python api/main.py" || true
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
@@ -68,12 +60,9 @@ jobs:
       - name: Run performance_threads_multiple.py
         run: |
           python api/cargohub_db.py
-      - run: |
           nohup python api/main.py &
           sleep 5
-      - run: | 
           python "api/Tests/Performance Tests/performance_threads_multiple.py"
-      - run: | 
           pkill -f "python api/main.py" || true
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
