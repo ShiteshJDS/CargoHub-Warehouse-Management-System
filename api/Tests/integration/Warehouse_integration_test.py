@@ -18,19 +18,27 @@ BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
 
 
 # Warehouse Endpoint Testing (server must be running when testing endpoints)
+@pytest.fixture
+def cleanup_warehouses():
+    yield
+    # Cleanup code
+    headers_full = {
+        "API_KEY": os.getenv("API_KEY_1"),
+        "Content-Type": "application/json"
+    }
+    ids = [10000, 10001, 10002]
+    for warehouse_id in ids:
+        response_delete = requests.delete(f"{BASE_URL}/api/v1/warehouses/{warehouse_id}", headers=headers_full)
+        print(f"Cleanup response for warehouse {warehouse_id}: {response_delete.status_code}")
 
 def GetObjectFromDB(id):
     headers_full = {
-        "API_KEY": "a1b2c3d4e5",
+        "API_KEY": os.getenv("API_KEY_1"),
         "Content-Type": "application/json"
     }
-
+   
     responseGet = requests.get(
         f"{BASE_URL}/api/v1/warehouses/{id}", headers=headers_full)
-    
-    # Print the response status code and content for debugging
-    print(f"Response status code: {responseGet.status_code}")
-    print(f"Response content: {responseGet.content}")
 
     if responseGet.status_code == 200 and responseGet.content:
         responseJson = responseGet.json()
@@ -183,7 +191,7 @@ def GetJsonWarehousePostObjects(json_string):
 
 def test_post_endpoints_func(objectKey, expectedStatusCode, expectedGetStatusCode, expectedGetResponse):
     headers_full = {
-        "API_KEY": "a1b2c3d4e5",
+        "API_KEY": os.getenv("API_KEY_1"),
         "Content-Type": "application/json"
     }
     warehouseObject = GetJsonWarehousePostObjects(objectKey)
@@ -193,12 +201,12 @@ def test_post_endpoints_func(objectKey, expectedStatusCode, expectedGetStatusCod
     assert responsePost.status_code == expectedStatusCode, f"{objectKey}, Returns {responsePost.status_code}, Expected {expectedStatusCode}"
 
 
-    # responseJson, status_code = GetObjectFromDB(warehouseObject["id"])
-    # assert status_code == expectedGetStatusCode
-    # if expectedGetResponse != None:
-    #     assert responseJson == None
-    # else:
-    #     assert responseJson == GetJsonWarehousePostObjects(expectedGetResponse)
+    responseJson, status_code = GetObjectFromDB(warehouseObject["id"])
+    assert status_code == expectedGetStatusCode
+    if expectedGetResponse == None:
+        assert responseJson == None
+    else:
+        assert responseJson == GetJsonWarehousePostObjects(expectedGetResponse), "Response does not match expected response"
 
 def GetJsonWarehouseGetObjects(json_string):
     json_objects_dictionary = {
@@ -274,7 +282,7 @@ def test_get_endpoints_func(objectKey, expectedStatusCode, expectedGetResponse):
     expectedWarehouseObject = GetJsonWarehouseGetObjects(objectKey)
     responseJson, statusCode = GetObjectFromDB(expectedWarehouseObject["id"])
     assert statusCode == expectedStatusCode, f"{objectKey}, Returns {statusCode}, Expected {expectedStatusCode}"
-    if expectedGetResponse != None:
+    if expectedGetResponse == None:
         assert responseJson == None
     else:
         assert responseJson == GetJsonWarehouseGetObjects(expectedGetResponse)
@@ -413,7 +421,7 @@ def GetJsonWarehousePutObjects(jsonString):
 
 def test_put_endpoints_func(objectKey, expectedStatusCode, expectedGetStatusCode, expectedGetResponse):
     headers_full = {
-        "API_KEY": "a1b2c3d4e5",
+        "API_KEY": os.getenv("API_KEY_1"),
         "Content-Type": "application/json"
     }
     warehouseObject = GetJsonWarehousePutObjects(objectKey)
@@ -421,7 +429,14 @@ def test_put_endpoints_func(objectKey, expectedStatusCode, expectedGetStatusCode
         f"{BASE_URL}/api/v1/warehouses/{warehouseObject['id']}", headers=headers_full, json=warehouseObject)
     
     assert responsePut.status_code == expectedStatusCode, f"{objectKey}, Returns {responsePut.status_code}, Expected {expectedStatusCode}"
+    
+    responseJson, status_code = GetObjectFromDB(warehouseObject["id"])
 
+    assert status_code == expectedGetStatusCode
+    if expectedGetResponse == None:
+        assert responseJson == None, "Response does not match expected response NONE"
+    else:
+        assert responseJson == GetJsonWarehousePutObjects(expectedGetResponse), "Response does not match expected response"
 
 def delete_id(jsonString):
     ids = {"DeleteCorrect" : 10000, "DeleteNonExistentId" : 100004}
@@ -433,7 +448,7 @@ def delete_id(jsonString):
 
 def test_delete_endpoint(TestName, expectedStatusCode, expectedGetStatusCode):
     headers_full = {
-        "API_KEY": "a1b2c3d4e5",
+        "API_KEY": os.getenv("API_KEY_1"),
         "Content-Type": "application/json"
         }
     
@@ -449,7 +464,7 @@ def test_delete_endpoint(TestName, expectedStatusCode, expectedGetStatusCode):
 def test_endpoint_restrictions():
 
     headers_restricted = {
-        "API_KEY": "f6g7h8i9j0",
+        "API_KEY": os.getenv("API_KEY_2"),
         "Content-Type": "application/json"
     }
     
