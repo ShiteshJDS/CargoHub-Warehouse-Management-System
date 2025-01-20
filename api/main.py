@@ -518,6 +518,11 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
             new_warehouse = json.loads(post_data.decode())
+            warehouse_id = new_warehouse.get("id")
+            if data_provider.fetch_warehouse_pool().get_warehouse(warehouse_id):
+                self.send_response(409)
+                self.end_headers()
+                return
             data_provider.fetch_warehouse_pool().add_warehouse(new_warehouse)
             self.send_response(201)
             self.end_headers()
@@ -525,6 +530,11 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
             new_location = json.loads(post_data.decode())
+            location_id = new_location.get("id")
+            if data_provider.fetch_location_pool().get_location(location_id):
+                self.send_response(409)
+                self.end_headers()
+                return
             data_provider.fetch_location_pool().add_location(new_location)
             self.send_response(201)
             self.end_headers()
@@ -532,15 +542,24 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
             new_transfer = json.loads(post_data.decode())
+            transfer_id = new_transfer.get("id")
+            if data_provider.fetch_transfer_pool().get_transfer(transfer_id):
+                self.send_response(409)
+                self.end_headers()
+                return
             data_provider.fetch_transfer_pool().add_transfer(new_transfer)
-            notification_processor.push(
-                f"Scheduled batch transfer {new_transfer['id']}")
+            notification_processor.push(f"Scheduled batch transfer {new_transfer['id']}")
             self.send_response(201)
             self.end_headers()
         elif path[0] == "items":
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
             new_item = json.loads(post_data.decode())
+            item_id = new_item.get("uid")
+            if data_provider.fetch_item_pool().get_item(item_id):
+                self.send_response(409)
+                self.end_headers()
+                return
             data_provider.fetch_item_pool().add_item(new_item)
             self.send_response(201)
             self.end_headers()
@@ -548,6 +567,11 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
             new_item_line = json.loads(post_data.decode())
+            item_line_id = new_item_line.get("id")
+            if data_provider.fetch_item_line_pool().get_item_line(item_line_id):
+                self.send_response(409)
+                self.end_headers()
+                return
             data_provider.fetch_item_line_pool().add_item_line(new_item_line)
             self.send_response(201)
             self.end_headers()
@@ -555,6 +579,11 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
             new_item_group = json.loads(post_data.decode())
+            item_group_id = new_item_group.get("id")
+            if data_provider.fetch_item_group_pool().get_item_group(item_group_id):
+                self.send_response(409)
+                self.end_headers()
+                return
             data_provider.fetch_item_group_pool().add_item_group(new_item_group)
             self.send_response(201)
             self.end_headers()
@@ -562,6 +591,11 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
             new_item_type = json.loads(post_data.decode())
+            item_type_id = new_item_type.get("id")
+            if data_provider.fetch_item_type_pool().get_item_type(item_type_id):
+                self.send_response(409)
+                self.end_headers()
+                return
             data_provider.fetch_item_type_pool().add_item_type(new_item_type)
             self.send_response(201)
             self.end_headers()
@@ -569,6 +603,11 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
             new_inventory = json.loads(post_data.decode())
+            inventory_id = new_inventory.get("id")
+            if data_provider.fetch_inventory_pool().get_inventory(inventory_id):
+                self.send_response(409)
+                self.end_headers()
+                return
             data_provider.fetch_inventory_pool().add_inventory(new_inventory)
             self.send_response(201)
             self.end_headers()
@@ -576,6 +615,11 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
             new_supplier = json.loads(post_data.decode())
+            supplier_id = new_supplier.get("id")
+            if data_provider.fetch_supplier_pool().get_supplier(supplier_id):
+                self.send_response(409)
+                self.end_headers()
+                return
             data_provider.fetch_supplier_pool().add_supplier(new_supplier)
             self.send_response(201)
             self.end_headers()
@@ -583,6 +627,11 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
             new_order = json.loads(post_data.decode())
+            order_id = new_order.get("id")
+            if data_provider.fetch_order_pool().get_order(order_id):
+                self.send_response(409)
+                self.end_headers()
+                return
             data_provider.fetch_order_pool().add_order(new_order)
             self.send_response(201)
             self.end_headers()
@@ -590,6 +639,11 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
             new_client = json.loads(post_data.decode())
+            client_id = new_client.get("id")
+            if data_provider.fetch_client_pool().get_client(client_id):
+                self.send_response(409)
+                self.end_headers()
+                return
             data_provider.fetch_client_pool().add_client(new_client)
             self.send_response(201)
             self.end_headers()
@@ -597,6 +651,11 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
             new_shipment = json.loads(post_data.decode())
+            shipment_id = new_shipment.get("id")
+            if data_provider.fetch_shipment_pool().get_shipment(shipment_id):
+                self.send_response(409)
+                self.end_headers()
+                return
             data_provider.fetch_shipment_pool().add_shipment(new_shipment)
             self.send_response(201)
             self.end_headers()
