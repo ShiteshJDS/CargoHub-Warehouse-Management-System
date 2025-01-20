@@ -27,12 +27,16 @@ jobs:
 
       - name: Run performance tests with coverage
         run: |
-          cd api/Tests
+          cd api
+          nohup python main.py 
+          sleep 5
+          cd Tests
           cd "Performance Tests"
           python performance_async_multiple.py
           python performance_async.py
           python performance_threads_multiple.py
           python performance.py
+
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
