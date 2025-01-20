@@ -1127,6 +1127,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
 
 
 def StartWebAPI():
+    cargohub_db.delete_test_db()
     # Create and populate the database if it doesn't exist
     db_name = 'data/Cargohub.db'
     if not os.path.exists(db_name):
@@ -1146,7 +1147,6 @@ def StartWebAPI():
     # Create test database if it doesn't exist
 
     test_db_name = 'api/Tests/Test_Data/Cargohub_Test.db'
-    cargohub_db.delete_test_db()
     cargohub_db.create_clients_table(test_db_name, 'data/clients.json')
     cargohub_db.create_inventories_table(test_db_name, 'data/inventories.json')
     cargohub_db.create_item_groups_table(test_db_name, 'data/item_groups.json')
