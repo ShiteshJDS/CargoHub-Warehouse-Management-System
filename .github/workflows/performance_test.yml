@@ -38,6 +38,7 @@ jobs:
       - name: Run performance_async.py
         run: |
           python api/cargohub_db.py
+          pkill -f "api/cargohub_db.py" || true
           nohup python api/main.py &
           sleep 5
           python "api/Tests/Performance Tests/performance_async.py"
@@ -49,6 +50,7 @@ jobs:
       - name: Run performance_async_multiple.py
         run: |
           python api/cargohub_db.py
+          pkill -f "api/cargohub_db.py" || true
           nohup python api/main.py &
           sleep 5
           python "api/Tests/Performance Tests/performance_async_multiple.py"
@@ -60,6 +62,7 @@ jobs:
       - name: Run performance_threads_multiple.py
         run: |
           python api/cargohub_db.py
+          pkill -f "api/cargohub_db.py" || true
           nohup python api/main.py &
           sleep 5
           python "api/Tests/Performance Tests/performance_threads_multiple.py"
