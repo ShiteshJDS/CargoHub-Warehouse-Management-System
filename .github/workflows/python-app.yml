@@ -1,4 +1,4 @@
-name: Python cargohub application
+name: Python executing pytest on all unittest
 
 on:
   push:
