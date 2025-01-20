@@ -707,15 +707,23 @@ def create_warehouses_table(db_name, json_relative_path):
         conn.close()
 
 def delete_test_db():
-    # Use a relative path
-    file_path = os.path.join('api', 'Tests', 'Test_Data', 'Cargohub_Test.db')
+    # Define the paths to the databases
+    test_db_path = os.path.join('api', 'Tests', 'Test_Data', 'Cargohub_Test.db')
+    main_db_path = os.path.join('data', 'Cargohub.db')
     
-    # Check if file exists
-    if os.path.exists(file_path):
-        os.remove(file_path)
-        print(f"{file_path} has been deleted.")
+    # Check if the test database exists and delete it
+    if os.path.exists(test_db_path):
+        os.remove(test_db_path)
+        print(f"{test_db_path} has been deleted.")
     else:
-        print(f"{file_path} does not exist.")
+        print(f"{test_db_path} does not exist.")
+    
+    # Check if the main database exists and delete it
+    if os.path.exists(main_db_path):
+        os.remove(main_db_path)
+        print(f"{main_db_path} has been deleted.")
+    else:
+        print(f"{main_db_path} does not exist.")
 
 def load_data_from_json(json_relative_path):
     # Determine the absolute path of the JSON file based on the script's location
@@ -731,6 +739,7 @@ def load_data_from_json(json_relative_path):
 if __name__ == "__main__":
     # Create test database if it doesn't exist
     delete_test_db()
+    db_name = 'data/Cargohub.db'
     test_db_name = 'api/Tests/Test_Data/Cargohub_Test.db'
     create_clients_table(test_db_name, 'data/clients.json')
     create_inventories_table(test_db_name, 'data/inventories.json')
@@ -744,3 +753,16 @@ if __name__ == "__main__":
     create_suppliers_table(test_db_name, 'data/suppliers.json')
     create_warehouses_table(test_db_name, 'data/warehouses.json')
     create_transfers_table(test_db_name, 'data/transfers.json')
+
+    create_clients_table(db_name, 'data/clients.json')
+    create_inventories_table(db_name, 'data/inventories.json')
+    create_item_groups_table(db_name, 'data/item_groups.json')
+    create_item_lines_table(db_name, 'data/item_lines.json')
+    create_item_types_table(db_name, 'data/item_types.json')
+    create_items_table(db_name, 'data/items.json')
+    create_locations_table(db_name, 'data/locations.json')
+    create_orders_table(db_name, 'data/orders.json')
+    create_shipments_table(db_name, 'data/shipments.json')
+    create_suppliers_table(db_name, 'data/suppliers.json')
+    create_warehouses_table(db_name, 'data/warehouses.json')
+    create_transfers_table(db_name, 'data/transfers.json')
