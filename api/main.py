@@ -32,12 +32,20 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
         }
         logging.info(f"Request: {json.dumps(request_info)}")
 
+    def is_valid_path_end(self, path_end):
+        valid_endings = {
+            "clients", "orders", "inventories", "item_groups", "items", "item_lines",
+            "item_types", "inventory", "totals", "locations", "shipments", "commit",
+            "suppliers", "transfers"
+        }
+        return path_end.isdigit() or path_end.startswith("P") and path_end[1:].isdigit() or path_end in valid_endings
+
     def handle_get_version_1(self, path, user):
         if not auth_provider.has_access(user, path, "get"):
             self.send_response(403)
             self.end_headers()
             return
-        if not path[-1].isdigit():
+        if not self.is_valid_path_end(path[-1]):
             self.send_response(400)
             self.end_headers()
             return
@@ -518,6 +526,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(403)
             self.end_headers()
             return
+        if not self.is_valid_path_end(path[-1]):
+            self.send_response(400)
+            self.end_headers()
+            return
         if path[0] == "warehouses":
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
@@ -686,6 +698,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
     def handle_put_version_1(self, path, user):
         if not auth_provider.has_access(user, path, "put"):
             self.send_response(403)
+            self.end_headers()
+            return
+        if not self.is_valid_path_end(path[-1]):
+            self.send_response(400)
             self.end_headers()
             return
         if path[0] == "warehouses":
@@ -965,7 +981,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(403)
             self.end_headers()
             return
-        if not path[-1].isdigit():
+        if not self.is_valid_path_end(path[-1]):
             self.send_response(400)
             self.end_headers()
             return
