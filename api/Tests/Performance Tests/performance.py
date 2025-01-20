@@ -4,9 +4,6 @@ import csv
 import json
 import os
 import sqlite3
-from dotenv import load_dotenv
-
-load_dotenv()
 
 # Load endpoints from Endpoints.json
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -63,9 +60,6 @@ def main():
             url = endpoint['url']
             headers = endpoint['headers']
             data = endpoint.get('data')
-
-            # Update headers with API keys from environment variables
-            headers['API_KEY'] = os.getenv('API_KEY_1')
 
             print(f"Testing {method} {url}")
             elapsed_time, status_code = test_endpoint_performance(method, url, headers, data)
