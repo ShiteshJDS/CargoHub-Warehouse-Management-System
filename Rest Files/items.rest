@@ -29,13 +29,13 @@ Content-Type: application/json
 
 ########## PUT ENDPOINTS ##########
 
-### updates an item based on id 1
-PUT http://localhost:3000/api/v1/items/P000001
+### updates an item based on id 2
+PUT http://localhost:3000/api/v1/items/P000002
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "uid": "P000001",
+    "uid": "P000002",
     "code": "sjQ23408K",
     "description": "Face-to-face clear-thinking complexity",
     "short_description": "must",
