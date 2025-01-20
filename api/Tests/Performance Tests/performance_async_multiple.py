@@ -5,6 +5,7 @@ import csv
 import os
 import time
 import random
+import sqlite3
 
 # Load endpoints from Endpoints.json
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -15,6 +16,11 @@ with open(endpoints_file_path, 'r') as file:
 
 # File to store performance results
 output_file = "performance_async_multiple_results.csv"
+
+# Connect to the SQLite database
+db_path = os.path.join(current_dir, "../../../data/Cargohub.db")
+conn = sqlite3.connect(db_path)
+cursor = conn.cursor()
 
 async def test_endpoint_performance(session, method, url, headers, data=None):
     try:
@@ -107,20 +113,10 @@ def save_results_to_csv(results, filename):
             ])
 
 async def main():
-    json_file_names = ["clients.json", "inventories.json", "item_groups.json", "item_lines.json", "item_types.json",
-                       "items.json", "locations.json", "orders.json", "suppliers.json", "transfers.json", "warehouses.json", "shipments.json"]
     results = []
 
-    # Itereren over json_file_names en bijbehorende endpoints
-    for i, json_file_name in enumerate(json_file_names):
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        json_file_path = os.path.join(current_dir, "../../../data", json_file_name)
-
-        # laad de JSON file
-        with open(json_file_path, 'r') as file:
-            BackupJson = json.load(file)
-
-        for endpoint in endpoints[i]:
+    for endpoint_group in endpoints:
+        for endpoint in endpoint_group:
             print(f"Testing endpoint {endpoint['url']}")
             result = await process_endpoint(endpoint)  # Await the coroutine
             results.append(result)
@@ -131,11 +127,6 @@ async def main():
             print(f"Average Response Time: {result['average_response_time']:.2f} seconds")
             print("-" * 50)
 
-        # Sla de originele JSON terug op in het bestand
-        with open(json_file_path, 'w') as file:
-            json.dump(BackupJson, file, indent=4)
-
-    # Save naar CSV
     save_results_to_csv(results, output_file)
     print(f"Performance results saved to {output_file}")
 
