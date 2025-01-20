@@ -27,10 +27,9 @@ jobs:
 
       - name: Run performance tests with coverage
         run: |
-          cd api
-          nohup python main.py 
+          python api/main.py 
           sleep 5
-          cd Tests
+          cd api/Tests
           cd "Performance Tests"
           python performance_async_multiple.py
           python performance_async.py
