@@ -36,7 +36,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
         valid_endings = {
             "clients", "orders", "inventories", "item_groups", "items", "item_lines",
             "item_types", "inventory", "totals", "locations", "shipments", "commit",
-            "suppliers", "transfers"
+            "suppliers", "transfers", "warehouses"
         }
         return path_end.isdigit() or path_end.startswith("P") and path_end[1:].isdigit() or path_end in valid_endings
 
