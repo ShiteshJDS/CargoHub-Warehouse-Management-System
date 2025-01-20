@@ -4,6 +4,7 @@ import csv
 import json
 import os
 import random
+import sqlite3
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Load endpoints from Endpoints.json
@@ -16,6 +17,11 @@ with open(endpoints_file_path, 'r') as file:
 # File to store performance results
 output_file = "performance_threads_multiple_results.csv"
 
+# Connect to the SQLite database
+db_path = os.path.join(current_dir, "../../../data/Cargohub.db")
+conn = sqlite3.connect(db_path)
+cursor = conn.cursor()
+
 def test_endpoint_performance(method, url, headers, data=None):
     """Test a single endpoint and measure the response time."""
     try:
@@ -23,9 +29,9 @@ def test_endpoint_performance(method, url, headers, data=None):
         if method == "GET":
             response = requests.get(url, headers=headers)
         elif method == "POST":
-            response = requests.post(url, headers=headers, data=data)
+            response = requests.post(url, headers=headers, json=data)
         elif method == "PUT":
-            response = requests.put(url, headers=headers, data=data)
+            response = requests.put(url, headers=headers, json=data)
         elif method == "DELETE":
             response = requests.delete(url, headers=headers)
         else:
@@ -89,20 +95,10 @@ def save_results_to_csv(results, filename):
                              result['failed_requests'], f"{result['average_response_time']:.2f}"])
 
 def main():
-    json_file_names = ["clients.json", "inventories.json", "item_groups.json", "item_lines.json", "item_types.json",
-                       "items.json", "locations.json", "orders.json", "suppliers.json", "transfers.json", "warehouses.json", "shipments.json"]
     results = []
 
-    # Itereren over json_file_names en bijbehorende endpoints
-    for i, json_file_name in enumerate(json_file_names):
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        json_file_path = os.path.join(current_dir, "../../../data", json_file_name)
-
-        # laad de JSON file
-        with open(json_file_path, 'r') as file:
-            BackupJson = json.load(file)
-
-        for endpoint in endpoints[i]:
+    for endpoint_group in endpoints:
+        for endpoint in endpoint_group:
             print(f"Testing endpoint {endpoint['url']}")
             result = process_endpoint(endpoint)
             results.append(result)
@@ -113,11 +109,6 @@ def main():
             print(f"Average Response Time: {result['average_response_time']:.2f} seconds")
             print("-" * 50)
 
-        # Sla de originele JSON terug op in het bestand
-        with open(json_file_path, 'w') as file:
-            json.dump(BackupJson, file, indent=4)
-
-    # Save naar CSV
     save_results_to_csv(results, output_file)
     print(f"Performance results saved to {output_file}")
 
