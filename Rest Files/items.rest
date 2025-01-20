@@ -37,14 +37,14 @@ Content-Type: application/json
 {
     "uid": "P000002",
     "code": "sjQ23408K",
-    "description": "Face-to-face clear-thinking complexity",
+    "description": "TESTTTT",
     "short_description": "must",
     "upc_code": "6523540947122",
     "model_number": "63-OFFTq0T",
     "commodity_code": "oTo304",
-    "item_line": 11,
-    "item_group": 73,
-    "item_type": 14,
+    "item_line": 11, // without _id
+    "item_group": 73, // without_id
+    "item_type": 14, // without_id
     "unit_purchase_quantity": 47,
     "unit_order_quantity": 13,
     "pack_order_quantity": 11,
@@ -68,16 +68,16 @@ API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "uid": "P011728",
+    "uid": "P011730",
     "code": "sjQ23408K",
-    "description": "Face-to-face clear-thinking complexity",
+    "description": "TESTTTTTTTTTT",
     "short_description": "must",
     "upc_code": "6523540947122",
     "model_number": "63-OFFTq0T",
     "commodity_code": "oTo304",
-    "item_line": 11,
-    "item_group": 73,
-    "item_type": 14,
+    "item_line_id": 11, // this one with _id
+    "item_group_id": 73, // with _id
+    "item_type_id": 14, // with _id
     "unit_purchase_quantity": 47,
     "unit_order_quantity": 13,
     "pack_order_quantity": 11,
