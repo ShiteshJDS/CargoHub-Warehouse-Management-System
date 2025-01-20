@@ -28,51 +28,55 @@ jobs:
 
       - name: Run performance.py
         run: |
-          python api/cargohub_db.py              
+          python api/cargohub_db.py
+      - run: |
           python api/main.py 
           sleep 5
-          cd api/Tests
-          cd "Performance Tests"
-          python performance.py
+      - run: | 
+           python api/Tests/Performance Tests/performance.py
+      - run: | 
           pkill -f "python api/main.py"
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
 
-      - name: Run performance_async.py
+      - name: Run performance.py
         run: |
           python api/cargohub_db.py
+      - run: |
           python api/main.py 
           sleep 5
-          cd api/Tests
-          cd "Performance Tests"
-          python performance_async.py
+      - run: | 
+           python api/Tests/Performance Tests/performance_async.py
+      - run: | 
           pkill -f "python api/main.py"
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
 
-      - name: Run performance_async_multiple.py
+      - name: Run performance.py
         run: |
           python api/cargohub_db.py
+      - run: |
           python api/main.py 
           sleep 5
-          cd api/Tests
-          cd "Performance Tests"
-          python performance_async_multiple.py
+      - run: | 
+           python api/Tests/Performance Tests/performance_async_multiple.py
+      - run: | 
           pkill -f "python api/main.py"
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
 
-      - name: Run performance_threads_multiple.py
+      - name: Run performance.py
         run: |
           python api/cargohub_db.py
+      - run: |
           python api/main.py 
           sleep 5
-          cd api/Tests
-          cd "Performance Tests"
-          python performance_threads_multiple.py
+      - run: | 
+           python api/Tests/Performance Tests/performance_threads_multiple.py
+      - run: | 
           pkill -f "python api/main.py"
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
