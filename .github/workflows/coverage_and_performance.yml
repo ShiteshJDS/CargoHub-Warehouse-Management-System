@@ -28,7 +28,7 @@ jobs:
       - name: Run performance tests with coverage
         run: |
           cd api/Tests
-          cd "performance tests"
+          cd "Performance Tests"
           python performance_async_multiple
           python performance_async
           python performance_threads_multiple
