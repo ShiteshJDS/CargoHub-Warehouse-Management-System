@@ -27,8 +27,9 @@ jobs:
 
       - name: Run performance.py
         run: |
+          pkill -f "python api/main.py" || true
           nohup python api/main.py &
-          sleep 5
+          sleep 10
           python "api/Tests/Performance Tests/performance.py"
           pkill -f "python api/main.py" || true
         env:
@@ -38,9 +39,9 @@ jobs:
       - name: Run performance_async.py
         run: |
           python api/cargohub_db.py
-          pkill -f "api/cargohub_db.py" || true
+          pkill -f "python api/main.py" || true
           nohup python api/main.py &
-          sleep 5
+          sleep 10
           python "api/Tests/Performance Tests/performance_async.py"
           pkill -f "python api/main.py" || true
         env:
@@ -50,9 +51,9 @@ jobs:
       - name: Run performance_async_multiple.py
         run: |
           python api/cargohub_db.py
-          pkill -f "api/cargohub_db.py" || true
+          pkill -f "python api/main.py" || true
           nohup python api/main.py &
-          sleep 5
+          sleep 10
           python "api/Tests/Performance Tests/performance_async_multiple.py"
           pkill -f "python api/main.py" || true
         env:
@@ -62,9 +63,9 @@ jobs:
       - name: Run performance_threads_multiple.py
         run: |
           python api/cargohub_db.py
-          pkill -f "api/cargohub_db.py" || true
+          pkill -f "python api/main.py" || true
           nohup python api/main.py &
-          sleep 5
+          sleep 10
           python "api/Tests/Performance Tests/performance_threads_multiple.py"
           pkill -f "python api/main.py" || true
         env:
