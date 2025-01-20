@@ -25,17 +25,47 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-cov
 
-      - name: Run performance tests with coverage
+
+      - name: Run performance.py
+        run: |
+          python api/main.py 
+          sleep 5
+          cd api/Tests
+          cd "Performance Tests"
+          python performance.py
+        env:
+          API_KEY_1: ${{ secrets.API_KEY_1 }}
+          API_KEY_2: ${{ secrets.API_KEY_2 }}
+
+      - name: Run performance_async.py
+        run: |
+          python api/main.py 
+          sleep 5
+          cd api/Tests
+          cd "Performance Tests"
+          python performance_async.py
+        env:
+          API_KEY_1: ${{ secrets.API_KEY_1 }}
+          API_KEY_2: ${{ secrets.API_KEY_2 }}
+
+      - name: Run performance_async_multiple.py
         run: |
           python api/main.py 
           sleep 5
           cd api/Tests
           cd "Performance Tests"
           python performance_async_multiple.py
-          python performance_async.py
-          python performance_threads_multiple.py
-          python performance.py
+        env:
+          API_KEY_1: ${{ secrets.API_KEY_1 }}
+          API_KEY_2: ${{ secrets.API_KEY_2 }}
 
+      - name: Run performance_threads_multiple.py
+        run: |
+          python api/main.py 
+          sleep 5
+          cd api/Tests
+          cd "Performance Tests"
+          python performance_threads_multiple.py
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
