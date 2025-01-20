@@ -30,7 +30,7 @@ jobs:
         run: |
           python api/cargohub_db.py
       - run: |
-          nohup python api/main.py 
+          nohup python api/main.py &
           sleep 5
       - run: | 
            python api/Tests/Performance Tests/performance.py
@@ -44,7 +44,7 @@ jobs:
         run: |
           python api/cargohub_db.py
       - run: |
-          nohup python api/main.py 
+          nohup python api/main.py &
           sleep 5
       - run: | 
            python api/Tests/Performance Tests/performance_async.py
@@ -58,7 +58,7 @@ jobs:
         run: |
           python api/cargohub_db.py
       - run: |
-          nohup python api/main.py 
+          nohup python api/main.py &
           sleep 5
       - run: | 
            python api/Tests/Performance Tests/performance_async_multiple.py
@@ -72,7 +72,7 @@ jobs:
         run: |
           python api/cargohub_db.py
       - run: |
-          nohup python api/main.py 
+          nohup python api/main.py &
           sleep 5
       - run: | 
            python api/Tests/Performance Tests/performance_threads_multiple.py
