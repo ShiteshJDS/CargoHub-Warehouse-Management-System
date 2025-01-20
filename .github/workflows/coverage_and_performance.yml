@@ -29,10 +29,10 @@ jobs:
         run: |
           cd api/Tests
           cd "Performance Tests"
-          python performance_async_multiple
-          python performance_async
-          python performance_threads_multiple
-          python performance
+          python performance_async_multiple.py
+          python performance_async.py
+          python performance_threads_multiple.py
+          python performance.py
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
