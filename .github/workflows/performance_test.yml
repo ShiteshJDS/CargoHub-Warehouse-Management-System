@@ -1,4 +1,4 @@
-name: Python Test Coverage and Performance
+name: Python Performance Test
 
 on:
   push:
@@ -28,49 +28,57 @@ jobs:
 
       - name: Run performance.py
         run: |
+          python api/cargohub_db.py              
           python api/main.py 
           sleep 5
           cd api/Tests
           cd "Performance Tests"
           python performance.py
+          pkill -f "python api/main.py"
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
 
       - name: Run performance_async.py
         run: |
+          python api/cargohub_db.py
           python api/main.py 
           sleep 5
           cd api/Tests
           cd "Performance Tests"
           python performance_async.py
+          pkill -f "python api/main.py"
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
 
       - name: Run performance_async_multiple.py
         run: |
+          python api/cargohub_db.py
           python api/main.py 
           sleep 5
           cd api/Tests
           cd "Performance Tests"
           python performance_async_multiple.py
+          pkill -f "python api/main.py"
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
 
       - name: Run performance_threads_multiple.py
         run: |
+          python api/cargohub_db.py
           python api/main.py 
           sleep 5
           cd api/Tests
           cd "Performance Tests"
           python performance_threads_multiple.py
+          pkill -f "python api/main.py"
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
 
-      - name: Upload coverage report
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+      # - name: Upload coverage report
+      #   uses: codecov/codecov-action@v5
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
