@@ -25,7 +25,6 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-cov
 
-
       - name: Run performance.py
         run: |
           python api/cargohub_db.py
@@ -33,56 +32,51 @@ jobs:
           nohup python api/main.py &
           sleep 5
       - run: | 
-           python api/Tests/Performance Tests/performance.py
+          python api/Tests/Performance Tests/performance.py
       - run: | 
           pkill -f "python api/main.py"
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
 
-      - name: Run performance.py
+      - name: Run performance_async.py
         run: |
           python api/cargohub_db.py
       - run: |
           nohup python api/main.py &
           sleep 5
       - run: | 
-           python api/Tests/Performance Tests/performance_async.py
+          python api/Tests/Performance Tests/performance_async.py
       - run: | 
           pkill -f "python api/main.py"
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
 
-      - name: Run performance.py
+      - name: Run performance_async_multiple.py
         run: |
           python api/cargohub_db.py
       - run: |
           nohup python api/main.py &
           sleep 5
       - run: | 
-           python api/Tests/Performance Tests/performance_async_multiple.py
+          python api/Tests/Performance Tests/performance_async_multiple.py
       - run: | 
           pkill -f "python api/main.py"
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
 
-      - name: Run performance.py
+      - name: Run performance_threads_multiple.py
         run: |
           python api/cargohub_db.py
       - run: |
           nohup python api/main.py &
           sleep 5
       - run: | 
-           python api/Tests/Performance Tests/performance_threads_multiple.py
+          python api/Tests/Performance Tests/performance_threads_multiple.py
       - run: | 
           pkill -f "python api/main.py"
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
-
-      # - name: Upload coverage report
-      #   uses: codecov/codecov-action@v5
-      #   with:
-      #     token: ${{ secrets.CODECOV_TOKEN }}
