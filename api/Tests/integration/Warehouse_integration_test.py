@@ -18,7 +18,7 @@ BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
 
 
 # Warehouse Endpoint Testing (server must be running when testing endpoints)
-@pytest.fixture
+@pytest.fixture(scope="module", autouse=True)
 def cleanup_warehouses():
     yield
     # Cleanup code
