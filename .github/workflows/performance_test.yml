@@ -27,8 +27,6 @@ jobs:
 
       - name: Run performance.py
         run: |
-          python api/cargohub_db.py
-      - run: |
           nohup python api/main.py &
           sleep 5
       - run: | 
