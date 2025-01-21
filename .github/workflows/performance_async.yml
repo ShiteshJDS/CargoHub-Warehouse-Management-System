@@ -24,7 +24,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest pytest-cov
-      - name: Run performance.py
+      - name: Run performance_async.py
         run: |
           pkill -f "python api/main.py" || true
           nohup python api/main.py &
