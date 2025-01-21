@@ -3,6 +3,7 @@ import http.server
 import json
 import logging
 import os
+from time import sleep
 
 from providers import auth_provider
 from providers import data_provider
@@ -1127,7 +1128,11 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
 
 
 def StartWebAPI(port, db_name, test_db_name):
-    cargohub_db.delete_db(db_name)
+    cargohub_db.delete_db(test_db_name)
+
+    if port == 3001:
+        cargohub_db.delete_db(db_name)
+
     # Create and populate the database if it doesn't exist
     if not os.path.exists(db_name):
         cargohub_db.create_clients_table(db_name, 'data/clients.json')
@@ -1168,11 +1173,13 @@ def StartWebAPI(port, db_name, test_db_name):
 def start_servers():
     import threading
 
+    # Start the second server on port 3001
+    threading.Thread(target=StartWebAPI, args=(3001, 'data/Cargohub_3001.db', 'api/Tests/Test_Data/Cargohub_Test_3001.db')).start()
+    sleep(7)
+    os.system('cls' if os.name == 'nt' else 'clear')
     # Start the first server on port 3000
     threading.Thread(target=StartWebAPI, args=(3000, 'data/Cargohub.db', 'api/Tests/Test_Data/Cargohub_Test.db')).start()
 
-    # Start the second server on port 3001
-    threading.Thread(target=StartWebAPI, args=(3001, 'data/Cargohub_3001.db', 'api/Tests/Test_Data/Cargohub_Test_3001.db')).start()
 
 
 if __name__ == "__main__":
