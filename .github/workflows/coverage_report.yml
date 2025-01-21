@@ -1,0 +1,54 @@
+name: Coverage Report
+
+on:
+  pull_request:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install coverage
+
+      - name: Run cargohub_db.py to create test database
+        run: |
+          python api/cargohub_db.py
+          sleep 5
+
+      - name: Check cargohub_test.db existence
+        run: |
+          if [ ! -f "api/Tests/Test_Data/Cargohub_Test.db" ]; then
+            echo "cargohub_test.db is missing!"
+            exit 1
+          else
+            echo "cargohub_test.db exists."
+          fi
+
+      - name: Run tests and generate coverage report
+        run: |
+          cd api/Tests/unit
+          coverage run -m pytest
+          coverage report > coverage.txt
+        env:
+          API_KEY_1: ${{ secrets.API_KEY_1 }}
+          API_KEY_2: ${{ secrets.API_KEY_2 }}
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: api/Tests/unit/coverage.txt
