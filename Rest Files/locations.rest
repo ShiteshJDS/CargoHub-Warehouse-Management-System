@@ -1,30 +1,34 @@
 ########## GET ENDPOINTS ##########
 
 ### gets all locations
-Get http://localhost:3000/api/v1/locations
+Get http://localhost:3001/api/v1/locations
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets a locations based on id 1
-Get http://localhost:3000/api/v1/locations/1
+Get http://localhost:3001/api/v1/locations/1
+API_KEY : a1b2c3d4e5
+Content-Type: application/json
+###
+
+### gets all locations in a warehouse
+Get http://localhost:3001/api/v1/warehouses/1/locations
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 
 
-
-
 ########## PUT ENDPOINTS ##########
 
-### updates a location based on id 1
-PUT http://localhost:3000/api/v1/locations/1
+### updates a location based on id 2
+PUT http://localhost:3001/api/v1/locations/2
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "id": 1,
+    "id": 2,
     "warehouse_id": 1,
     "code": "A.1.0",
     "name": "Row: A, Rack: 1, Shelf: 0",
@@ -40,12 +44,12 @@ Content-Type: application/json
 ########## POST ENDPOINTS ##########
 
 ### adds a new location to database
-POST http://localhost:3000/api/v1/locations
+POST http://localhost:3001/api/v1/locations
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "id": 1,
+    "id": 34534,
     "warehouse_id": 1,
     "code": "A.1.0",
     "name": "Row: A, Rack: 1, Shelf: 0",
@@ -61,7 +65,7 @@ Content-Type: application/json
 ########## DELETE ENDPOINTS ##########
 
 ### removes a location based on id 1
-DELETE http://localhost:3000/api/v1/locations/1
+DELETE http://localhost:3001/api/v1/locations/1
 API_KEY : a1b2c3d4e5
 ###
 

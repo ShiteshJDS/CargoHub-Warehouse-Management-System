@@ -1,13 +1,13 @@
 ########## GET ENDPOINTS ##########
 
 ### gets all inventories
-Get http://localhost:3000/api/v1/inventories
+Get http://localhost:3001/api/v1/inventories
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets an inventories based on id 1
-Get http://localhost:3000/api/v1/inventories/1
+Get http://localhost:3001/api/v1/inventories/731
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
@@ -18,13 +18,13 @@ Content-Type: application/json
 
 ########## PUT ENDPOINTS ##########
 
-### updates an inventory based on id 1
-PUT http://localhost:3000/api/v1/inventories/1
+### updates an inventory based on id 2
+PUT http://localhost:3001/api/v1/inventories/2
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "id": 1,
+    "id": 2,
     "item_id": "P000001",
     "description": "Face-to-face clear-thinking complexity",
     "item_reference": "sjQ23408K",
@@ -50,17 +50,15 @@ Content-Type: application/json
 
 
 
-
-
-########## POST ENDPOINTS ##########
+################# POST ENDPOINTS ##########
 
 ### adds a new inventory to database
-POST http://localhost:3000/api/v1/inventories
+POST http://localhost:3001/api/v1/inventories
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "id": 1,
+    "id": 11722,
     "item_id": "P000001",
     "description": "Face-to-face clear-thinking complexity",
     "item_reference": "sjQ23408K",
@@ -91,7 +89,7 @@ Content-Type: application/json
 ########## DELETE ENDPOINTS ##########
 
 ### removes an inventory based on id 1
-DELETE http://localhost:3000/api/v1/inventories/1
+DELETE http://localhost:3001/api/v1/inventories/1
 API_KEY : a1b2c3d4e5
 ###
 

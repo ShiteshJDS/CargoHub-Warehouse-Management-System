@@ -1,43 +1,51 @@
-name: Python cargohub application
+name: Unit tests pytest results
 
 on:
-  push:
-    branches: 
-      - main
-      - Development-Branch
+  pull_request:
+    branches:
+      - '**'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python 3.10
+    - name: Set up Python 3.11
       uses: actions/setup-python@v5
       with:
-        python-version: "3.10"
+        python-version: "3.11"
         cache: 'pip'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Ensure test data is present
+        pip install -r requirements.txt
+    - name: Run cargohub_db.py to create test database
       run: |
-        # Check if the Test_Data folder exists
-        if [ ! -d "api/Tests/Test_Data" ]; then
-          echo "Test_Data folder is missing!"
-          exit 1
-        fi
-        ls api/Tests/Test_Data # Confirm the files are present
+        python api/cargohub_db.py
+        sleep 5
     - name: Lint with flake8
       run: |
-        # Treat all linting issues as warnings, allowing the build to continue
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Start server
+    - name: Check cargohub_test.db existence
       run: |
-        nohup python api/main.py &
-        sleep 10  # Wait for the server to start
+        if [ ! -f "api/Tests/Test_Data/Cargohub_Test.db" ]; then
+          echo "cargohub_test.db is missing!"
+          exit 1
+        else
+          echo "cargohub_test.db exists."
+        fi
+    # - name: Start server
+    #   run: |
+    #     nohup python api/main.py & 
+    #     sleep 20
+    #   env:
+    #     API_KEY_1: ${{ secrets.API_KEY_1 }}
+    #     API_KEY_2: ${{ secrets.API_KEY_2 }}
     - name: Run tests
       run: |
-        cd api/Tests
+        cd api/Tests/unit
         pytest
+      env:
+        API_KEY_1: ${{ secrets.API_KEY_1 }}
+        API_KEY_2: ${{ secrets.API_KEY_2 }}

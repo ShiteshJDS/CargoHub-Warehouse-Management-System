@@ -29,31 +29,20 @@ _shipments = None
 _clients = None
 
 
-def init():
-    global _warehouses
-    _warehouses = Warehouses(ROOT_PATH, DEBUG)
-    global _locations
-    _locations = Locations(ROOT_PATH, DEBUG)
-    global _transfers
-    _transfers = Transfers(ROOT_PATH, DEBUG)
-    global _items
-    _items = Items(ROOT_PATH, DEBUG)
-    global _item_lines
-    _item_lines = ItemLines(ROOT_PATH, DEBUG)
-    global _item_groups
-    _item_groups = ItemGroups(ROOT_PATH, DEBUG)
-    global _item_types
-    _item_types = ItemTypes(ROOT_PATH, DEBUG)
-    global _inventories
-    _inventories = Inventories(ROOT_PATH, DEBUG)
-    global _suppliers
-    _suppliers = Suppliers(ROOT_PATH, DEBUG)
-    global _orders
-    _orders = Orders(ROOT_PATH, DEBUG)
-    global _clients
-    _clients = Clients(ROOT_PATH, DEBUG)
-    global _shipments
-    _shipments = Shipments(ROOT_PATH, DEBUG)
+def init(db_path):
+    global _clients, _warehouses, _locations, _transfers, _items, _item_lines, _item_groups, _item_types, _inventories, _suppliers, _orders, _shipments
+    _clients = Clients(db_path)
+    _warehouses = Warehouses(db_path)
+    _locations = Locations(db_path)
+    _transfers = Transfers(db_path)
+    _items = Items(db_path)
+    _item_lines = ItemLines(db_path)
+    _item_groups = ItemGroups(db_path)
+    _item_types = ItemTypes(db_path)
+    _inventories = Inventories(db_path)
+    _suppliers = Suppliers(db_path)
+    _orders = Orders(db_path)
+    _shipments = Shipments(db_path)
 
 
 def fetch_warehouse_pool():

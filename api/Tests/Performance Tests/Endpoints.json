@@ -2,7 +2,7 @@
     [
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/clients",
+            "url": "http://localhost:3001/api/v1/clients",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -11,7 +11,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/clients/1",
+            "url": "http://localhost:3001/api/v1/clients/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -20,7 +20,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/clients/1/orders",
+            "url": "http://localhost:3001/api/v1/clients/1/orders",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -29,7 +29,7 @@
         },
         {
             "method": "PUT",
-            "url": "http://localhost:3000/api/v1/clients/1",
+            "url": "http://localhost:3001/api/v1/clients/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -51,13 +51,13 @@
         },
         {
             "method": "POST",
-            "url": "http://localhost:3000/api/v1/clients",
+            "url": "http://localhost:3001/api/v1/clients",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
             },
             "data": {
-                "id": 1,
+                "id": 9900,
                 "name": "Raymond Inc",
                 "address": "1296 Daniel Road Apt. 349",
                 "city": "Pierceview",
@@ -73,7 +73,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/clients/1",
+            "url": "http://localhost:3001/api/v1/clients/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -83,16 +83,7 @@
     [
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/inventories",
-            "headers": {
-                "API_KEY": "a1b2c3d4e5",
-                "Content-Type": "application/json"
-            },
-            "data": null
-        },
-        {
-            "method": "GET",
-            "url": "http://localhost:3000/api/v1/inventories/1",
+            "url": "http://localhost:3001/api/v1/inventories/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -101,7 +92,7 @@
         },
         {
             "method": "PUT",
-            "url": "http://localhost:3000/api/v1/inventories/1",
+            "url": "http://localhost:3001/api/v1/inventories/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -132,13 +123,13 @@
         },
         {
             "method": "POST",
-            "url": "http://localhost:3000/api/v1/inventories",
+            "url": "http://localhost:3001/api/v1/inventories",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
             },
             "data": {
-                "id": 1,
+                "id": 11820,
                 "item_id": "P000001",
                 "description": "Face-to-face clear-thinking complexity",
                 "item_reference": "sjQ23408K",
@@ -163,7 +154,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/inventories/1",
+            "url": "http://localhost:3001/api/v1/inventories/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -173,7 +164,7 @@
     [
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/item_groups",
+            "url": "http://localhost:3001/api/v1/item_groups",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -182,7 +173,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/item_groups/1",
+            "url": "http://localhost:3001/api/v1/item_groups/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -191,7 +182,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/item_groups/1/items",
+            "url": "http://localhost:3001/api/v1/item_groups/1/items",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -200,7 +191,7 @@
         },
         {
             "method": "PUT",
-            "url": "http://localhost:3000/api/v1/item_groups/1",
+            "url": "http://localhost:3001/api/v1/item_groups/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -215,14 +206,14 @@
         },
         {
             "method": "POST",
-            "url": "http://localhost:3000/api/v1/item_groups",
+            "url": "http://localhost:3001/api/v1/item_groups",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
             },
             "data": {
-                "id": 1,
-                "name": "Furniture",
+                "id": 150,
+                "name": "Furniture",    
                 "description": "",
                 "created_at": "2019-09-22 15:51:07",
                 "updated_at": "2022-05-18 13:49:28"
@@ -230,7 +221,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/item_groups/1",
+            "url": "http://localhost:3001/api/v1/item_groups/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -240,7 +231,7 @@
     [
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/item_lines",
+            "url": "http://localhost:3001/api/v1/item_lines",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -249,7 +240,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/item_lines/1",
+            "url": "http://localhost:3001/api/v1/item_lines/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -258,7 +249,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/item_lines/1/items",
+            "url": "http://localhost:3001/api/v1/item_lines/1/items",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -267,7 +258,7 @@
         },
         {
             "method": "PUT",
-            "url": "http://localhost:3000/api/v1/item_lines/1",
+            "url": "http://localhost:3001/api/v1/item_lines/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -282,13 +273,13 @@
         },
         {
             "method": "POST",
-            "url": "http://localhost:3000/api/v1/item_lines",
+            "url": "http://localhost:3001/api/v1/item_lines",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
             },
             "data": {
-                "id": 1,
+                "id": 150,
                 "name": "Home Appliances",
                 "description": "",
                 "created_at": "1979-01-16 07:07:50",
@@ -297,7 +288,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/item_lines/1",
+            "url": "http://localhost:3001/api/v1/item_lines/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -307,7 +298,7 @@
     [
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/item_types",
+            "url": "http://localhost:3001/api/v1/item_types",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -316,7 +307,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/item_types/1",
+            "url": "http://localhost:3001/api/v1/item_types/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -325,7 +316,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/item_types/1/items",
+            "url": "http://localhost:3001/api/v1/item_types/1/items",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -334,7 +325,7 @@
         },
         {
             "method": "PUT",
-            "url": "http://localhost:3000/api/v1/item_types/1",
+            "url": "http://localhost:3001/api/v1/item_types/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -349,13 +340,13 @@
         },
         {
             "method": "POST",
-            "url": "http://localhost:3000/api/v1/item_types",
+            "url": "http://localhost:3001/api/v1/item_types",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
             },
             "data": {
-                "id": 1,
+                "id": 150,
                 "name": "Desktop",
                 "description": "",
                 "created_at": "1993-07-28 13:43:32",
@@ -364,7 +355,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/item_types/1",
+            "url": "http://localhost:3001/api/v1/item_types/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -374,7 +365,7 @@
     [
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/items",
+            "url": "http://localhost:3001/api/v1/items",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -383,7 +374,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/items/P000001",
+            "url": "http://localhost:3001/api/v1/items/P000001",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -392,7 +383,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/items/P000001/inventory",
+            "url": "http://localhost:3001/api/v1/items/P000001/inventory",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -401,7 +392,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/items/P000001/inventory/totals",
+            "url": "http://localhost:3001/api/v1/items/P000001/inventory/totals",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -410,7 +401,7 @@
         },
         {
             "method": "PUT",
-            "url": "http://localhost:3000/api/v1/items/P000001",
+            "url": "http://localhost:3001/api/v1/items/P000001",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -438,22 +429,22 @@
         },
         {
             "method": "POST",
-            "url": "http://localhost:3000/api/v1/items",
+            "url": "http://localhost:3001/api/v1/items",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
             },
             "data": {
-                "uid": "P000001",
+                "uid": "P0117830",
                 "code": "sjQ23408K",
                 "description": "Face-to-face clear-thinking complexity",
                 "short_description": "must",
                 "upc_code": "6523540947122",
                 "model_number": "63-OFFTq0T",
                 "commodity_code": "oTo304",
-                "item_line": 11,
-                "item_group": 73,
-                "item_type": 14,
+                "item_line_id": 11,
+                "item_group_id": 73,
+                "item_type_id": 14,
                 "unit_purchase_quantity": 47,
                 "unit_order_quantity": 13,
                 "pack_order_quantity": 11,
@@ -466,7 +457,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/items/P000001",
+            "url": "http://localhost:3001/api/v1/items/P000002",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -476,7 +467,7 @@
     [
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/locations",
+            "url": "http://localhost:3001/api/v1/locations",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -485,7 +476,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/locations/1",
+            "url": "http://localhost:3001/api/v1/locations/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -494,7 +485,7 @@
         },
         {
             "method": "PUT",
-            "url": "http://localhost:3000/api/v1/locations/1",
+            "url": "http://localhost:3001/api/v1/locations/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -510,13 +501,13 @@
         },
         {
             "method": "POST",
-            "url": "http://localhost:3000/api/v1/locations",
+            "url": "http://localhost:3001/api/v1/locations",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
             },
             "data": {
-                "id": 1,
+                "id": 35533,
                 "warehouse_id": 1,
                 "code": "A.1.0",
                 "name": "Row: A, Rack: 1, Shelf: 0",
@@ -526,7 +517,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/locations/1",
+            "url": "http://localhost:3001/api/v1/locations/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -536,7 +527,7 @@
     [
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/orders",
+            "url": "http://localhost:3001/api/v1/orders/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -545,16 +536,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/orders/1",
-            "headers": {
-                "API_KEY": "a1b2c3d4e5",
-                "Content-Type": "application/json"
-            },
-            "data": null
-        },
-        {
-            "method": "GET",
-            "url": "http://localhost:3000/api/v1/orders/1/items",
+            "url": "http://localhost:3001/api/v1/orders/1/items",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -563,7 +545,7 @@
         },
         {
             "method": "PUT",
-            "url": "http://localhost:3000/api/v1/orders/1",
+            "url": "http://localhost:3001/api/v1/orders/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -679,7 +661,7 @@
         },
         {
             "method": "PUT",
-            "url": "http://localhost:3000/api/v1/orders/1/items",
+            "url": "http://localhost:3001/api/v1/orders/1/items",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -773,13 +755,13 @@
         },
         {
             "method": "POST",
-            "url": "http://localhost:3000/api/v1/orders",
+            "url": "http://localhost:3001/api/v1/orders",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
             },
             "data": {
-                "id": 1,
+                "id": 13447,
                 "source_id": 33,
                 "order_date": "2019-04-03T11:33:15Z",
                 "request_date": "2019-04-07T11:33:15Z",
@@ -889,7 +871,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/orders/1",
+            "url": "http://localhost:3001/api/v1/orders/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -899,7 +881,7 @@
     [
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/suppliers",
+            "url": "http://localhost:3001/api/v1/suppliers",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -908,7 +890,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/suppliers/1",
+            "url": "http://localhost:3001/api/v1/suppliers/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -917,7 +899,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/suppliers/1/items",
+            "url": "http://localhost:3001/api/v1/suppliers/1/items",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -926,7 +908,7 @@
         },
         {
             "method": "PUT",
-            "url": "http://localhost:3000/api/v1/suppliers/1",
+            "url": "http://localhost:3001/api/v1/suppliers/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -950,13 +932,13 @@
         },
         {
             "method": "POST",
-            "url": "http://localhost:3000/api/v1/suppliers",
+            "url": "http://localhost:3001/api/v1/suppliers",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
             },
             "data": {
-                "id": 1,
+                "id": 600,
                 "code": "SUP0001",
                 "name": "Lee, Parks and Johnson",
                 "address": "5989 Sullivan Drives",
@@ -974,7 +956,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/suppliers/1",
+            "url": "http://localhost:3001/api/v1/suppliers/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -984,7 +966,7 @@
     [
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/transfers",
+            "url": "http://localhost:3001/api/v1/transfers/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -993,16 +975,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/transfers/1",
-            "headers": {
-                "API_KEY": "a1b2c3d4e5",
-                "Content-Type": "application/json"
-            },
-            "data": null
-        },
-        {
-            "method": "GET",
-            "url": "http://localhost:3000/api/v1/transfers/1/items",
+            "url": "http://localhost:3001/api/v1/transfers/1/items",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -1011,7 +984,7 @@
         },
         {
             "method": "PUT",
-            "url": "http://localhost:3000/api/v1/transfers/1",
+            "url": "http://localhost:3001/api/v1/transfers/1",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -1033,23 +1006,14 @@
             }
         },
         {
-            "method": "PUT",
-            "url": "http://localhost:3000/api/v1/transfers/1/commit",
-            "headers": {
-                "API_KEY": "a1b2c3d4e5",
-                "Content-Type": "application/json"
-            },
-            "data": null
-        },
-        {
             "method": "POST",
-            "url": "http://localhost:3000/api/v1/transfers",
+            "url": "http://localhost:3001/api/v1/transfers",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
             },
             "data": {
-                "id": 1,
+                "id": 120000,
                 "reference": "TR00001",
                 "transfer_from": null,
                 "transfer_to": 9229,
@@ -1066,7 +1030,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/transfers/1",
+            "url": "http://localhost:3001/api/v1/transfers/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -1076,7 +1040,7 @@
     [
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/warehouses",
+            "url": "http://localhost:3001/api/v1/warehouses",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -1085,54 +1049,22 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/warehouses/1",
+            "url": "http://localhost:3001/api/v1/warehouses/1/locations",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
             },
             "data": null
-        },
-        {
-            "method": "GET",
-            "url": "http://localhost:3000/api/v1/warehouses/1/locations",
-            "headers": {
-                "API_KEY": "a1b2c3d4e5",
-                "Content-Type": "application/json"
-            },
-            "data": null
-        },
-        {
-            "method": "PUT",
-            "url": "http://localhost:3000/api/v1/warehouses/1",
-            "headers": {
-                "API_KEY": "a1b2c3d4e5",
-                "Content-Type": "application/json"
-            },
-            "data": {
-                "id": 1,
-                "reference": "TR00001",
-                "transfer_from": null,
-                "transfer_to": 9229,
-                "transfer_status": "Completed",
-                "created_at": "2000-03-11T13:11:14Z",
-                "updated_at": "2000-03-12T16:11:14Z",
-                "items": [
-                    {
-                        "item_id": "P007435",
-                        "amount": 23
-                    }
-                ]
-            }
         },
         {
             "method": "POST",
-            "url": "http://localhost:3000/api/v1/warehouses",
+            "url": "http://localhost:3001/api/v1/warehouses",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
             },
             "data": {
-                "id": 1,
+                "id": 70,
                 "code": "YQZZNL56",
                 "name": "Heemskerk cargo hub",
                 "address": "Karlijndreef 281",
@@ -1151,7 +1083,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/warehouses/1",
+            "url": "http://localhost:3001/api/v1/warehouses/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },
@@ -1161,7 +1093,7 @@
     [
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/shipments",
+            "url": "http://localhost:3001/api/v1/shipments/1/orders",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -1170,25 +1102,7 @@
         },
         {
             "method": "GET",
-            "url": "http://localhost:3000/api/v1/shipments/1",
-            "headers": {
-                "API_KEY": "a1b2c3d4e5",
-                "Content-Type": "application/json"
-            },
-            "data": null
-        },
-        {
-            "method": "GET",
-            "url": "http://localhost:3000/api/v1/shipments/1/orders",
-            "headers": {
-                "API_KEY": "a1b2c3d4e5",
-                "Content-Type": "application/json"
-            },
-            "data": null
-        },
-        {
-            "method": "GET",
-            "url": "http://localhost:3000/api/v1/orders/1/items",
+            "url": "http://localhost:3001/api/v1/orders/1/items",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -1197,101 +1111,7 @@
         },
         {
             "method": "PUT",
-            "url": "http://localhost:3000/api/v1/shipments/1",
-            "headers": {
-                "API_KEY": "a1b2c3d4e5",
-                "Content-Type": "application/json"
-            },
-            "data": [
-                {
-                    "item_id": "P007435",
-                    "amount": 23
-                },
-                {
-                    "item_id": "P009557",
-                    "amount": 1
-                },
-                {
-                    "item_id": "P009553",
-                    "amount": 50
-                },
-                {
-                    "item_id": "P010015",
-                    "amount": 16
-                },
-                {
-                    "item_id": "P002084",
-                    "amount": 33
-                },
-                {
-                    "item_id": "P009663",
-                    "amount": 18
-                },
-                {
-                    "item_id": "P010125",
-                    "amount": 18
-                },
-                {
-                    "item_id": "P005768",
-                    "amount": 26
-                },
-                {
-                    "item_id": "P004051",
-                    "amount": 1
-                },
-                {
-                    "item_id": "P005026",
-                    "amount": 29
-                },
-                {
-                    "item_id": "P000726",
-                    "amount": 22
-                },
-                {
-                    "item_id": "P008107",
-                    "amount": 47
-                },
-                {
-                    "item_id": "P001598",
-                    "amount": 32
-                },
-                {
-                    "item_id": "P002855",
-                    "amount": 20
-                },
-                {
-                    "item_id": "P010404",
-                    "amount": 30
-                },
-                {
-                    "item_id": "P010446",
-                    "amount": 6
-                },
-                {
-                    "item_id": "P001517",
-                    "amount": 9
-                },
-                {
-                    "item_id": "P009265",
-                    "amount": 2
-                },
-                {
-                    "item_id": "P001108",
-                    "amount": 20
-                },
-                {
-                    "item_id": "P009110",
-                    "amount": 18
-                },
-                {
-                    "item_id": "P009686",
-                    "amount": 13
-                }
-            ]
-        },
-        {
-            "method": "PUT",
-            "url": "http://localhost:3000/api/v1/shipments/1/items",
+            "url": "http://localhost:3001/api/v1/shipments/1/items",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
@@ -1385,13 +1205,13 @@
         },
         {
             "method": "POST",
-            "url": "http://localhost:3000/api/v1/shipments",
+            "url": "http://localhost:3001/api/v1/shipments",
             "headers": {
                 "API_KEY": "a1b2c3d4e5",
                 "Content-Type": "application/json"
             },
             "data": {
-                "id": 1,
+                "id": 11000,
                 "order_id": 1,
                 "source_id": 33,
                 "order_date": "2000-03-09",
@@ -1499,7 +1319,7 @@
         },
         {
             "method": "DELETE",
-            "url": "http://localhost:3000/api/v1/shipments/1",
+            "url": "http://localhost:3001/api/v1/shipments/2",
             "headers": {
                 "API_KEY": "a1b2c3d4e5"
             },

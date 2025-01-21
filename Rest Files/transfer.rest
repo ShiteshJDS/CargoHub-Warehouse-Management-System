@@ -1,19 +1,19 @@
 ########## GET ENDPOINTS ##########
 
 ### gets all transfers
-Get http://localhost:3000/api/v1/transfers
+Get http://localhost:3001/api/v1/transfers
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets a transfer based on id 1
-Get http://localhost:3000/api/v1/transfers/1
+Get http://localhost:3001/api/v1/transfers/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets items in a transfer
-Get http://localhost:3000/api/v1/transfers/1/items
+Get http://localhost:3001/api/v1/transfers/1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
@@ -25,12 +25,12 @@ Content-Type: application/json
 ########## PUT ENDPOINTS ##########
 
 ### updates a transfer based on id 1
-PUT http://localhost:3000/api/v1/transfers/1
+PUT http://localhost:3001/api/v1/transfers/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "id": 1,
+    "id": 150000,
     "reference": "TR00001",
     "transfer_from": null,
     "transfer_to": 9229,
@@ -48,7 +48,7 @@ Content-Type: application/json
 
 ### activates the transfer, it updates the inventories for all items inside the transfer 
 ### the recieving inventory gets increased and the giving inventory decreased
-PUT http://localhost:3000/api/v1/transfers/1/commit
+PUT http://localhost:3001/api/v1/transfers/1/commit
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
@@ -60,12 +60,12 @@ Content-Type: application/json
 ########## POST ENDPOINTS ##########
 
 ### adds a new transfer to database
-POST http://localhost:3000/api/v1/transfers
+POST http://localhost:3001/api/v1/transfers
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "id": 1,
+    "id": 150000,
     "reference": "TR00001",
     "transfer_from": null,
     "transfer_to": 9229,
@@ -88,7 +88,7 @@ Content-Type: application/json
 ########## DELETE ENDPOINTS ##########
 
 ### removes a transfer based on id 1
-DELETE http://localhost:3000/api/v1/transfers/1
+DELETE http://localhost:3001/api/v1/transfers/1
 API_KEY : a1b2c3d4e5
 ###
 

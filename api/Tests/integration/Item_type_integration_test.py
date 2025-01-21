@@ -7,38 +7,25 @@ import requests
 import logging
 import shutil
 import copy
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Add the path to the CargoHub directory to sys.path
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..')))
+    os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from models.item_types import ItemTypes  # noqa
 
 BASE_URL = "http://localhost:3000"  # Replace with your API's base URL
 
 # Must run in test folder
-
-@pytest.fixture(scope="module", autouse=True)
-def manage_warehouse_json_state():
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    json_file_path = os.path.join(current_dir, "../../data/item_types.json")
-    backup_file_path = f"{json_file_path}.backup"
-
-    # Backup the JSON file
-    shutil.copyfile(json_file_path, backup_file_path)
-
-    yield  # Run the tests
-
-    # Restore the JSON file from backup
-    shutil.copyfile(backup_file_path, json_file_path)
-    os.remove(backup_file_path)  # Clean up the backup file
-
 class Test_ItemTypes():
 
-    item_typeObject = ItemTypes("Test_Data/test_")
+    item_typeObject = ItemTypes("../Test_Data/Cargohub_Test.db")
     headers_full = {
-        "API_KEY": "a1b2c3d4e5",
+        "API_KEY": os.getenv("API_KEY_1"),
         "Content-Type": "application/json"
     }
 
@@ -256,7 +243,7 @@ class Test_ItemTypes():
 
 class Test_Item_Types_Functions():
 
-    item_typeObject = ItemTypes("Test_Data/test_")
+    item_typeObject = ItemTypes("../Test_Data/Cargohub_Test.db")
 
     def test_get_item_types(self):
 

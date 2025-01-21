@@ -1,25 +1,25 @@
 ########## GET ENDPOINTS ##########
 
 ### gets all items
-Get http://localhost:3000/api/v1/items
+Get http://localhost:3001/api/v1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets an item based on id 1
-Get http://localhost:3000/api/v1/items/P000001
+Get http://localhost:3001/api/v1/items/P000001
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets all inventories for an item
-Get http://localhost:3000/api/v1/items/P000001/inventory
+Get http://localhost:3001/api/v1/items/P000001/inventory
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets inventory totals for an item
-Get http://localhost:3000/api/v1/items/P000001/inventory/totals
+Get http://localhost:3001/api/v1/items/P000001/inventory/totals
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
@@ -29,22 +29,22 @@ Content-Type: application/json
 
 ########## PUT ENDPOINTS ##########
 
-### updates an item based on id 1
-PUT http://localhost:3000/api/v1/items/P000001
+### updates an item based on id 2
+PUT http://localhost:3001/api/v1/items/P000002
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "uid": "P000001",
+    "uid": "P000002",
     "code": "sjQ23408K",
-    "description": "Face-to-face clear-thinking complexity",
+    "description": "TESTTTT",
     "short_description": "must",
     "upc_code": "6523540947122",
     "model_number": "63-OFFTq0T",
     "commodity_code": "oTo304",
-    "item_line": 11,
-    "item_group": 73,
-    "item_type": 14,
+    "item_line": 11, // without _id
+    "item_group": 73, // without_id
+    "item_type": 14, // without_id
     "unit_purchase_quantity": 47,
     "unit_order_quantity": 13,
     "pack_order_quantity": 11,
@@ -63,21 +63,21 @@ Content-Type: application/json
 ########## POST ENDPOINTS ##########
 
 ### adds a new item to database
-POST http://localhost:3000/api/v1/items
+POST http://localhost:3001/api/v1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "uid": "P000001",
+    "uid": "P011730",
     "code": "sjQ23408K",
-    "description": "Face-to-face clear-thinking complexity",
+    "description": "TESTTTTTTTTTT",
     "short_description": "must",
     "upc_code": "6523540947122",
     "model_number": "63-OFFTq0T",
     "commodity_code": "oTo304",
-    "item_line": 11,
-    "item_group": 73,
-    "item_type": 14,
+    "item_line_id": 11, // this one with _id
+    "item_group_id": 73, // with _id
+    "item_type_id": 14, // with _id
     "unit_purchase_quantity": 47,
     "unit_order_quantity": 13,
     "pack_order_quantity": 11,
@@ -96,7 +96,7 @@ Content-Type: application/json
 ########## DELETE ENDPOINTS ##########
 
 ### removes an item based on id 1
-DELETE http://localhost:3000/api/v1/items/P000001
+DELETE http://localhost:3001/api/v1/items/P000001
 API_KEY : a1b2c3d4e5
 ###
 
