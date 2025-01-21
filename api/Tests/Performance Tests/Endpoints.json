@@ -213,7 +213,7 @@
             },
             "data": {
                 "id": 150,
-                "name": "Furniture",
+                "name": "Furniture",    
                 "description": "",
                 "created_at": "2019-09-22 15:51:07",
                 "updated_at": "2022-05-18 13:49:28"
@@ -1057,29 +1057,6 @@
             "data": null
         },
         {
-            "method": "PUT",
-            "url": "http://localhost:3001/api/v1/warehouses/1",
-            "headers": {
-                "API_KEY": "a1b2c3d4e5",
-                "Content-Type": "application/json"
-            },
-            "data": {
-                "id": 1,
-                "reference": "TR00001",
-                "transfer_from": null,
-                "transfer_to": 9229,
-                "transfer_status": "Completed",
-                "created_at": "2000-03-11T13:11:14Z",
-                "updated_at": "2000-03-12T16:11:14Z",
-                "items": [
-                    {
-                        "item_id": "P007435",
-                        "amount": 23
-                    }
-                ]
-            }
-        },
-        {
             "method": "POST",
             "url": "http://localhost:3001/api/v1/warehouses",
             "headers": {
@@ -1131,100 +1108,6 @@
                 "Content-Type": "application/json"
             },
             "data": null
-        },
-        {
-            "method": "PUT",
-            "url": "http://localhost:3001/api/v1/shipments/1",
-            "headers": {
-                "API_KEY": "a1b2c3d4e5",
-                "Content-Type": "application/json"
-            },
-            "data": [
-                {
-                    "item_id": "P007435",
-                    "amount": 23
-                },
-                {
-                    "item_id": "P009557",
-                    "amount": 1
-                },
-                {
-                    "item_id": "P009553",
-                    "amount": 50
-                },
-                {
-                    "item_id": "P010015",
-                    "amount": 16
-                },
-                {
-                    "item_id": "P002084",
-                    "amount": 33
-                },
-                {
-                    "item_id": "P009663",
-                    "amount": 18
-                },
-                {
-                    "item_id": "P010125",
-                    "amount": 18
-                },
-                {
-                    "item_id": "P005768",
-                    "amount": 26
-                },
-                {
-                    "item_id": "P004051",
-                    "amount": 1
-                },
-                {
-                    "item_id": "P005026",
-                    "amount": 29
-                },
-                {
-                    "item_id": "P000726",
-                    "amount": 22
-                },
-                {
-                    "item_id": "P008107",
-                    "amount": 47
-                },
-                {
-                    "item_id": "P001598",
-                    "amount": 32
-                },
-                {
-                    "item_id": "P002855",
-                    "amount": 20
-                },
-                {
-                    "item_id": "P010404",
-                    "amount": 30
-                },
-                {
-                    "item_id": "P010446",
-                    "amount": 6
-                },
-                {
-                    "item_id": "P001517",
-                    "amount": 9
-                },
-                {
-                    "item_id": "P009265",
-                    "amount": 2
-                },
-                {
-                    "item_id": "P001108",
-                    "amount": 20
-                },
-                {
-                    "item_id": "P009110",
-                    "amount": 18
-                },
-                {
-                    "item_id": "P009686",
-                    "amount": 13
-                }
-            ]
         },
         {
             "method": "PUT",
