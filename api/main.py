@@ -612,7 +612,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
     "item_lines": {
         "id": int,
         "name": str,
-        "description": str,
+        "description": (str, type(None)),
         "item_id": str,
         "quantity": int,
         "created_at": str,
@@ -621,7 +621,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
     "item_groups": {
         "id": int,
         "name": str,
-        "description": str,
+        "description": (str, type(None)),
         "created_at": str,
         "updated_at": str,
     },
@@ -629,7 +629,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
         "id": int,
         "name": str,
         "type": str,
-        "description": str,
+        "description": (str, type(None)),
         "created_at": str,
         "updated_at": str,
     },
@@ -731,8 +731,12 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
         if path[0] in validation_rules:
             required_keys = validation_rules[path[0]]
 
-            # Check for empty values
-            empty_values = [key for key, value in new_data.items() if not value and value != 0]
+            # Check for empty values, but allow empty strings for description in item_groups, item_types, and item_lines
+            if path[0] in {"item_groups", "item_types", "item_lines"}:
+                empty_values = [key for key, value in new_data.items() if not value and value != 0 and key != "description"]
+            else:
+                empty_values = [key for key, value in new_data.items() if not value and value != 0]
+
             if empty_values:
                 self.send_response(400)
                 self.end_headers()
