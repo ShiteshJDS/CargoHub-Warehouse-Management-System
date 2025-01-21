@@ -706,27 +706,13 @@ def create_warehouses_table(db_name, json_relative_path):
         # Close the connection
         conn.close()
 
-def delete_test_db():
-    # Define the paths to the databases
-    test_db_path = os.path.join('api', 'Tests', 'Test_Data', 'Cargohub_Test.db')
-    
-    # Check if the test database exists and delete it
-    if os.path.exists(test_db_path):
-        os.remove(test_db_path)
-        print(f"{test_db_path} has been deleted.")
-    else:
-        print(f"{test_db_path} does not exist.")
-
-def delete_db():
-    # Define the paths to the databases
-    db_path = os.path.join('data', 'Cargohub.db')
-    
+def delete_db(name):
     # Check if the database exists and delete it
-    if os.path.exists(db_path):
-        os.remove(db_path)
-        print(f"{db_path} has been deleted.")
+    if os.path.exists(name):
+        os.remove(name)
+        print(f"{name} has been deleted.")
     else:
-        print(f"{db_path} does not exist.")
+        print(f"{name} does not exist.")
 
 def load_data_from_json(json_relative_path):
     # Determine the absolute path of the JSON file based on the script's location
@@ -741,9 +727,10 @@ def load_data_from_json(json_relative_path):
 
 if __name__ == "__main__":
     # Create test database if it doesn't exist
-    delete_test_db()
+
     db_name = 'data/Cargohub.db'
     test_db_name = 'api/Tests/Test_Data/Cargohub_Test.db'
+    delete_db(test_db_name)
     create_clients_table(test_db_name, 'data/clients.json')
     create_inventories_table(test_db_name, 'data/inventories.json')
     create_item_groups_table(test_db_name, 'data/item_groups.json')
@@ -758,7 +745,7 @@ if __name__ == "__main__":
     create_transfers_table(test_db_name, 'data/transfers.json')
 
     # Create database if it doesn't exist
-    delete_db()
+    delete_db(db_name)
     create_clients_table(db_name, 'data/clients.json')
     create_inventories_table(db_name, 'data/inventories.json')
     create_item_groups_table(db_name, 'data/item_groups.json')

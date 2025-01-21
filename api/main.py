@@ -1126,10 +1126,9 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.end_headers()
 
 
-def StartWebAPI():
-    cargohub_db.delete_test_db()
+def StartWebAPI(port, db_name, test_db_name):
+    cargohub_db.delete_db(db_name)
     # Create and populate the database if it doesn't exist
-    db_name = 'data/Cargohub.db'
     if not os.path.exists(db_name):
         cargohub_db.create_clients_table(db_name, 'data/clients.json')
         cargohub_db.create_inventories_table(db_name, 'data/inventories.json')
@@ -1145,8 +1144,6 @@ def StartWebAPI():
         cargohub_db.create_warehouses_table(db_name, 'data/warehouses.json')
 
     # Create test database if it doesn't exist
-
-    test_db_name = 'api/Tests/Test_Data/Cargohub_Test.db'
     cargohub_db.create_clients_table(test_db_name, 'data/clients.json')
     cargohub_db.create_inventories_table(test_db_name, 'data/inventories.json')
     cargohub_db.create_item_groups_table(test_db_name, 'data/item_groups.json')
@@ -1160,18 +1157,26 @@ def StartWebAPI():
     cargohub_db.create_transfers_table(test_db_name, 'data/transfers.json')
     cargohub_db.create_warehouses_table(test_db_name, 'data/warehouses.json')
 
-    PORT = 3000
-    with socketserver.TCPServer(("", PORT), ApiRequestHandler) as httpd:
+    with socketserver.TCPServer(("", port), ApiRequestHandler) as httpd:
         auth_provider.init()
         data_provider.init()
         notification_processor.start()
-        print(f"Serving on port {PORT}...")
+        print(f"Serving on port {port}...")
         httpd.serve_forever()
 
 
-if __name__ == "__main__":
-    StartWebAPI()
+def start_servers():
+    import threading
 
+    # Start the first server on port 3000
+    threading.Thread(target=StartWebAPI, args=(3000, 'data/Cargohub.db', 'api/Tests/Test_Data/Cargohub_Test.db')).start()
+
+    # Start the second server on port 3001
+    threading.Thread(target=StartWebAPI, args=(3001, 'data/Cargohub_3001.db', 'api/Tests/Test_Data/Cargohub_Test_3001.db')).start()
+
+
+if __name__ == "__main__":
+    start_servers()
 
 # Improvement ideas:
 # All files should prevent double id's, incomplete jsons and nonexistent id's
