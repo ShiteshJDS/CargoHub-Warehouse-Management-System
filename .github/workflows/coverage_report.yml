@@ -42,7 +42,7 @@ jobs:
         run: |
           cd api/Tests/unit
           coverage run -m pytest
-          coverage report > coverage.txt
+          coverage html
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
           API_KEY_2: ${{ secrets.API_KEY_2 }}
@@ -50,5 +50,5 @@ jobs:
       - name: Upload coverage report
         uses: actions/upload-artifact@v3
         with:
-          name: coverage-report
-          path: api/Tests/unit/coverage.txt
+          name: coverage-report-open-index-html
+          path: api/Tests/unit/htmlcov
