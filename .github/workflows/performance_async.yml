@@ -3,8 +3,7 @@ name: Performance Test Asynchronous
 on:
   push:
     branches:
-      - main
-      - Development-Branch
+      - '**'
   workflow_dispatch:
 
 jobs:
