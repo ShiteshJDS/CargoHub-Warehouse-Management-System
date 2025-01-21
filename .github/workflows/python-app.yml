@@ -2,9 +2,11 @@ name: Unit tests pytest results
 
 on:
   push:
-    branches: 
-      - main
-      - Development-Branch
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
   workflow_dispatch:
 
 jobs:

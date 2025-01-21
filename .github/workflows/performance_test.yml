@@ -3,8 +3,10 @@ name: Performance Test Synchronous
 on:
   push:
     branches:
-      - main
-      - Development-Branch
+      - '**'
+  pull_request:
+    branches:
+      - '**'
   workflow_dispatch:
 
 jobs:
