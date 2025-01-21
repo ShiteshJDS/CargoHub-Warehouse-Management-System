@@ -1,19 +1,19 @@
 ########## GET ENDPOINTS ##########
 
 ### gets all item_types
-Get http://localhost:3000/api/v1/item_types
+Get http://localhost:3001/api/v1/item_types
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets an item_type based on id 1
-Get http://localhost:3000/api/v1/item_types/1
+Get http://localhost:3001/api/v1/item_types/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets all items for an item_type
-Get http://localhost:3000/api/v1/item_types/1/items
+Get http://localhost:3001/api/v1/item_types/1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
@@ -25,7 +25,7 @@ Content-Type: application/json
 ########## PUT ENDPOINTS ##########
 
 ### updates an item_type based on id 2
-PUT http://localhost:3000/api/v1/item_types/2
+PUT http://localhost:3001/api/v1/item_types/2
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -45,7 +45,7 @@ Content-Type: application/json
 ########## POST ENDPOINTS ##########
 
 ### adds a new item_type to database
-POST http://localhost:3000/api/v1/item_types
+POST http://localhost:3001/api/v1/item_types
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -65,7 +65,7 @@ Content-Type: application/json
 ########## DELETE ENDPOINTS ##########
 
 ### removes an item_type based on id 1
-DELETE http://localhost:3000/api/v1/item_types/1000
+DELETE http://localhost:3001/api/v1/item_types/1000
 API_KEY : a1b2c3d4e5
 ###
 

@@ -1,25 +1,25 @@
 ########## GET ENDPOINTS ##########
 
 ### gets all shipments
-Get http://localhost:3000/api/v1/shipments
+Get http://localhost:3001/api/v1/shipments
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets a shipment based on id 1
-Get http://localhost:3000/api/v1/shipments/1
+Get http://localhost:3001/api/v1/shipments/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets all orders in a shipment
-Get http://localhost:3000/api/v1/shipments/1/orders
+Get http://localhost:3001/api/v1/shipments/1/orders
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets all items in a shipment
-Get http://localhost:3000/api/v1/shipments/1/items
+Get http://localhost:3001/api/v1/shipments/1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
@@ -31,7 +31,7 @@ Content-Type: application/json
 ########## PUT ENDPOINTS ##########
 
 ### updates a shipment based on id 1
-PUT http://localhost:3000/api/v1/shipments/1
+PUT http://localhost:3001/api/v1/shipments/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -144,7 +144,7 @@ Content-Type: application/json
 ###
 
 ### updates the orders in a shipment based on id 1
-PUT http://localhost:3000/api/v1/shipments/1/orders
+PUT http://localhost:3001/api/v1/shipments/1/orders
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -152,7 +152,7 @@ Content-Type: application/json
 ###
 
 ### updates the items in a shipment based on id 1
-PUT http://localhost:3000/api/v1/shipments/1/items
+PUT http://localhost:3001/api/v1/shipments/1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -246,7 +246,7 @@ Content-Type: application/json
 ###
 
 ### activates the shipment, it updates the inventories for all items inside the shipment 
-PUT http://localhost:3000/api/v1/shipments/1/commit
+PUT http://localhost:3001/api/v1/shipments/1/commit
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
@@ -258,7 +258,7 @@ Content-Type: application/json
 ########## POST ENDPOINTS ##########
 
 ### adds a new shipment to database
-POST http://localhost:3000/api/v1/shipments
+POST http://localhost:3001/api/v1/shipments
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -377,7 +377,7 @@ Content-Type: application/json
 ########## DELETE ENDPOINTS ##########
 
 ### removes a shipment based on id 1
-DELETE http://localhost:3000/api/v1/shipments/1
+DELETE http://localhost:3001/api/v1/shipments/1
 API_KEY : a1b2c3d4e5
 ###
 

@@ -1,25 +1,25 @@
 ########## GET ENDPOINTS ##########
 
 ### gets all items
-Get http://localhost:3000/api/v1/items
+Get http://localhost:3001/api/v1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets an item based on id 1
-Get http://localhost:3000/api/v1/items/P000001
+Get http://localhost:3001/api/v1/items/P000001
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets all inventories for an item
-Get http://localhost:3000/api/v1/items/P000001/inventory
+Get http://localhost:3001/api/v1/items/P000001/inventory
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets inventory totals for an item
-Get http://localhost:3000/api/v1/items/P000001/inventory/totals
+Get http://localhost:3001/api/v1/items/P000001/inventory/totals
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
@@ -30,7 +30,7 @@ Content-Type: application/json
 ########## PUT ENDPOINTS ##########
 
 ### updates an item based on id 2
-PUT http://localhost:3000/api/v1/items/P000002
+PUT http://localhost:3001/api/v1/items/P000002
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -63,7 +63,7 @@ Content-Type: application/json
 ########## POST ENDPOINTS ##########
 
 ### adds a new item to database
-POST http://localhost:3000/api/v1/items
+POST http://localhost:3001/api/v1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -96,7 +96,7 @@ Content-Type: application/json
 ########## DELETE ENDPOINTS ##########
 
 ### removes an item based on id 1
-DELETE http://localhost:3000/api/v1/items/P000001
+DELETE http://localhost:3001/api/v1/items/P000001
 API_KEY : a1b2c3d4e5
 ###
 

@@ -1,19 +1,19 @@
 ########## GET ENDPOINTS ##########
 
 ### gets all warehouses
-Get http://localhost:3000/api/v1/warehouses
+Get http://localhost:3001/api/v1/warehouses
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets a warehouse based on id 1
-Get http://localhost:3000/api/v1/warehouses/1
+Get http://localhost:3001/api/v1/warehouses/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets all locations in a warehouse
-Get http://localhost:3000/api/v1/warehouses/1/locations
+Get http://localhost:3001/api/v1/warehouses/1/locations
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
@@ -25,7 +25,7 @@ Content-Type: application/json
 ########## PUT ENDPOINTS ##########
 
 ### updates a warehouse based on id 1
-PUT http://localhost:3000/api/v1/warehouses/1
+PUT http://localhost:3001/api/v1/warehouses/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -55,7 +55,7 @@ Content-Type: application/json
 ########## POST ENDPOINTS ##########
 
 ### adds a new warehouse to database
-POST http://localhost:3000/api/v1/warehouses
+POST http://localhost:3001/api/v1/warehouses
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -85,7 +85,7 @@ Content-Type: application/json
 ########## DELETE ENDPOINTS ##########
 
 ### removes a warehouse based on id 1
-DELETE http://localhost:3000/api/v1/warehouses/1
+DELETE http://localhost:3001/api/v1/warehouses/1
 API_KEY : a1b2c3d4e5
 ###
 

@@ -1,19 +1,19 @@
 ########## GET ENDPOINTS ##########
 
 ### gets all orders
-Get http://localhost:3000/api/v1/orders
+Get http://localhost:3001/api/v1/orders
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets an order based on id 1
-Get http://localhost:3000/api/v1/orders/1
+Get http://localhost:3001/api/v1/orders/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
 ### gets all items in an order
-Get http://localhost:3000/api/v1/orders/1/items
+Get http://localhost:3001/api/v1/orders/1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
@@ -25,7 +25,7 @@ Content-Type: application/json
 ########## PUT ENDPOINTS ##########
 
 ### updates an order based on id 1
-PUT http://localhost:3000/api/v1/orders/1
+PUT http://localhost:3001/api/v1/orders/1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -140,7 +140,7 @@ Content-Type: application/json
 ###
 
 ### updates the items in an order based on id 1
-PUT http://localhost:3000/api/v1/orders/1/items
+PUT http://localhost:3001/api/v1/orders/1/items
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -240,7 +240,7 @@ Content-Type: application/json
 ########## POST ENDPOINTS ##########
 
 ### adds a new order to database
-POST http://localhost:3000/api/v1/orders
+POST http://localhost:3001/api/v1/orders
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 
@@ -361,7 +361,7 @@ Content-Type: application/json
 ########## DELETE ENDPOINTS ##########
 
 ### removes an order based on id 1
-DELETE http://localhost:3000/api/v1/orders/1
+DELETE http://localhost:3001/api/v1/orders/1
 API_KEY : a1b2c3d4e5
 ###
 
