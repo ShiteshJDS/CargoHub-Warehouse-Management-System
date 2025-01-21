@@ -568,3 +568,5 @@ def test_endpoint_restrictions():
     assert responseGetAll_restricted.status_code == 200, "Get All failed"
     assert responseGet_restricted.status_code == 200, "Get by id failed"
     assert responseGetLocations_restricted.status_code == 200, "Get locations failed"
+
+# Post, Put, Delete are not working correctly
