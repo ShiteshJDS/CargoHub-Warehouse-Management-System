@@ -1,10 +1,9 @@
 name: Python Performance Test
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
-      - Development-Branch
+      - '**'
   workflow_dispatch:
 
 jobs:
