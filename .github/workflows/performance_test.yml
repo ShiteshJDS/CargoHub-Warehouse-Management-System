@@ -1,7 +1,7 @@
 name: Performance Test Synchronous
 
 on:
-  push:
+  pull_request:
     branches:
       - '**'
   workflow_dispatch:
