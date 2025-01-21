@@ -21,6 +21,17 @@ logging.basicConfig(
 
 class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
 
+    def set_db_path(self):
+        """Sets the database path based on the port number."""
+        port = self.server.server_address[1]
+        if port == 3001:
+            self.db_path = "data/Cargohub_3001.db"
+        elif port == 3000:
+            self.db_path = "data/Cargohub.db"
+        else:
+            raise ValueError("Unsupported port number")
+        data_provider.init(self.db_path)
+
     def log_request(self, user):
         """Logs details of the incoming request."""
         api_key = self.headers.get("API_KEY")
@@ -507,6 +518,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_GET(self):
+        self.set_db_path()
         api_key = self.headers.get("API_KEY")
         user = auth_provider.get_user(api_key)
         self.log_request(user)
@@ -681,6 +693,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
+        self.set_db_path()
         api_key = self.headers.get("API_KEY")
         user = auth_provider.get_user(api_key)
         self.log_request(user)
@@ -963,8 +976,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_PUT(self):
+        self.set_db_path()
         api_key = self.headers.get("API_KEY")
         user = auth_provider.get_user(api_key)
+        self.log_request(user)
         if user == None:
             self.send_response(401)
             self.end_headers()
@@ -1111,6 +1126,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_DELETE(self):
+        self.set_db_path()
         api_key = self.headers.get("API_KEY")
         user = auth_provider.get_user(api_key)
         self.log_request(user)
@@ -1164,7 +1180,7 @@ def StartWebAPI(port, db_name, test_db_name):
 
     with socketserver.TCPServer(("", port), ApiRequestHandler) as httpd:
         auth_provider.init()
-        data_provider.init()
+        data_provider.init(db_name)
         notification_processor.start()
         print(f"Serving on port {port}...")
         httpd.serve_forever()
