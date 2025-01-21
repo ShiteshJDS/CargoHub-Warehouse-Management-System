@@ -42,7 +42,6 @@ jobs:
         run: |
           cd api/Tests/unit
           coverage run -m pytest
-          cd -
           coverage html
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
