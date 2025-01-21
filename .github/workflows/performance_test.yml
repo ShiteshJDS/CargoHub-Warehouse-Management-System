@@ -25,7 +25,6 @@ jobs:
           pip install pytest pytest-cov
       - name: Run performance.py
         run: |
-          pkill -f "python api/main.py" || true
           nohup python api/main.py &
           sleep 10
           python "api/Tests/Performance Tests/performance.py"
