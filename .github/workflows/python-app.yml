@@ -1,10 +1,9 @@
-name: Python executing pytest on all unittest
+name: Unit tests pytest results
 
 on:
   push:
-    branches: 
-      - main
-      - Development-Branch
+    branches:
+      - '**'
   workflow_dispatch:
 
 jobs:
