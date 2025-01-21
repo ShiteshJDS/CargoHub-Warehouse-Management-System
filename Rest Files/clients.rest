@@ -27,7 +27,7 @@ Content-Type: application/json
 
 {
     "id": 6,
-    "name": "Raymond Inc",
+    "name": "Diamond Inc",
     "address": "1296 Daniel Road Apt. 349",
     "city": "Pierceview",
     "zip_code": "28301",
