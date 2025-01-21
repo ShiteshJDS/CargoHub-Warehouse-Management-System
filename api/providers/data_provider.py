@@ -29,31 +29,20 @@ _shipments = None
 _clients = None
 
 
-def init():
-    global _warehouses
-    _warehouses = Warehouses("data/Cargohub.db")
-    global _locations
-    _locations = Locations("data/Cargohub.db")
-    global _transfers
-    _transfers = Transfers("data/Cargohub.db")
-    global _items
-    _items = Items("data/Cargohub.db")
-    global _item_lines
-    _item_lines = ItemLines("data/Cargohub.db")
-    global _item_groups
-    _item_groups = ItemGroups("data/Cargohub.db")
-    global _item_types
-    _item_types = ItemTypes("data/Cargohub.db")
-    global _inventories
-    _inventories = Inventories("data/Cargohub.db")
-    global _suppliers
-    _suppliers = Suppliers("data/Cargohub.db")
-    global _orders
-    _orders = Orders("data/Cargohub.db")
-    global _clients
-    _clients = Clients("data/Cargohub.db")
-    global _shipments
-    _shipments = Shipments("data/Cargohub.db")
+def init(db_path):
+    global _clients, _warehouses, _locations, _transfers, _items, _item_lines, _item_groups, _item_types, _inventories, _suppliers, _orders, _shipments
+    _clients = Clients(db_path)
+    _warehouses = Warehouses(db_path)
+    _locations = Locations(db_path)
+    _transfers = Transfers(db_path)
+    _items = Items(db_path)
+    _item_lines = ItemLines(db_path)
+    _item_groups = ItemGroups(db_path)
+    _item_types = ItemTypes(db_path)
+    _inventories = Inventories(db_path)
+    _suppliers = Suppliers(db_path)
+    _orders = Orders(db_path)
+    _shipments = Shipments(db_path)
 
 
 def fetch_warehouse_pool():
