@@ -1,0 +1,22 @@
+name: Test Dependabot Configuration
+
+on:
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  test-dependabot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate dependabot.yml
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" \
+          -X POST \
+          -H "Content-Type: application/json" \
+          --data-binary @.github/dependabot.yml \
+          https://api.github.com/repos/${{ github.repository }}/dependabot/validate
