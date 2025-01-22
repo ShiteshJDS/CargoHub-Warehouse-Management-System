@@ -539,348 +539,158 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(403)
             self.end_headers()
             return
-
         if not self.is_valid_path_end(path[-1]):
             self.send_response(400)
             self.end_headers()
             return
-
-        content_length = int(self.headers["Content-Length"])
-        post_data = self.rfile.read(content_length)
-        try:
-            new_data = json.loads(post_data.decode())
-        except json.JSONDecodeError:
-            self.send_response(400)
-            self.end_headers()
-            self.wfile.write(json.dumps({"error": "Invalid JSON format"}).encode("utf-8"))
-            return
-
-        # Define validation rules for each path
-        validation_rules = {
-    "warehouses": {
-        "id": int,
-        "code": str,
-        "name": str,
-        "address": str,
-        "zip": str,
-        "city": str,
-        "province": str,
-        "country": str,
-        "contact": dict,  # Contact is a nested object
-        "created_at": str,
-        "updated_at": str,
-    },
-    "locations": {
-        "id": int,
-        "warehouse_id": int,
-        "code": str,
-        "name": str,
-        "created_at": str,
-        "updated_at": str,
-    },
-    "transfers": {
-        "id": int,
-        "reference": str,
-        "transfer_from": (int, type(None)),  # Can be null
-        "transfer_to": int,
-        "transfer_status": str,
-        "created_at": str,
-        "updated_at": str,
-        "items": list,  # List of item objects
-    },
-    "items": {
-        "uid": str,
-        "code": str,
-        "name": str,
-        "description": str,
-        "short_description": str,
-        "upc_code": str,
-        "model_number": str,
-        "commodity_code": str,
-        "item_line_id": int,
-        "item_group_id": int,
-        "item_type_id": int,
-        "unit_purchase_quantity": int,
-        "unit_order_quantity": int,
-        "pack_order_quantity": int,
-        "supplier_id": int,
-        "supplier_code": str,
-        "supplier_part_number": str,
-        "created_at": str,
-        "updated_at": str,
-    },
-    "item_lines": {
-        "id": int,
-        "name": str,
-        "description": (str, type(None)),
-        "item_id": str,
-        "quantity": int,
-        "created_at": str,
-        "updated_at": str,
-    },
-    "item_groups": {
-        "id": int,
-        "name": str,
-        "description": (str, type(None)),
-        "created_at": str,
-        "updated_at": str,
-    },
-    "item_types": {
-        "id": int,
-        "name": str,
-        "type": str,
-        "description": (str, type(None)),
-        "created_at": str,
-        "updated_at": str,
-    },
-    "inventories": {
-        "id": int,
-        "item_id": str,
-        "description": str,
-        "item_reference": str,
-        "locations": list,
-        "total_on_hand": int,
-        "total_expected": int,
-        "total_ordered": int,
-        "total_allocated": int,
-        "total_available": int,
-        "warehouse_id": int,
-        "stock": int,
-        "created_at": str,
-        "updated_at": str,
-    },
-    "suppliers": {
-        "id": int,
-        "code": str,
-        "name": str,
-        "address": str,
-        "address_extra": str,
-        "city": str,
-        "zip_code": str,
-        "province": str,
-        "country": str,
-        "contact_name": str,
-        "phonenumber": str,
-        "reference": str,
-        "created_at": str,
-        "updated_at": str,
-    },
-    "orders": {
-        "id": int,
-        "source_id": int,
-        "client_id": int,
-        "order_date": str,
-        "request_date": str,
-        "reference": str,
-        "reference_extra": str,
-        "order_status": str,
-        "notes": str,
-        "shipping_notes": str,
-        "picking_notes": str,
-        "warehouse_id": int,
-        "ship_to": (str, type(None)),  # Can be null
-        "bill_to": (str, type(None)),  # Can be null
-        "shipment_id": int,
-        "total_amount": float,
-        "total_discount": float,
-        "total_tax": float,
-        "total_surcharge": float,
-        "created_at": str,
-        "updated_at": str,
-        "items": list,  # List of item objects
-    },
-    "clients": {
-        "id": int,
-        "name": str,
-        "address": str,
-        "city": str,
-        "zip_code": str,
-        "province": str,
-        "country": str,
-        "contact_name": str,
-        "contact_phone": str,
-        "contact_email": str,
-        "created_at": str,
-        "updated_at": str,
-    },
-    "shipments": {
-        "id": int,
-        "order_id": int,
-        "source_id": int,
-        "order_date": str,
-        "request_date": str,
-        "shipment_date": str,
-        "shipment_type": str,
-        "shipment_status": str,
-        "notes": str,
-        "carrier_code": str,
-        "carrier_description": str,
-        "service_code": str,
-        "payment_type": str,
-        "transfer_mode": str,
-        "total_package_count": int,
-        "total_package_weight": float,
-        "created_at": str,
-        "updated_at": str,
-        "items": list,  # List of item objects
-    },
-}
-
-
-        # Validate data
-        if path[0] in validation_rules:
-            required_keys = validation_rules[path[0]]
-
-            # Check for empty values, but allow empty strings for description in item_groups, item_types, and item_lines
-            if path[0] in {"item_groups", "item_types", "item_lines"}:
-                empty_values = [key for key, value in new_data.items() if not value and value != 0 and key != "description"]
-            else:
-                empty_values = [key for key, value in new_data.items() if not value and value != 0]
-
-            if empty_values:
-                self.send_response(400)
-                self.end_headers()
-                self.wfile.write(json.dumps({"error": "Empty values", "keys": empty_values}).encode("utf-8"))
-                return
-            
-            # Check for missing keys
-            missing_keys = [key for key in required_keys if key not in new_data]
-            if missing_keys:
-                self.send_response(400)
-                self.end_headers()
-                self.wfile.write(json.dumps({"error": "Missing keys", "keys": missing_keys}).encode("utf-8"))
-                return
-
-            # Check for extra keys
-            extra_keys = [key for key in new_data if key not in required_keys]
-            if extra_keys:
-                self.send_response(400)
-                self.end_headers()
-                self.wfile.write(json.dumps({"error": "Extra keys", "keys": extra_keys}).encode("utf-8"))
-                return
-
-            # Check for wrong data types
-            wrong_types = [key for key, value in new_data.items() if not isinstance(value, required_keys[key])]
-            if wrong_types:
-                self.send_response(400)
-                self.end_headers()
-                self.wfile.write(json.dumps({"error": "Wrong types", "keys": wrong_types}).encode("utf-8"))
-                return
-
-        # Process the request based on path
         if path[0] == "warehouses":
-            warehouse_id = new_data.get("id")
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_warehouse = json.loads(post_data.decode())
+            warehouse_id = new_warehouse.get("id")
             if data_provider.fetch_warehouse_pool().get_warehouse(warehouse_id):
                 self.send_response(409)
                 self.end_headers()
                 return
-            data_provider.fetch_warehouse_pool().add_warehouse(new_data)
+            data_provider.fetch_warehouse_pool().add_warehouse(new_warehouse)
             self.send_response(201)
             self.end_headers()
         elif path[0] == "locations":
-            location_id = new_data.get("id")
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_location = json.loads(post_data.decode())
+            location_id = new_location.get("id")
             if data_provider.fetch_location_pool().get_location(location_id):
                 self.send_response(409)
                 self.end_headers()
                 return
-            data_provider.fetch_location_pool().add_location(new_data)
+            data_provider.fetch_location_pool().add_location(new_location)
             self.send_response(201)
             self.end_headers()
         elif path[0] == "transfers":
-            transfer_id = new_data.get("id")
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_transfer = json.loads(post_data.decode())
+            transfer_id = new_transfer.get("id")
             if data_provider.fetch_transfer_pool().get_transfer(transfer_id):
                 self.send_response(409)
                 self.end_headers()
                 return
-            data_provider.fetch_transfer_pool().add_transfer(new_data)
-            notification_processor.push(f"Scheduled batch transfer {new_data['id']}")
+            data_provider.fetch_transfer_pool().add_transfer(new_transfer)
+            notification_processor.push(f"Scheduled batch transfer {new_transfer['id']}")
             self.send_response(201)
             self.end_headers()
         elif path[0] == "items":
-            item_id = new_data.get("uid")
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_item = json.loads(post_data.decode())
+            item_id = new_item.get("uid")
             if data_provider.fetch_item_pool().get_item(item_id):
                 self.send_response(409)
                 self.end_headers()
                 return
-            data_provider.fetch_item_pool().add_item(new_data)
+            data_provider.fetch_item_pool().add_item(new_item)
             self.send_response(201)
             self.end_headers()
         elif path[0] == "item_lines":
-            item_line_id = new_data.get("id")
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_item_line = json.loads(post_data.decode())
+            item_line_id = new_item_line.get("id")
             if data_provider.fetch_item_line_pool().get_item_line(item_line_id):
                 self.send_response(409)
                 self.end_headers()
                 return
-            data_provider.fetch_item_line_pool().add_item_line(new_data)
+            data_provider.fetch_item_line_pool().add_item_line(new_item_line)
             self.send_response(201)
             self.end_headers()
         elif path[0] == "item_groups":
-            item_group_id = new_data.get("id")
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_item_group = json.loads(post_data.decode())
+            item_group_id = new_item_group.get("id")
             if data_provider.fetch_item_group_pool().get_item_group(item_group_id):
                 self.send_response(409)
                 self.end_headers()
                 return
-            data_provider.fetch_item_group_pool().add_item_group(new_data)
+            data_provider.fetch_item_group_pool().add_item_group(new_item_group)
             self.send_response(201)
             self.end_headers()
         elif path[0] == "item_types":
-            item_type_id = new_data.get("id")
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_item_type = json.loads(post_data.decode())
+            item_type_id = new_item_type.get("id")
             if data_provider.fetch_item_type_pool().get_item_type(item_type_id):
                 self.send_response(409)
                 self.end_headers()
                 return
-            data_provider.fetch_item_type_pool().add_item_type(new_data)
+            data_provider.fetch_item_type_pool().add_item_type(new_item_type)
             self.send_response(201)
             self.end_headers()
         elif path[0] == "inventories":
-            inventory_id = new_data.get("id")
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_inventory = json.loads(post_data.decode())
+            inventory_id = new_inventory.get("id")
             if data_provider.fetch_inventory_pool().get_inventory(inventory_id):
                 self.send_response(409)
                 self.end_headers()
                 return
-            data_provider.fetch_inventory_pool().add_inventory(new_data)
+            data_provider.fetch_inventory_pool().add_inventory(new_inventory)
             self.send_response(201)
             self.end_headers()
         elif path[0] == "suppliers":
-            supplier_id = new_data.get("id")
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_supplier = json.loads(post_data.decode())
+            supplier_id = new_supplier.get("id")
             if data_provider.fetch_supplier_pool().get_supplier(supplier_id):
                 self.send_response(409)
                 self.end_headers()
                 return
-            data_provider.fetch_supplier_pool().add_supplier(new_data)
+            data_provider.fetch_supplier_pool().add_supplier(new_supplier)
             self.send_response(201)
             self.end_headers()
         elif path[0] == "orders":
-            order_id = new_data.get("id")
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_order = json.loads(post_data.decode())
+            order_id = new_order.get("id")
             if data_provider.fetch_order_pool().get_order(order_id):
                 self.send_response(409)
                 self.end_headers()
                 return
-            data_provider.fetch_order_pool().add_order(new_data)
+            data_provider.fetch_order_pool().add_order(new_order)
             self.send_response(201)
             self.end_headers()
         elif path[0] == "clients":
-            client_id = new_data.get("id")
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_client = json.loads(post_data.decode())
+            client_id = new_client.get("id")
             if data_provider.fetch_client_pool().get_client(client_id):
                 self.send_response(409)
                 self.end_headers()
                 return
-            data_provider.fetch_client_pool().add_client(new_data)
+            data_provider.fetch_client_pool().add_client(new_client)
             self.send_response(201)
             self.end_headers()
         elif path[0] == "shipments":
-            shipment_id = new_data.get("id")
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            new_shipment = json.loads(post_data.decode())
+            shipment_id = new_shipment.get("id")
             if data_provider.fetch_shipment_pool().get_shipment(shipment_id):
                 self.send_response(409)
                 self.end_headers()
                 return
-            data_provider.fetch_shipment_pool().add_shipment(new_data)
+            data_provider.fetch_shipment_pool().add_shipment(new_shipment)
             self.send_response(201)
             self.end_headers()
         else:
             self.send_response(404)
             self.end_headers()
-
 
     def do_POST(self):
         self.set_db_path()
@@ -908,228 +718,6 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(400)
             self.end_headers()
             return
-        content_length = int(self.headers["Content-Length"])
-        post_data = self.rfile.read(content_length)
-        try:
-            new_data = json.loads(post_data.decode())
-        except json.JSONDecodeError:
-            self.send_response(400)
-            self.end_headers()
-            self.wfile.write(json.dumps({"error": "Invalid JSON format"}).encode("utf-8"))
-            return
-
-        # Define validation rules for each path
-        validation_rules = {
-            "warehouses": {
-                "id": int,
-                "code": str,
-                "name": str,
-                "address": str,
-                "zip": str,
-                "city": str,
-                "province": str,
-                "country": str,
-                "contact": dict,  # Contact is a nested object
-                "created_at": str,
-                "updated_at": str,
-            },
-            "locations": {
-                "id": int,
-                "warehouse_id": int,
-                "code": str,
-                "name": str,
-                "created_at": str,
-                "updated_at": str,
-            },
-            "transfers": {
-                "id": int,
-                "reference": str,
-                "transfer_from": (int, type(None)),  # Can be null
-                "transfer_to": int,
-                "transfer_status": str,
-                "created_at": str,
-                "updated_at": str,
-                "items": list,  # List of item objects
-            },
-            "items": {
-                "uid": str,
-                "code": str,
-                "name": str,
-                "description": str,
-                "short_description": str,
-                "upc_code": str,
-                "model_number": str,
-                "commodity_code": str,
-                "item_line_id": int,
-                "item_group_id": int,
-                "item_type_id": int,
-                "unit_purchase_quantity": int,
-                "unit_order_quantity": int,
-                "pack_order_quantity": int,
-                "supplier_id": int,
-                "supplier_code": str,
-                "supplier_part_number": str,
-                "created_at": str,
-                "updated_at": str,
-            },
-            "item_lines": {
-                "id": int,
-                "name": str,
-                "description": str,
-                "item_id": str,
-                "quantity": int,
-                "created_at": str,
-                "updated_at": str,
-            },
-            "item_groups": {
-                "id": int,
-                "name": str,
-                "description": str,
-                "created_at": str,
-                "updated_at": str,
-            },
-            "item_types": {
-                "id": int,
-                "name": str,
-                "type": str,
-                "description": str,
-                "created_at": str,
-                "updated_at": str,
-            },
-            "inventories": {
-                "id": int,
-                "item_id": str,
-                "description": str,
-                "item_reference": str,
-                "locations": list,
-                "total_on_hand": int,
-                "total_expected": int,
-                "total_ordered": int,
-                "total_allocated": int,
-                "total_available": int,
-                "warehouse_id": int,
-                "stock": int,
-                "created_at": str,
-                "updated_at": str,
-            },
-            "suppliers": {
-                "id": int,
-                "code": str,
-                "name": str,
-                "address": str,
-                "address_extra": str,
-                "city": str,
-                "zip_code": str,
-                "province": str,
-                "country": str,
-                "contact_name": str,
-                "phonenumber": str,
-                "reference": str,
-                "created_at": str,
-                "updated_at": str,
-            },
-            "orders": {
-                "id": int,
-                "source_id": int,
-                "client_id": int,
-                "order_date": str,
-                "request_date": str,
-                "reference": str,
-                "reference_extra": str,
-                "order_status": str,
-                "notes": str,
-                "shipping_notes": str,
-                "picking_notes": str,
-                "warehouse_id": int,
-                "ship_to": (str, type(None)),  # Can be null
-                "bill_to": (str, type(None)),  # Can be null
-                "shipment_id": int,
-                "total_amount": float,
-                "total_discount": float,
-                "total_tax": float,
-                "total_surcharge": float,
-                "created_at": str,
-                "updated_at": str,
-                "items": list,  # List of item objects
-            },
-            "clients": {
-                "id": int,
-                "name": str,
-                "address": str,
-                "city": str,
-                "zip_code": str,
-                "province": str,
-                "country": str,
-                "contact_name": str,
-                "contact_phone": str,
-                "contact_email": str,
-                "created_at": str,
-                "updated_at": str,
-            },
-            "shipments": {
-                "id": int,
-                "order_id": int,
-                "source_id": int,
-                "order_date": str,
-                "request_date": str,
-                "shipment_date": str,
-                "shipment_type": str,
-                "shipment_status": str,
-                "notes": str,
-                "carrier_code": str,
-                "carrier_description": str,
-                "service_code": str,
-                "payment_type": str,
-                "transfer_mode": str,
-                "total_package_count": int,
-                "total_package_weight": float,
-                "created_at": str,
-                "updated_at": str,
-                "items": list,  # List of item objects
-            },
-        }
-
-        # Validate data
-        if path[0] in validation_rules:
-            required_keys = validation_rules[path[0]]
-
-            # Check for empty values, but allow empty strings for description in item_groups, item_types, and item_lines
-            if path[0] in {"item_groups", "item_types", "item_lines"}:
-                empty_values = [key for key, value in new_data.items() if not value and value != 0 and key != "description"]
-            else:
-                empty_values = [key for key, value in new_data.items() if not value and value != 0]
-
-            if empty_values:
-                self.send_response(400)
-                self.end_headers()
-                self.wfile.write(json.dumps({"error": "Empty values", "keys": empty_values}).encode("utf-8"))
-                return
-
-            # Check for missing keys
-            missing_keys = [key for key in required_keys if key not in new_data]
-            if missing_keys:
-                self.send_response(400)
-                self.end_headers()
-                self.wfile.write(json.dumps({"error": "Missing keys", "keys": missing_keys}).encode("utf-8"))
-                return
-
-            # Check for extra keys
-            extra_keys = [key for key in new_data if key not in required_keys]
-            if extra_keys:
-                self.send_response(400)
-                self.end_headers()
-                self.wfile.write(json.dumps({"error": "Extra keys", "keys": extra_keys}).encode("utf-8"))
-                return
-
-            # Check for wrong data types
-            wrong_types = [key for key, value in new_data.items() if not isinstance(value, required_keys[key])]
-            if wrong_types:
-                self.send_response(400)
-                self.end_headers()
-                self.wfile.write(json.dumps({"error": "Wrong types", "keys": wrong_types}).encode("utf-8"))
-                return
-
-        # Process the request based on path
         if path[0] == "warehouses":
             warehouse_id = int(path[1])
             warehouse = data_provider.fetch_warehouse_pool().get_warehouse(warehouse_id)
@@ -1137,7 +725,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.send_response(404)
                 self.end_headers()
                 return
-            data_provider.fetch_warehouse_pool().update_warehouse(warehouse_id, new_data)
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            updated_warehouse = json.loads(post_data.decode())
+            data_provider.fetch_warehouse_pool().update_warehouse(warehouse_id, updated_warehouse)
             self.send_response(200)
             self.end_headers()
         elif path[0] == "locations":
@@ -1147,7 +738,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.send_response(404)
                 self.end_headers()
                 return
-            data_provider.fetch_location_pool().update_location(location_id, new_data)
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            updated_location = json.loads(post_data.decode())
+            data_provider.fetch_location_pool().update_location(location_id, updated_location)
             self.send_response(200)
             self.end_headers()
         elif path[0] == "transfers":
@@ -1160,7 +754,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                         self.send_response(404)
                         self.end_headers()
                         return
-                    data_provider.fetch_transfer_pool().update_transfer(transfer_id, new_data)
+                    content_length = int(self.headers["Content-Length"])
+                    post_data = self.rfile.read(content_length)
+                    updated_transfer = json.loads(post_data.decode())
+                    data_provider.fetch_transfer_pool().update_transfer(transfer_id, updated_transfer)
                     self.send_response(200)
                     self.end_headers()
                 case 3:
@@ -1202,7 +799,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.send_response(404)
                 self.end_headers()
                 return
-            data_provider.fetch_item_pool().update_item(item_id, new_data)
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            updated_item = json.loads(post_data.decode())
+            data_provider.fetch_item_pool().update_item(item_id, updated_item)
             self.send_response(200)
             self.end_headers()
         elif path[0] == "item_lines":
@@ -1212,7 +812,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.send_response(404)
                 self.end_headers()
                 return
-            data_provider.fetch_item_line_pool().update_item_line(item_line_id, new_data)
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            updated_item_line = json.loads(post_data.decode())
+            data_provider.fetch_item_line_pool().update_item_line(item_line_id, updated_item_line)
             self.send_response(200)
             self.end_headers()
         elif path[0] == "item_groups":
@@ -1222,7 +825,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.send_response(404)
                 self.end_headers()
                 return
-            data_provider.fetch_item_group_pool().update_item_group(item_group_id, new_data)
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            updated_item_group = json.loads(post_data.decode())
+            data_provider.fetch_item_group_pool().update_item_group(item_group_id, updated_item_group)
             self.send_response(200)
             self.end_headers()
         elif path[0] == "item_types":
@@ -1232,7 +838,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.send_response(404)
                 self.end_headers()
                 return
-            data_provider.fetch_item_type_pool().update_item_type(item_type_id, new_data)
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            updated_item_type = json.loads(post_data.decode())
+            data_provider.fetch_item_type_pool().update_item_type(item_type_id, updated_item_type)
             self.send_response(200)
             self.end_headers()
         elif path[0] == "inventories":
@@ -1242,7 +851,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.send_response(404)
                 self.end_headers()
                 return
-            data_provider.fetch_inventory_pool().update_inventory(inventory_id, new_data)
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            updated_inventory = json.loads(post_data.decode())
+            data_provider.fetch_inventory_pool().update_inventory(inventory_id, updated_inventory)
             self.send_response(200)
             self.end_headers()
         elif path[0] == "suppliers":
@@ -1252,7 +864,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.send_response(404)
                 self.end_headers()
                 return
-            data_provider.fetch_supplier_pool().update_supplier(supplier_id, new_data)
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            updated_supplier = json.loads(post_data.decode())
+            data_provider.fetch_supplier_pool().update_supplier(supplier_id, updated_supplier)
             self.send_response(200)
             self.end_headers()
         elif path[0] == "orders":
@@ -1265,7 +880,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                         self.send_response(404)
                         self.end_headers()
                         return
-                    data_provider.fetch_order_pool().update_order(order_id, new_data)
+                    content_length = int(self.headers["Content-Length"])
+                    post_data = self.rfile.read(content_length)
+                    updated_order = json.loads(post_data.decode())
+                    data_provider.fetch_order_pool().update_order(order_id, updated_order)
                     self.send_response(200)
                     self.end_headers()
                 case 3:
@@ -1276,7 +894,9 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                             self.send_response(404)
                             self.end_headers()
                             return
-                        updated_items = new_data
+                        content_length = int(self.headers["Content-Length"])
+                        post_data = self.rfile.read(content_length)
+                        updated_items = json.loads(post_data.decode())
                         data_provider.fetch_order_pool().update_items_in_order(order_id, updated_items)
                         self.send_response(200)
                         self.end_headers()
@@ -1293,7 +913,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.send_response(404)
                 self.end_headers()
                 return
-            data_provider.fetch_client_pool().update_client(client_id, new_data)
+            content_length = int(self.headers["Content-Length"])
+            post_data = self.rfile.read(content_length)
+            updated_client = json.loads(post_data.decode())
+            data_provider.fetch_client_pool().update_client(client_id, updated_client)
             self.send_response(200)
             self.end_headers()
         elif path[0] == "shipments":
@@ -1306,7 +929,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                         self.send_response(404)
                         self.end_headers()
                         return
-                    data_provider.fetch_shipment_pool().update_shipment(shipment_id, new_data)
+                    content_length = int(self.headers["Content-Length"])
+                    post_data = self.rfile.read(content_length)
+                    updated_shipment = json.loads(post_data.decode())
+                    data_provider.fetch_shipment_pool().update_shipment(shipment_id, updated_shipment)
                     self.send_response(200)
                     self.end_headers()
                 case 3:
@@ -1317,7 +943,9 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                             self.send_response(404)
                             self.end_headers()
                             return
-                        updated_orders = new_data
+                        content_length = int(self.headers["Content-Length"])
+                        post_data = self.rfile.read(content_length)
+                        updated_orders = json.loads(post_data.decode())
                         data_provider.fetch_order_pool().update_orders_in_shipment(shipment_id, updated_orders)
                         self.send_response(200)
                         self.end_headers()
@@ -1328,7 +956,9 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                             self.send_response(404)
                             self.end_headers()
                             return
-                        updated_items = new_data
+                        content_length = int(self.headers["Content-Length"])
+                        post_data = self.rfile.read(content_length)
+                        updated_items = json.loads(post_data.decode())
                         data_provider.fetch_shipment_pool().update_items_in_shipment(shipment_id, updated_items)
                         self.send_response(200)
                         self.end_headers()
