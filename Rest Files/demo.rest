@@ -52,13 +52,13 @@ API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
-### gets an item based on id 1
+### gets an item based on id -1 error 400
 Get http://localhost:3001/api/v1/items/-1
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
 ###
 
-### gets an item based on id 1
+### gets an item based on id letter
 Get http://localhost:3001/api/v1/items/A
 API_KEY : a1b2c3d4e5
 Content-Type: application/json
@@ -230,3 +230,8 @@ API_KEY : a1b2c3d4e5
 DELETE http://localhost:3001/api/v1/orders/dsad
 API_KEY : a1b2c3d4e5
 ###
+
+### opnieuw runnen van de main om test databases te cleanen automatisch
+
+### async performance test
+### pytest uitvoeren op unit test
